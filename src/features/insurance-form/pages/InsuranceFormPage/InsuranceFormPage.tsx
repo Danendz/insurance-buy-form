@@ -3,12 +3,11 @@
 import { Card } from '@/shared/components/ui/Card';
 import { IconButton } from '@/shared/components/ui/IconButton';
 import { ProgressBar } from '@/shared/components/ui/ProgressBar';
-import { Skeleton } from '@/shared/components/ui/Skeleton';
 import { useClientToday } from '@/shared/hooks/useClientToday';
 import { useDispatch } from 'react-redux';
 import { useFormSelector } from '../../model/hooks';
 import { goToDetails, selectStep, STEPS } from '../../model/slice';
-import { DetailsStep } from '../../components/DetailsStep';
+import { DetailsStep, DetailsStepSkeleton } from '../../components/DetailsStep';
 import { DoneStep } from '../../components/DoneStep';
 import { ProgramStep } from '../../components/ProgramStep';
 import { SummaryPanel } from '../../components/SummaryPanel';
@@ -23,8 +22,11 @@ export function InsuranceFormPage() {
     return (
       <main className={styles.page}>
         <div className={styles.layout}>
-          <Card className={styles.card} aria-busy>
-            <Skeleton className={styles.loading} />
+          <Card className={styles.card} aria-busy aria-label="Покупка страхового полиса">
+            <header className={styles.header}>
+              <ProgressBar total={STEPS.length} current={0} label="Шаг оформления" />
+            </header>
+            <DetailsStepSkeleton />
           </Card>
         </div>
       </main>

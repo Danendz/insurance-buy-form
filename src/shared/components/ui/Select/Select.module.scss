@@ -48,3 +48,12 @@
   background-position: right rem(9px) center;
   background-size: rem(8.5px) rem(4.14px);
 }
+
+.loading {
+  background-image: url('/icons/spinner.svg');
+  background-size: rem(14px) rem(14px);
+
+  @media (prefers-reduced-motion: reduce) {
+    background-image: none;
+  }
+}

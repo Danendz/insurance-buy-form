@@ -24,11 +24,6 @@
   gap: rem(10px);
 }
 
-.countrySkeleton {
-  flex: 1;
-  height: rem(32px);
-}
-
 .addCountry {
   border-radius: $radius;
   opacity: 0.8;
@@ -59,10 +54,6 @@
 
 .activity {
   font-size: rem(10px);
-}
-
-.activitiesSkeleton {
-  height: rem(12px);
 }
 
 .footer {

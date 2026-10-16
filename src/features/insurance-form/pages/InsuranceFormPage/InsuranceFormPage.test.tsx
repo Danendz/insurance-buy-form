@@ -57,6 +57,16 @@ describe('InsuranceFormPage', () => {
     ).toEqual(['Туризм', 'Работа', 'Учёба', 'Спорт']);
   });
 
+  it('shows the country field as loading until countries arrive', async () => {
+    renderWithStore(<InsuranceFormPage />);
+    const country = screen.getByLabelText('Страна путешествия');
+    expect(country).toBeDisabled();
+    expect(country).toHaveAttribute('aria-busy', 'true');
+    await screen.findByRole('option', { name: 'Латвия' });
+    expect(country).toBeEnabled();
+    expect(country).not.toHaveAttribute('aria-busy');
+  });
+
   it('starts a fresh form today, without a back button', async () => {
     renderWithStore(<InsuranceFormPage />);
     const start = within(screen.getByRole('group', { name: 'Начало страхования' }));

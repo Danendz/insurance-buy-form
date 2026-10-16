@@ -10,7 +10,6 @@ import { IconButton } from '@/shared/components/ui/IconButton';
 import { LoadError } from '@/shared/components/ui/LoadError';
 import { Radio } from '@/shared/components/ui/Radio';
 import { Select } from '@/shared/components/ui/Select';
-import { Skeleton } from '@/shared/components/ui/Skeleton';
 import { addDays, parseIsoDate } from '@/shared/utils/date';
 import { useDispatch } from 'react-redux';
 import type { CoverageType, IsoDate, TripDetails } from '../../types';
@@ -27,6 +26,7 @@ import {
   updateDetails,
 } from '../../model/slice';
 import { SaveNote } from '../SaveNote';
+import { ActivitiesSkeleton } from './DetailsStepSkeleton';
 import styles from './DetailsStep.module.scss';
 
 const COVERAGE_TYPES = Object.entries(COVERAGE_TYPE_LABELS) as [CoverageType, string][];
@@ -68,15 +68,14 @@ export function DetailsStep({ today }: { today: IsoDate }) {
       >
         {(control) => (
           <div className={styles.countryRow}>
-            {countries.isLoading ? (
-              <Skeleton className={styles.countrySkeleton} />
-            ) : countries.isError ? (
+            {countries.isError ? (
               <LoadError message="Не удалось загрузить страны" onRetry={countries.refetch} />
             ) : (
               <Select
                 {...control}
-                placeholder="Выберите страну"
-                value={details.countryId ?? ''}
+                loading={countries.isLoading}
+                placeholder={countries.isLoading ? 'Загружаем страны…' : 'Выберите страну'}
+                value={countries.isLoading ? '' : (details.countryId ?? '')}
                 onChange={(event) => update({ countryId: Number(event.target.value) })}
               >
                 {countries.data?.map((country) => (
@@ -165,7 +164,7 @@ export function DetailsStep({ today }: { today: IsoDate }) {
       >
         {() =>
           activities.isLoading ? (
-            <Skeleton className={styles.activitiesSkeleton} />
+            <ActivitiesSkeleton />
           ) : activities.isError ? (
             <LoadError message="Не удалось загрузить цели поездки" onRetry={activities.refetch} />
           ) : (
