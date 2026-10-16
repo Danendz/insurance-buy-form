@@ -75,7 +75,7 @@ describe('PhoneField', () => {
 
     expect(onChange).toHaveBeenLastCalledWith({ phone: '+79123456789', country: 'RU' });
     expect(input).toHaveValue('912 345 67 89');
-    expect(screen.getByRole('combobox', { name: 'Код страны: +7' })).toHaveValue('RU');
+    expect(screen.getByRole('combobox', { name: 'Код страны' })).toHaveValue('RU');
   });
 
   it('keeps the digits when the country changes', async () => {

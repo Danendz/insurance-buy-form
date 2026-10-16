@@ -8,6 +8,7 @@ type ProgressBarProps = {
 };
 
 export function ProgressBar({ total, current, label }: ProgressBarProps) {
+  const now = Math.min(current + 1, total);
   return (
     <div
       className={styles.bar}
@@ -15,7 +16,8 @@ export function ProgressBar({ total, current, label }: ProgressBarProps) {
       aria-label={label}
       aria-valuemin={1}
       aria-valuemax={total}
-      aria-valuenow={Math.min(current + 1, total)}
+      aria-valuenow={now}
+      aria-valuetext={`${now} из ${total}`}
     >
       {Array.from({ length: total }, (_, index) => (
         <span key={index} className={styles.segment} data-active={index === current} />

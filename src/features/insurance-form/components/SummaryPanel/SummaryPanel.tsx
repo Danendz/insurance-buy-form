@@ -1,5 +1,6 @@
 'use client';
 
+import { useId } from 'react';
 import Image from 'next/image';
 import { useGetActivitiesQuery, useGetCountriesQuery } from '@/shared/api/dictionary';
 import { formatPhone } from '@/shared/utils/phone';
@@ -13,6 +14,7 @@ import styles from './SummaryPanel.module.scss';
 
 export function SummaryPanel() {
   const dispatch = useDispatch();
+  const titleId = useId();
   const details = useFormSelector(selectDetails);
   const countries = useGetCountriesQuery();
   const activities = useGetActivitiesQuery();
@@ -45,8 +47,8 @@ export function SummaryPanel() {
   ];
 
   return (
-    <aside className={styles.panel} aria-labelledby="summary-title">
-      <h2 id="summary-title" className={styles.title}>
+    <aside className={styles.panel} aria-labelledby={titleId}>
+      <h2 id={titleId} className={styles.title}>
         Ваши данные
       </h2>
       <dl className={styles.list}>
@@ -54,7 +56,7 @@ export function SummaryPanel() {
           <div key={label} className={styles.row}>
             <dt className={styles.label}>{label}</dt>
             <dd className={styles.value}>
-              {loading ? <Skeleton className={styles.skeleton} /> : (value ?? 'DD/MM/YYYY')}
+              {loading ? <Skeleton className={styles.skeleton} /> : (value ?? '—')}
               <button
                 type="button"
                 className={styles.edit}

@@ -12,9 +12,11 @@ export function DoneStep() {
   const orderId = useFormSelector(selectOrderId);
 
   return (
-    <div className={styles.step} role="status">
+    <div className={styles.step}>
       <Image src="/icons/radio-checked.svg" alt="" width={48} height={48} unoptimized />
-      <h1 className={styles.title}>Полис оформлен</h1>
+      <h1 className={styles.title} tabIndex={-1}>
+        Полис оформлен
+      </h1>
       <p className={styles.text}>
         Номер заявки: <strong>{orderId?.slice(0, 8).toUpperCase()}</strong>. Мы отправим полис на
         указанный номер телефона.

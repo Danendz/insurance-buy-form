@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import type { Program } from '../../types';
 import { formatLiability } from '../../model/format';
 import styles from './ProgramCard.module.scss';
@@ -9,6 +10,7 @@ type ProgramCardProps = {
 };
 
 export function ProgramCard({ program, checked, onSelect }: ProgramCardProps) {
+  const id = useId();
   return (
     <label className={styles.card} data-checked={checked}>
       <input
@@ -17,14 +19,20 @@ export function ProgramCard({ program, checked, onSelect }: ProgramCardProps) {
         value={program.id}
         checked={checked}
         onChange={onSelect}
+        aria-labelledby={`${id}-title`}
+        aria-describedby={`${id}-liability ${id}-description`}
         className={styles.input}
       />
       <span className={styles.mark} aria-hidden />
-      <span className={styles.title}>{program.title}</span>
-      <span className={styles.liability}>
+      <span id={`${id}-title`} className={styles.title}>
+        {program.title}
+      </span>
+      <span id={`${id}-liability`} className={styles.liability}>
         Общее покрытие - {formatLiability(program.liability)}
       </span>
-      <span className={styles.description}>{program.description}</span>
+      <span id={`${id}-description`} className={styles.description}>
+        {program.description}
+      </span>
     </label>
   );
 }

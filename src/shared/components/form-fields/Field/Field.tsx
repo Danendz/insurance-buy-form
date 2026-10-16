@@ -20,7 +20,7 @@ type FieldProps = {
   hideLabel?: boolean;
   /**
    * `control`: one input, labelled with `<label for>`.
-   * `group`: several inputs (radios, date parts), labelled through `role="group"`.
+   * `group`: several inputs (radios, date parts), labelled with `<fieldset>` and `<legend>`.
    */
   kind?: 'control' | 'group';
   className?: string;
@@ -37,38 +37,41 @@ export function Field({
   children,
 }: FieldProps) {
   const id = useId();
-  const labelId = `${id}-label`;
+  const hintId = `${id}-hint`;
   const errorId = `${id}-error`;
+  const describedBy = [hint && hintId, error && errorId].filter(Boolean).join(' ');
   const control: FieldControlProps = {
     id,
-    'aria-describedby': error ? errorId : undefined,
+    'aria-describedby': describedBy || undefined,
     'aria-invalid': error ? true : undefined,
   };
-  const Label = kind === 'control' ? 'label' : 'span';
+  const isGroup = kind === 'group';
+  const Root = isGroup ? 'fieldset' : 'div';
 
   return (
-    <div
-      className={cn(styles.field, className)}
-      role={kind === 'group' ? 'group' : undefined}
-      aria-labelledby={kind === 'group' ? labelId : undefined}
-      aria-describedby={kind === 'group' && error ? errorId : undefined}
-    >
+    <Root className={cn(styles.field, className)}>
+      {isGroup && <legend className={styles.hidden}>{label}</legend>}
       <div className={styles.header}>
-        <Label
-          id={labelId}
-          htmlFor={kind === 'control' ? id : undefined}
-          className={cn(styles.label, hideLabel && styles.hidden)}
-        >
-          {label}
-        </Label>
-        {hint && <Tooltip text={hint} />}
+        {!isGroup ? (
+          <label htmlFor={id} className={cn(styles.label, hideLabel && styles.hidden)}>
+            {label}
+          </label>
+        ) : (
+          // The legend names the group; this copy only keeps the «?» on the label's row.
+          !hideLabel && (
+            <span className={styles.label} aria-hidden>
+              {label}
+            </span>
+          )
+        )}
+        {hint && <Tooltip id={hintId} text={hint} label={`Подсказка: ${label}`} />}
       </div>
       {children(control)}
       {error && (
-        <p id={errorId} className={styles.error} role="alert">
+        <p id={errorId} className={styles.error}>
           {error}
         </p>
       )}
-    </div>
+    </Root>
   );
 }
