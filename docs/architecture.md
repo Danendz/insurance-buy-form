@@ -94,3 +94,12 @@ features/<name>/
 - Next to the code as `*.test.ts(x)`. Pure logic is test-first.
 - Components connected to Redux render with `renderWithStore` (`@/store/test-utils`).
 - Component tests hit the real route handlers through `stubApi()` (`@/app/api/_lib/testing`), not hand-written mocks.
+
+### What earns a test
+
+A test guards a behaviour or decision of our code that could break: a rule, a branch, an edge case, a contract another module relies on. Before adding one, ask: _what bug would this catch that no other test catches?_
+
+- Don't test framework, browser or library behaviour (a native `onClick` or `disabled`, `libphonenumber-js` parsing).
+- Don't test one-line pass-throughs or the contents of fixtures and `_data/data.json`.
+- Don't repeat an assertion another level already makes. A rule is tested where it lives (`model/`, `_lib/`); route tests cover HTTP status and request parsing; page tests cover user flows.
+- Name a test after the behaviour (`'keeps at least one country row'`), not the function.

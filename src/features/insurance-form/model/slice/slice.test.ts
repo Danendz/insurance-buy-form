@@ -33,11 +33,6 @@ const filled: InsuranceFormState = {
 };
 
 describe('insuranceForm slice', () => {
-  it('starts on the details step with an empty form', () => {
-    expect(reducer(undefined, { type: 'unknown' })).toEqual(initialState);
-    expect(initialState.step).toBe('details');
-  });
-
   it('prefills the start date only on a pristine form', () => {
     expect(reducer(initialState, startDatePrefilled(TODAY)).details.startDate).toBe(TODAY);
 
@@ -123,10 +118,6 @@ describe('insuranceForm slice', () => {
 
   it('resets to the initial state', () => {
     expect(reducer({ ...filled, step: 'done', orderId: 'x' }, reset())).toEqual(initialState);
-  });
-
-  it('replaces state on hydrate', () => {
-    expect(reducer(initialState, hydrate(filled))).toEqual(filled);
   });
 
   it('hides errors from a previous visit on hydrate', () => {

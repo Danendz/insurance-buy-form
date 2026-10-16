@@ -1,12 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  calculateQuote,
-  getActivities,
-  getCountries,
-  getTripPrograms,
-  getMultipliers,
-  getPrograms,
-} from './catalog';
+import { calculateQuote, getActivities, getCountries, getTripPrograms } from './catalog';
 
 describe('catalog', () => {
   it('lists countries sorted by name, without their program ids', () => {
@@ -42,17 +35,6 @@ describe('catalog', () => {
       'Учёба',
       'Спорт',
     ]);
-  });
-
-  it('exposes the programs and price multipliers dictionaries', () => {
-    expect(getPrograms().map((program) => program.name)).toEqual([
-      'Silver',
-      'Gold',
-      'Platinum',
-      'STOPVIRUS |',
-      'STOPVIRUS ||',
-    ]);
-    expect(getMultipliers()).toEqual({ multiTrip: 1.5, sport: 1.3 });
   });
 
   it('returns full details for the programs of a country', () => {

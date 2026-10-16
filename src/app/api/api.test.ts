@@ -1,9 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { GET as getActivities } from './dictionary/activities/route';
 import { GET as getCountries } from './dictionary/countries/route';
-import { GET as getMultipliers } from './dictionary/multipliers/route';
 import { POST as createOrder } from './orders/route';
-import { GET as getPrograms } from './dictionary/programs/route';
 import { GET as getTripPrograms } from './programs/route';
 import { POST as getQuote } from './quote/route';
 
@@ -40,18 +37,6 @@ describe('/api', () => {
     const res = await getCountries();
     expect(res.status).toBe(200);
     expect((await res.json())[0]).toEqual({ id: 1, name: 'Австралия', isInSchengen: false });
-  });
-
-  it('GET /dictionary/activities', async () => {
-    expect(await (await getActivities()).json()).toHaveLength(4);
-  });
-
-  it('GET /dictionary/programs', async () => {
-    expect(await (await getPrograms()).json()).toHaveLength(5);
-  });
-
-  it('GET /dictionary/multipliers', async () => {
-    expect(await (await getMultipliers()).json()).toEqual({ multiTrip: 1.5, sport: 1.3 });
   });
 
   it('GET /programs', async () => {

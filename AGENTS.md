@@ -10,7 +10,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Project architecture
 
-Before adding or moving code, read [docs/architecture.md](docs/architecture.md): layers and import rules, where new code goes, state/API and styling conventions.
+Before adding or moving code, read [docs/architecture.md](docs/architecture.md): layers and import rules, where new code goes, state/API and styling conventions, what earns a test.
 
 ## Git
 
