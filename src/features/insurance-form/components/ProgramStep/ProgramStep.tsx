@@ -5,11 +5,7 @@ import { LoadError } from '@/shared/components/ui/LoadError';
 import { Skeleton } from '@/shared/components/ui/Skeleton';
 import { useDispatch } from 'react-redux';
 import type { IsoDate, ValidTripDetails } from '../../types';
-import {
-  useCreateOrderMutation,
-  useGetCountryProgramsQuery,
-  useGetQuoteQuery,
-} from '../../model/api';
+import { useCreateOrderMutation, useGetTripProgramsQuery, useGetQuoteQuery } from '../../model/api';
 import { useFormSelector } from '../../model/hooks';
 import { formatPrice } from '../../model/format';
 import {
@@ -30,7 +26,7 @@ export function ProgramStep({ today }: { today: IsoDate }) {
   const errors = useFormSelector((state) => selectDetailsErrors(state, today));
 
   // A restored session can be outdated, e.g. the start date is now in the past.
-  if (hasErrors(errors) || details.countryId === null) {
+  if (hasErrors(errors)) {
     return <StaleDetails />;
   }
   return <ProgramChoice details={details as ValidTripDetails} />;
@@ -50,10 +46,13 @@ function StaleDetails() {
 function ProgramChoice({ details }: { details: ValidTripDetails }) {
   const dispatch = useDispatch();
   const chosenId = useFormSelector(selectProgramId);
-  const { countryId, coverageType, startDate, endDate, activityId } = details;
+  const { coverageType, startDate, endDate, activityId } = details;
+  // Sorted, so the order of the rows doesn't split the cache.
+  const countryIds = details.countryIds.toSorted((a, b) => a - b);
+  const several = countryIds.length > 1;
 
-  const programs = useGetCountryProgramsQuery(countryId);
-  const quote = useGetQuoteQuery({ countryId, coverageType, startDate, endDate, activityId });
+  const programs = useGetTripProgramsQuery(countryIds);
+  const quote = useGetQuoteQuery({ countryIds, coverageType, startDate, endDate, activityId });
   const [createOrder, order] = useCreateOrderMutation();
 
   const selected = programs.data?.find((program) => program.id === chosenId) ?? programs.data?.[0];
@@ -81,9 +80,11 @@ function ProgramChoice({ details }: { details: ValidTripDetails }) {
           <LoadError message="Не удалось загрузить программы" onRetry={programs.refetch} />
         ) : programs.data?.length === 0 ? (
           <p className={styles.message}>
-            Для выбранной страны нет доступных программ.{' '}
+            {several
+              ? 'Для выбранных стран нет общих программ.'
+              : 'Для выбранной страны нет доступных программ.'}{' '}
             <Button variant="link" onClick={() => dispatch(goToDetails())}>
-              Изменить страну
+              {several ? 'Изменить страны' : 'Изменить страну'}
             </Button>
           </p>
         ) : (

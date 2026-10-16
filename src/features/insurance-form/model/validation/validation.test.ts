@@ -1,11 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import type { TripDetails } from '../../types';
-import { MAX_TRIP_DAYS, validateDetails } from './validation';
+import { MAX_COUNTRIES, MAX_TRIP_DAYS, validateDetails } from './validation';
 
 const TODAY = '2024-09-05';
 
 const valid: TripDetails = {
-  countryId: 1,
+  countryIds: [1],
   coverageType: 'single',
   startDate: '2024-09-05',
   endDate: '2024-09-12',
@@ -20,12 +20,33 @@ describe('validateDetails', () => {
 
   it('requires every field', () => {
     const errors = validateDetails(
-      { ...valid, countryId: null, startDate: null, endDate: null, activityId: null, phone: '' },
+      { ...valid, countryIds: [], startDate: null, endDate: null, activityId: null, phone: '' },
       TODAY,
     );
     expect(Object.keys(errors).sort()).toEqual(
-      ['activityId', 'countryId', 'endDate', 'phone', 'startDate'].sort(),
+      ['activityId', 'countryIds', 'endDate', 'phone', 'startDate'].sort(),
     );
+  });
+
+  it('accepts several countries', () => {
+    expect(validateDetails({ ...valid, countryIds: [1, 238] }, TODAY)).toEqual({});
+  });
+
+  it(`accepts at most ${MAX_COUNTRIES} countries`, () => {
+    const ids = Array.from({ length: MAX_COUNTRIES + 1 }, (_, i) => i + 1);
+    expect(validateDetails({ ...valid, countryIds: ids.slice(0, -1) }, TODAY)).toEqual({});
+    expect(validateDetails({ ...valid, countryIds: ids }, TODAY)).toHaveProperty('countryIds');
+  });
+
+  it('requires every country row to be filled', () => {
+    expect(validateDetails({ ...valid, countryIds: [null] }, TODAY)).toHaveProperty('countryIds');
+    expect(validateDetails({ ...valid, countryIds: [1, null] }, TODAY)).toHaveProperty(
+      'countryIds',
+    );
+  });
+
+  it('rejects a repeated country', () => {
+    expect(validateDetails({ ...valid, countryIds: [1, 1] }, TODAY)).toHaveProperty('countryIds');
   });
 
   it('rejects a start in the past', () => {

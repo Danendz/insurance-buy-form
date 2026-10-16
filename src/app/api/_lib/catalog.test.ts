@@ -3,7 +3,7 @@ import {
   calculateQuote,
   getActivities,
   getCountries,
-  getCountryPrograms,
+  getTripPrograms,
   getMultipliers,
   getPrograms,
 } from './catalog';
@@ -56,19 +56,28 @@ describe('catalog', () => {
   });
 
   it('returns full details for the programs of a country', () => {
-    const programs = getCountryPrograms(1);
+    const programs = getTripPrograms([1]);
     expect(programs?.map((program) => program.name)).toEqual(['Platinum', 'STOPVIRUS |']);
     expect(programs?.[0]).toMatchObject({ liability: 90000, dailyRate: 3.5 });
-    expect(getCountryPrograms(238)?.map((program) => program.name)).toEqual(['Platinum']);
+    expect(getTripPrograms([238])?.map((program) => program.name)).toEqual(['Platinum']);
   });
 
-  it('returns undefined for an unknown country', () => {
-    expect(getCountryPrograms(-1)).toBeUndefined();
+  it('returns only the programs sold in every country of the trip', () => {
+    const names = (countryIds: number[]) =>
+      getTripPrograms(countryIds)?.map((program) => program.name);
+    expect(names([3, 1])).toEqual(['Platinum', 'STOPVIRUS |']);
+    expect(names([1, 238])).toEqual(['Platinum']);
+    expect(names([1, 239])).toEqual([]);
   });
 
-  it('quotes every program of the country', () => {
+  it('returns undefined when a country is unknown', () => {
+    expect(getTripPrograms([-1])).toBeUndefined();
+    expect(getTripPrograms([1, -1])).toBeUndefined();
+  });
+
+  it('quotes every program of the trip', () => {
     const quote = calculateQuote({
-      countryId: 1,
+      countryIds: [3, 1],
       coverageType: 'single',
       startDate: '2024-09-05',
       endDate: '2024-09-14',

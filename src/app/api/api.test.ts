@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { GET as getActivities } from './dictionary/activities/route';
-import { GET as getCountryPrograms } from './countries/[id]/programs/route';
 import { GET as getCountries } from './dictionary/countries/route';
 import { GET as getMultipliers } from './dictionary/multipliers/route';
 import { POST as createOrder } from './orders/route';
 import { GET as getPrograms } from './dictionary/programs/route';
+import { GET as getTripPrograms } from './programs/route';
 import { POST as getQuote } from './quote/route';
 
 const post = (body: unknown) =>
@@ -13,10 +13,11 @@ const post = (body: unknown) =>
     body: typeof body === 'string' ? body : JSON.stringify(body),
   });
 
-const params = (id: string) => ({ params: Promise.resolve({ id }) });
+const tripPrograms = (query: string) =>
+  getTripPrograms(new Request(`http://localhost/api/programs${query}`));
 
 const order = {
-  countryId: 1,
+  countryIds: [1],
   coverageType: 'single',
   startDate: '2024-09-05',
   endDate: '2024-09-14',
@@ -53,21 +54,19 @@ describe('/api', () => {
     expect(await (await getMultipliers()).json()).toEqual({ multiTrip: 1.5, sport: 1.3 });
   });
 
-  it('GET /countries/[id]/programs', async () => {
-    const res = await getCountryPrograms(new Request('http://localhost'), params('238'));
+  it('GET /programs', async () => {
+    const res = await tripPrograms('?countryIds=1,238');
     expect((await res.json()).map((p: { name: string }) => p.name)).toEqual(['Platinum']);
 
-    expect((await getCountryPrograms(new Request('http://localhost'), params('-1'))).status).toBe(
-      404,
-    );
-    expect((await getCountryPrograms(new Request('http://localhost'), params('abc'))).status).toBe(
-      404,
-    );
+    expect((await tripPrograms('?countryIds=1,-1')).status).toBe(404);
+    expect((await tripPrograms('?countryIds=1,abc')).status).toBe(400);
+    expect((await tripPrograms('?countryIds=')).status).toBe(400);
+    expect((await tripPrograms('')).status).toBe(400);
   });
 
   it('POST /quote', async () => {
     const request = {
-      countryId: order.countryId,
+      countryIds: order.countryIds,
       coverageType: order.coverageType,
       startDate: order.startDate,
       endDate: order.endDate,
@@ -86,11 +85,18 @@ describe('/api', () => {
     expect(await res.json()).toEqual({ orderId: expect.any(String) });
   });
 
-  it('POST /orders rejects invalid details and programs not sold in the country', async () => {
+  it('POST /orders rejects invalid details and programs not sold in every country', async () => {
     const invalid = await createOrder(post({ ...order, phone: '123' }));
     expect(invalid.status).toBe(400);
     expect(await invalid.json()).toMatchObject({ errors: { phone: expect.any(String) } });
 
     expect((await createOrder(post({ ...order, programId: 1 }))).status).toBe(400);
+    expect((await createOrder(post({ ...order, countryIds: [1, 238], programId: 4 }))).status).toBe(
+      400,
+    );
+    expect((await createOrder(post({ ...order, countryIds: [1, 1] }))).status).toBe(400);
+    expect((await createOrder(post({ ...order, countryIds: [1, 2, 3, 4, 5, 6] }))).status).toBe(
+      400,
+    );
   });
 });

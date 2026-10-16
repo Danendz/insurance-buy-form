@@ -79,6 +79,11 @@
   min-width: 0;
   padding: 0 rem(12px);
 
+  // iOS zooms into focused fields under 16px.
+  @media (pointer: coarse) {
+    font-size: max(16px, rem(10px));
+  }
+
   &::placeholder {
     color: $color-placeholder;
   }

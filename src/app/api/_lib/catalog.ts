@@ -49,15 +49,22 @@ export function getMultipliers(): PriceMultipliers {
   return data.multipliers;
 }
 
-export function getCountryPrograms(countryId: number): Program[] | undefined {
-  const country = data.countries.find(({ id }) => id === countryId);
-  return country?.programIds
-    .map((id) => programsById.get(id))
+/** Programs sold in every country of the trip; `undefined` if a country is unknown. */
+export function getTripPrograms(countryIds: number[]): Program[] | undefined {
+  const countries = countryIds.map((countryId) =>
+    data.countries.find(({ id }) => id === countryId),
+  );
+  if (countries.length === 0 || countries.includes(undefined)) return undefined;
+
+  const [first, ...rest] = countries as (typeof data.countries)[number][];
+  return first.programIds
+    .filter((programId) => rest.every((country) => country.programIds.includes(programId)))
+    .map((programId) => programsById.get(programId))
     .filter((program) => program !== undefined);
 }
 
 export function calculateQuote(request: QuoteRequest): Quote | undefined {
-  const programs = getCountryPrograms(request.countryId);
+  const programs = getTripPrograms(request.countryIds);
   if (!programs) return undefined;
 
   const days = tripDays(request.startDate, request.endDate);

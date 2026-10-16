@@ -6,7 +6,8 @@ export type * from '@/shared/api/types';
 export type CoverageType = 'single' | 'multi';
 
 export type TripDetails = {
-  countryId: number | null;
+  /** One entry per country row; `null` is a row with nothing picked yet. */
+  countryIds: (number | null)[];
   coverageType: CoverageType;
   startDate: IsoDate | null;
   endDate: IsoDate | null;
@@ -18,8 +19,8 @@ export type TripDetails = {
 export type DetailsErrors = Partial<Record<keyof TripDetails, string>>;
 
 export type ValidTripDetails = {
-  [K in keyof TripDetails]: NonNullable<TripDetails[K]>;
-};
+  [K in Exclude<keyof TripDetails, 'countryIds'>]: NonNullable<TripDetails[K]>;
+} & { countryIds: number[] };
 
 export type QuoteRequest = Omit<ValidTripDetails, 'phone'>;
 

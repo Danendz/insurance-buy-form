@@ -1,18 +1,16 @@
 'use client';
 
 import { useEffect, type FormEvent } from 'react';
-import { useGetActivitiesQuery, useGetCountriesQuery } from '@/shared/api/dictionary';
+import { useGetActivitiesQuery } from '@/shared/api/dictionary';
 import { DateField } from '@/shared/components/form-fields/DateField';
 import { Field } from '@/shared/components/form-fields/Field';
 import { PhoneField } from '@/shared/components/form-fields/PhoneField';
 import { Button } from '@/shared/components/ui/Button';
-import { IconButton } from '@/shared/components/ui/IconButton';
 import { LoadError } from '@/shared/components/ui/LoadError';
 import { Radio } from '@/shared/components/ui/Radio';
-import { Select } from '@/shared/components/ui/Select';
 import { addDays, parseIsoDate } from '@/shared/utils/date';
 import { useDispatch } from 'react-redux';
-import type { CoverageType, IsoDate, TripDetails } from '../../types';
+import type { CoverageType, IsoDate } from '../../types';
 import { useFormSelector } from '../../model/hooks';
 import { COVERAGE_TYPE_LABELS } from '../../model/labels';
 import { MAX_TRIP_DAYS } from '../../model/validation';
@@ -25,6 +23,7 @@ import {
   submitDetails,
   updateDetails,
 } from '../../model/slice';
+import { CountriesField } from '../CountriesField';
 import { SaveNote } from '../SaveNote';
 import { ActivitiesSkeleton } from './DetailsStepSkeleton';
 import styles from './DetailsStep.module.scss';
@@ -42,10 +41,9 @@ export function DetailsStep({ today }: { today: IsoDate }) {
     dispatch(startDatePrefilled(today));
   }, [dispatch, today]);
 
-  const countries = useGetCountriesQuery();
   const activities = useGetActivitiesQuery();
 
-  const update = (patch: Partial<TripDetails>) => dispatch(updateDetails(patch));
+  const update = (patch: Parameters<typeof updateDetails>[0]) => dispatch(updateDetails(patch));
   const currentYear = parseIsoDate(today).year;
   const years = [currentYear, currentYear + 1, currentYear + 2];
 
@@ -61,40 +59,7 @@ export function DetailsStep({ today }: { today: IsoDate }) {
     <form className={styles.form} noValidate onSubmit={handleSubmit}>
       <h1 className={styles.title}>Покупка страхового полиса</h1>
 
-      <Field
-        label="Страна путешествия"
-        hint="Страна, в которую вы едете. От неё зависят доступные программы страхования."
-        error={errors.countryId}
-      >
-        {(control) => (
-          <div className={styles.countryRow}>
-            {countries.isError ? (
-              <LoadError message="Не удалось загрузить страны" onRetry={countries.refetch} />
-            ) : (
-              <Select
-                {...control}
-                loading={countries.isLoading}
-                placeholder={countries.isLoading ? 'Загружаем страны…' : 'Выберите страну'}
-                value={countries.isLoading ? '' : (details.countryId ?? '')}
-                onChange={(event) => update({ countryId: Number(event.target.value) })}
-              >
-                {countries.data?.map((country) => (
-                  <option key={country.id} value={country.id}>
-                    {country.name}
-                  </option>
-                ))}
-              </Select>
-            )}
-            <IconButton
-              icon="/icons/plus.svg"
-              size={32}
-              label="Добавить ещё одну страну — скоро"
-              aria-disabled
-              className={styles.addCountry}
-            />
-          </div>
-        )}
-      </Field>
+      <CountriesField error={errors.countryIds} />
 
       <Field
         label="Тип покрытия"

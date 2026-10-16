@@ -4,8 +4,8 @@ import type { Order, OrderRequest, Quote, QuoteRequest } from '../../types';
 
 const insuranceApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getCountryPrograms: build.query<Program[], number>({
-      query: (countryId) => `countries/${countryId}/programs`,
+    getTripPrograms: build.query<Program[], number[]>({
+      query: (countryIds) => ({ url: 'programs', params: { countryIds: countryIds.join(',') } }),
     }),
     // Read-only POST: as a query it is cached per trip and refetched when the trip changes.
     getQuote: build.query<Quote, QuoteRequest>({
@@ -17,5 +17,4 @@ const insuranceApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetCountryProgramsQuery, useGetQuoteQuery, useCreateOrderMutation } =
-  insuranceApi;
+export const { useGetTripProgramsQuery, useGetQuoteQuery, useCreateOrderMutation } = insuranceApi;

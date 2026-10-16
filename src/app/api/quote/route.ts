@@ -13,11 +13,13 @@ export async function POST(request: Request) {
   if (hasErrors(errors)) return badRequest({ errors });
 
   const quote = calculateQuote({
-    countryId: details.countryId!,
+    countryIds: details.countryIds as number[],
     coverageType: details.coverageType,
     startDate: details.startDate!,
     endDate: details.endDate!,
     activityId: details.activityId!,
   });
-  return quote ? Response.json(quote) : badRequest({ errors: { countryId: 'Неизвестная страна' } });
+  return quote
+    ? Response.json(quote)
+    : badRequest({ errors: { countryIds: 'Неизвестная страна' } });
 }

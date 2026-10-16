@@ -61,7 +61,7 @@ export function DetailsStepSkeleton() {
     <div className={layout.form}>
       <h1 className={layout.title}>Покупка страхового полиса</h1>
       <FieldSkeleton labelWidth={124}>
-        <div className={layout.countryRow}>
+        <div className={cn(styles.row, styles.countryRow)}>
           <Skeleton className={styles.select} />
           <Skeleton className={styles.addCountry} />
         </div>

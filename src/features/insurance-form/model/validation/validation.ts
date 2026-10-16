@@ -2,6 +2,7 @@ import { diffInDays } from '@/shared/utils/date';
 import type { DetailsErrors, IsoDate, TripDetails } from '../../types';
 
 export const MAX_TRIP_DAYS = 365;
+export const MAX_COUNTRIES = 5;
 
 type ValidationOptions = {
   /** `false` adds a phone format error; `null` checks only that the phone is filled in. */
@@ -15,10 +16,14 @@ export function validateDetails(
   { phoneValid = null }: ValidationOptions = {},
 ): DetailsErrors {
   const errors: DetailsErrors = {};
-  const { countryId, startDate, endDate, activityId, phone } = details;
+  const { countryIds, startDate, endDate, activityId, phone } = details;
 
-  if (countryId === null) {
-    errors.countryId = 'Укажите страну путешествия';
+  if (countryIds.length === 0 || countryIds.includes(null)) {
+    errors.countryIds = 'Укажите страну путешествия';
+  } else if (new Set(countryIds).size !== countryIds.length) {
+    errors.countryIds = 'Страны не должны повторяться';
+  } else if (countryIds.length > MAX_COUNTRIES) {
+    errors.countryIds = `Не больше ${MAX_COUNTRIES} стран`;
   }
 
   if (!startDate) {

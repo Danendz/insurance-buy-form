@@ -3,7 +3,12 @@
 
 // Percentages keep the user's browser font size; all component sizes are in rem.
 html {
-  font-size: 100%;
+  // Phones get a larger step: the design's 8–12px text is too small to read there.
+  font-size: 125%;
+
+  @include sm-up {
+    font-size: 100%;
+  }
 
   @include xl-up {
     font-size: 112.5%;

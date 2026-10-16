@@ -5,10 +5,10 @@ import { makeStore } from './store';
 describe('store', () => {
   it('persists the form, but not the API cache', () => {
     const store = makeStore();
-    store.dispatch(updateDetails({ countryId: 7 }));
+    store.dispatch(updateDetails({ activityId: 2 }));
     const saved = Object.values({ ...sessionStorage }).map((raw) => JSON.parse(raw as string));
     expect(saved).toEqual([
-      { ...initialFormState, details: { ...initialFormState.details, countryId: 7 } },
+      { ...initialFormState, details: { ...initialFormState.details, activityId: 2 } },
     ]);
   });
 });

@@ -11,7 +11,7 @@ const filled: InsuranceFormState = {
   ...initialState,
   step: 'program',
   details: {
-    countryId: 1,
+    countryIds: [1],
     coverageType: 'single',
     startDate: '2024-09-05',
     endDate: '2024-09-14',
@@ -76,6 +76,96 @@ describe('InsuranceFormPage', () => {
     expect(screen.queryByRole('button', { name: 'Назад' })).not.toBeInTheDocument();
   });
 
+  it('adds a country row, focuses it and offers only countries not chosen yet', async () => {
+    const { user, store } = renderWithStore(<InsuranceFormPage />);
+    const add = screen.getByRole('button', { name: 'Добавить страну' });
+    await screen.findByRole('option', { name: 'Латвия' });
+
+    expect(add).toHaveAttribute('aria-disabled', 'true');
+    await user.click(add);
+    expect(screen.queryByLabelText('Страна путешествия 2')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Удалить страну/ })).not.toBeInTheDocument();
+
+    await user.selectOptions(screen.getByLabelText('Страна путешествия'), 'Австралия');
+    expect(add).toHaveAttribute('aria-disabled', 'false');
+    await user.click(add);
+
+    const second = screen.getByLabelText('Страна путешествия 2');
+    await waitFor(() => expect(second).toHaveFocus());
+    expect(screen.getByRole('button', { name: 'Добавить страну' })).toHaveAttribute(
+      'aria-disabled',
+      'true',
+    );
+    expect(within(second).queryByRole('option', { name: 'Австралия' })).not.toBeInTheDocument();
+
+    await user.selectOptions(second, 'Япония');
+    expect(
+      within(screen.getByLabelText('Страна путешествия')).queryByRole('option', {
+        name: 'Япония',
+      }),
+    ).not.toBeInTheDocument();
+    expect(store.getState().insuranceForm.details.countryIds).toEqual([1, 238]);
+  });
+
+  it('adds no more than 5 countries', async () => {
+    const { user, store } = renderWithStore(<InsuranceFormPage />, {
+      preloadedState: {
+        insuranceForm: {
+          ...filled,
+          step: 'details',
+          details: { ...filled.details, countryIds: [1, 2, 3, 4, 5] },
+        },
+      },
+    });
+    await screen.findAllByRole('option', { name: 'Латвия' });
+
+    const add = screen.getByRole('button', { name: 'Добавить страну' });
+    expect(add).toHaveAttribute('aria-disabled', 'true');
+    await user.click(add);
+    expect(store.getState().insuranceForm.details.countryIds).toHaveLength(5);
+  });
+
+  it('removes a country row and focuses a button, not a select', async () => {
+    const { user, store } = renderWithStore(<InsuranceFormPage />, {
+      preloadedState: {
+        insuranceForm: {
+          ...filled,
+          step: 'details',
+          details: { ...filled.details, countryIds: [1, 238, 3] },
+        },
+      },
+    });
+    await screen.findAllByRole('option', { name: 'Латвия' });
+
+    await user.click(screen.getByRole('button', { name: 'Удалить страну 2' }));
+    expect(store.getState().insuranceForm.details.countryIds).toEqual([1, 3]);
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Удалить страну 2' })).toHaveFocus(),
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Удалить страну 2' }));
+    expect(store.getState().insuranceForm.details.countryIds).toEqual([1]);
+    await waitFor(() =>
+      expect(screen.getByRole('button', { name: 'Добавить страну' })).toHaveFocus(),
+    );
+    expect(screen.queryByRole('button', { name: /Удалить страну/ })).not.toBeInTheDocument();
+  });
+
+  it('flags an empty country row on «Далее»', async () => {
+    const { user, store } = renderWithStore(<InsuranceFormPage />);
+    await fillDetails(user, 'Латвия');
+    await user.click(screen.getByRole('button', { name: 'Добавить страну' }));
+
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    expect(await screen.findByText('Укажите страну путешествия')).toBeInTheDocument();
+    const second = screen.getByLabelText('Страна путешествия 2');
+    expect(second).toHaveAttribute('aria-invalid', 'true');
+    expect(screen.getByLabelText('Страна путешествия')).not.toHaveAttribute('aria-invalid');
+    await waitFor(() => expect(second).toHaveFocus());
+    expect(store.getState().insuranceForm.step).toBe('details');
+  });
+
   it('shows errors only after «Далее» and stays on the first step', async () => {
     const { user, store } = renderWithStore(<InsuranceFormPage />);
     await screen.findByRole('option', { name: 'Латвия' });
@@ -129,15 +219,19 @@ describe('InsuranceFormPage', () => {
     });
   });
 
-  it('lists only the programs sold in the chosen country', async () => {
+  it('lists only the programs sold in every chosen country', async () => {
     renderWithStore(<InsuranceFormPage />, {
       preloadedState: {
-        insuranceForm: { ...filled, details: { ...filled.details, countryId: 238 } },
+        insuranceForm: { ...filled, details: { ...filled.details, countryIds: [1, 238] } },
       },
     });
     const programs = within(await screen.findByRole('group', { name: 'Программа страхования' }));
     await waitFor(() => expect(programs.getAllByRole('radio')).toHaveLength(1));
     expect(programs.getByRole('radio', { name: /Platinum/ })).toBeInTheDocument();
+
+    const summary = within(screen.getByRole('complementary', { name: 'Ваши данные' }));
+    expect(await summary.findByText('Австралия, Япония')).toBeInTheDocument();
+    expect(summary.getByText('Страны путешествия')).toBeInTheDocument();
   });
 
   it('restores the program step with the «Ваши данные» summary', async () => {

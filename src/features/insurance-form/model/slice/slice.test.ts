@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import type { InsuranceFormState } from '../../types';
 import {
+  countryAdded,
+  countryChanged,
+  countryRemoved,
   goToDetails,
   hydrate,
   initialState,
@@ -20,7 +23,7 @@ const TODAY = '2024-09-05';
 const filled: InsuranceFormState = {
   ...initialState,
   details: {
-    countryId: 1,
+    countryIds: [1],
     coverageType: 'single',
     startDate: '2024-09-05',
     endDate: '2024-09-12',
@@ -47,13 +50,49 @@ describe('insuranceForm slice', () => {
 
   it('merges detail updates', () => {
     const state = reducer(initialState, updateDetails({ coverageType: 'multi', activityId: 2 }));
-    expect(state.details).toMatchObject({ coverageType: 'multi', activityId: 2, countryId: null });
+    expect(state.details).toMatchObject({
+      coverageType: 'multi',
+      activityId: 2,
+      countryIds: [null],
+    });
   });
 
-  it('forgets the chosen program when the country changes', () => {
+  it('prefills the start date after a country row was added and removed', () => {
+    let state = reducer(initialState, countryAdded());
+    state = reducer(state, countryRemoved(1));
+    expect(reducer(state, startDatePrefilled(TODAY)).details.startDate).toBe(TODAY);
+  });
+
+  it('adds, changes and removes country rows', () => {
+    let state = reducer(filled, countryAdded());
+    expect(state.details.countryIds).toEqual([1, null]);
+    state = reducer(state, countryChanged({ index: 1, countryId: 7 }));
+    expect(state.details.countryIds).toEqual([1, 7]);
+    state = reducer(state, countryRemoved(0));
+    expect(state.details.countryIds).toEqual([7]);
+  });
+
+  it('adds no more than MAX_COUNTRIES rows', () => {
+    const full = { ...filled, details: { ...filled.details, countryIds: [1, 2, 3, 4, 5] } };
+    expect(reducer(full, countryAdded()).details.countryIds).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it('keeps at least one country row', () => {
+    expect(reducer(filled, countryRemoved(0)).details.countryIds).toEqual([1]);
+  });
+
+  it('forgets the chosen program when the chosen countries change', () => {
     const withProgram = { ...filled, programId: 3 };
-    expect(reducer(withProgram, updateDetails({ countryId: 1 })).programId).toBe(3);
-    expect(reducer(withProgram, updateDetails({ countryId: 2 })).programId).toBeNull();
+    expect(reducer(withProgram, countryChanged({ index: 0, countryId: 1 })).programId).toBe(3);
+    expect(reducer(withProgram, countryChanged({ index: 0, countryId: 2 })).programId).toBeNull();
+
+    const withEmptyRow = reducer(withProgram, countryAdded());
+    expect(withEmptyRow.programId).toBe(3);
+    expect(reducer(withEmptyRow, countryRemoved(1)).programId).toBe(3);
+
+    const withTwo = reducer(withEmptyRow, countryChanged({ index: 1, countryId: 2 }));
+    expect(withTwo.programId).toBeNull();
+    expect(reducer({ ...withTwo, programId: 3 }, countryRemoved(0)).programId).toBeNull();
   });
 
   it('stays on details and flags errors when submitting an invalid form', () => {

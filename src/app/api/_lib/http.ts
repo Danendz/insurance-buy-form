@@ -28,12 +28,13 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 const asNumber = (value: unknown) => (typeof value === 'number' ? value : null);
 const asString = (value: unknown) => (typeof value === 'string' ? value : null);
+const asNumbers = (value: unknown) => (Array.isArray(value) ? value.map(asNumber) : []);
 
 /** Reads trip details from an untrusted body; wrong types become empty fields for the validator. */
 export function parseTripDetails(body: unknown): TripDetails | undefined {
   if (!isRecord(body)) return undefined;
   return {
-    countryId: asNumber(body.countryId),
+    countryIds: asNumbers(body.countryIds),
     coverageType: (body.coverageType === 'multi' ? 'multi' : 'single') satisfies CoverageType,
     startDate: asString(body.startDate),
     endDate: asString(body.endDate),

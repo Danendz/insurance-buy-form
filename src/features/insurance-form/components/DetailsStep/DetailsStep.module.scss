@@ -19,16 +19,6 @@
   font-weight: 600;
 }
 
-.countryRow {
-  display: flex;
-  gap: rem(10px);
-}
-
-.addCountry {
-  border-radius: $radius;
-  opacity: 0.8;
-}
-
 .coverageTypes {
   display: flex;
   flex-direction: column;
@@ -48,8 +38,14 @@
 .activities {
   display: flex;
   flex-wrap: wrap;
-  gap: rem(8px) rem(26px);
+  justify-content: space-between;
+  gap: rem(8px) rem(8px);
   margin-top: rem(-2px);
+
+  @include sm-up {
+    justify-content: flex-start;
+    column-gap: rem(26px);
+  }
 }
 
 .activity {

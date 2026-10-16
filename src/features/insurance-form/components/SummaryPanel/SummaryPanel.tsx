@@ -17,13 +17,15 @@ export function SummaryPanel() {
   const countries = useGetCountriesQuery();
   const activities = useGetActivitiesQuery();
 
-  const country = countries.data?.find(({ id }) => id === details.countryId);
+  const countryNames = details.countryIds
+    .map((countryId) => countries.data?.find(({ id }) => id === countryId)?.name)
+    .filter((name) => name !== undefined);
   const activity = activities.data?.find(({ id }) => id === details.activityId);
 
   const rows: { label: string; value: string | undefined; loading?: boolean }[] = [
     {
-      label: 'Страна путешествия',
-      value: country?.name,
+      label: details.countryIds.length > 1 ? 'Страны путешествия' : 'Страна путешествия',
+      value: countryNames.length > 0 ? countryNames.join(', ') : undefined,
       loading: countries.isLoading,
     },
     { label: 'Тип покрытия', value: COVERAGE_TYPE_LABELS[details.coverageType] },

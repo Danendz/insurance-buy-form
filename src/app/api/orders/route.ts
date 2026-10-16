@@ -1,7 +1,7 @@
 import { hasErrors, validateDetails } from '@/features/insurance-form/server';
 import { isValidPhone } from '@/shared/components/form-fields/PhoneField/phone';
 import { todayIsoDate } from '@/shared/utils/date';
-import { getCountryPrograms } from '../_lib/catalog';
+import { getTripPrograms } from '../_lib/catalog';
 import { badRequest, parseTripDetails, readJson, simulateNetwork } from '../_lib/http';
 
 export async function POST(request: Request) {
@@ -16,9 +16,9 @@ export async function POST(request: Request) {
   if (hasErrors(errors)) return badRequest({ errors });
 
   const programId = (body as { programId?: unknown }).programId;
-  const programs = getCountryPrograms(details.countryId!) ?? [];
+  const programs = getTripPrograms(details.countryIds as number[]) ?? [];
   if (!programs.some((program) => program.id === programId)) {
-    return badRequest({ errors: { programId: 'Программа недоступна для этой страны' } });
+    return badRequest({ errors: { programId: 'Программа недоступна для выбранных стран' } });
   }
 
   return Response.json({ orderId: crypto.randomUUID() }, { status: 201 });

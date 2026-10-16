@@ -1,10 +1,10 @@
 import { vi } from 'vitest';
 import { GET as getActivities } from '../dictionary/activities/route';
-import { GET as getCountryPrograms } from '../countries/[id]/programs/route';
 import { GET as getCountries } from '../dictionary/countries/route';
 import { GET as getMultipliers } from '../dictionary/multipliers/route';
 import { POST as createOrder } from '../orders/route';
 import { GET as getPrograms } from '../dictionary/programs/route';
+import { GET as getTripPrograms } from '../programs/route';
 import { POST as getQuote } from '../quote/route';
 
 type Override = (request: Request) => Response | Promise<Response> | undefined;
@@ -17,10 +17,6 @@ export function stubApi(override?: Override) {
     if (overridden) return overridden;
 
     const { pathname } = new URL(request.url);
-    const programsMatch = pathname.match(/^\/api\/countries\/([^/]+)\/programs$/);
-    if (programsMatch) {
-      return getCountryPrograms(request, { params: Promise.resolve({ id: programsMatch[1] }) });
-    }
     switch (`${request.method} ${pathname}`) {
       case 'GET /api/dictionary/countries':
         return getCountries();
@@ -30,6 +26,8 @@ export function stubApi(override?: Override) {
         return getPrograms();
       case 'GET /api/dictionary/multipliers':
         return getMultipliers();
+      case 'GET /api/programs':
+        return getTripPrograms(request);
       case 'POST /api/quote':
         return getQuote(request);
       case 'POST /api/orders':
