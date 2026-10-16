@@ -89,4 +89,9 @@ describe('insuranceForm slice', () => {
   it('replaces state on hydrate', () => {
     expect(reducer(initialState, hydrate(filled))).toEqual(filled);
   });
+
+  it('hides errors from a previous visit on hydrate', () => {
+    const state = reducer(initialState, hydrate({ ...filled, submitAttempted: true }));
+    expect(state).toEqual({ ...filled, submitAttempted: false });
+  });
 });

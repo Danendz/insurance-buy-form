@@ -69,8 +69,9 @@ export const insuranceFormSlice = createSlice({
     reset() {
       return initialState;
     },
+    // Errors show only after «Далее» in the current visit.
     hydrate(_state, action: PayloadAction<InsuranceFormState>) {
-      return action.payload;
+      return { ...action.payload, submitAttempted: false };
     },
   },
   selectors: {
