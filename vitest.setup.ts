@@ -13,5 +13,5 @@ vi.mock('next/server', async (importOriginal) => ({
 
 afterEach(() => {
   cleanup();
-  sessionStorage.clear();
+  localStorage.clear();
 });

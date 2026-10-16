@@ -5,7 +5,7 @@ Multi-step insurance purchase form.
 ## Stack
 
 - Next.js 16 (App Router), React 19, TypeScript
-- Redux Toolkit + react-redux, form state persisted to `sessionStorage`
+- Redux Toolkit + react-redux, form state persisted to `localStorage`
 - SCSS + CSS Modules
 - Vitest + React Testing Library (jsdom)
 - ESLint (next core-web-vitals + typescript) + Prettier

@@ -37,7 +37,7 @@ shared/
 │   ├── ui/             # presentational kit: Button, Card, Select, Radio, Skeleton, LoadError, …
 │   └── form-fields/    # Field (label/hint/error wrapper) and composite inputs: DateField, PhoneField
 ├── hooks/              # generic React hooks (`useClientToday`)
-├── lib/                # setup helpers for external tools (`lib/store/sessionPersistence`)
+├── lib/                # setup helpers for external tools (`lib/store/localStoragePersistence`)
 ├── styles/             # SCSS `_variables`, `_mixins`, `_functions` (load with `@use 'variables' as *;`)
 │   └── globals/        # `_reset`, `_root`; `index.scss` is imported once by `app/layout.tsx`
 ├── types/              # generic types (`IsoDate`)
@@ -70,7 +70,7 @@ features/<name>/
 - **One RTK Query API.** `shared/api/baseApi.ts` holds `createApi` with no endpoints. Shared endpoints (`shared/api/dictionary.ts`) and feature endpoints (`features/*/model/api`) are added with `baseApi.injectEndpoints`.
 - **Slices** live in `features/*/model/slice` and are registered in `src/store/store.ts` through `combineSlices`.
 - Only `store` knows the full `RootState`. A feature reads its slice with its own `useSelector.withTypes<WithSlice<typeof slice>>()` hook (`model/hooks`) and dispatches with `useDispatch`.
-- **Persistence.** To keep a slice in sessionStorage, give it a `hydrate` reducer and create `createSessionPersistence({ key, slice })` in the feature (`model/persistence`). Add it to `persistences` in `src/store/store.ts`. Version the key (`name:v3`) and bump it whenever the state shape changes.
+- **Persistence.** To keep a slice in localStorage, give it a `hydrate` reducer and create `createLocalStoragePersistence({ key, slice, maxAgeDays })` in the feature (`model/persistence`). Add it to `persistences` in `src/store/store.ts`. Version the key (`name:v3`) and bump it whenever the state shape changes.
 - The store is created per request (`makeStore`) and restored after mount, so server and first client render match.
 - Anything that depends on "today" renders on the client through `useClientToday`.
 
