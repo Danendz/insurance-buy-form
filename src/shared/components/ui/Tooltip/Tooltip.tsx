@@ -5,8 +5,17 @@ import styles from './Tooltip.module.scss';
 
 const isMouse = (event: PointerEvent) => event.pointerType === 'mouse';
 
-export function Tooltip({ text }: { text: string }) {
-  const id = useId();
+type TooltipProps = {
+  text: string;
+  /** Accessible name of the trigger. */
+  label?: string;
+  /** Id of the bubble, to reference the text from other controls with `aria-describedby`. */
+  id?: string;
+};
+
+export function Tooltip({ text, label = 'Подсказка', id: idProp }: TooltipProps) {
+  const generatedId = useId();
+  const id = idProp ?? generatedId;
   const [open, setOpen] = useState(false);
   const wrapperRef = useRef<HTMLSpanElement>(null);
   // A tap fires focus (opens) before click (toggles); click must toggle the state from before the tap.
@@ -31,9 +40,8 @@ export function Tooltip({ text }: { text: string }) {
       <button
         type="button"
         className={styles.trigger}
-        aria-label="Подсказка"
+        aria-label={label}
         aria-describedby={id}
-        aria-expanded={open}
         onPointerDown={() => (openAtPress.current = open)}
         onClick={() => {
           const wasOpen = openAtPress.current ?? open;

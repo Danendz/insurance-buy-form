@@ -22,3 +22,8 @@ h2,
 p {
   margin: 0;
 }
+
+// Headings take focus only programmatically, to announce a new screen.
+h1[tabindex='-1']:focus {
+  outline: none;
+}

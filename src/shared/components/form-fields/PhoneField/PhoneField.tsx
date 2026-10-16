@@ -113,7 +113,7 @@ export function PhoneField({ phone, country, onChange, ...control }: PhoneFieldP
           (+{dialCode}) {country}
         </span>
         <select
-          aria-label={`Код страны: +${dialCode}`}
+          aria-label="Код страны"
           className={styles.countrySelect}
           value={country}
           onChange={handleCountryChange}

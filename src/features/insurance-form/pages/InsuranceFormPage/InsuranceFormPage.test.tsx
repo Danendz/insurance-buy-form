@@ -42,7 +42,7 @@ async function pickDate(user: UserEvent, group: string, day: string, month: stri
 
 async function fillDetails(user: UserEvent, country: string) {
   const option = await screen.findByRole('option', { name: country });
-  await user.selectOptions(screen.getByLabelText('Страна путешествия'), option);
+  await user.selectOptions(screen.getByLabelText('Страна 1'), option);
   await pickDate(user, 'Начало страхования', '05', 'Сентябрь');
   await pickDate(user, 'Конец страхования', '14', 'Сентябрь');
   await user.click(await screen.findByRole('radio', { name: 'Туризм' }));
@@ -60,7 +60,7 @@ describe('InsuranceFormPage', () => {
 
   it('shows the country field as loading until countries arrive', async () => {
     renderWithStore(<InsuranceFormPage />);
-    const country = screen.getByLabelText('Страна путешествия');
+    const country = screen.getByLabelText('Страна 1');
     expect(country).toBeDisabled();
     expect(country).toHaveAttribute('aria-busy', 'true');
     await screen.findByRole('option', { name: 'Латвия' });
@@ -84,14 +84,14 @@ describe('InsuranceFormPage', () => {
 
     expect(add).toHaveAttribute('aria-disabled', 'true');
     await user.click(add);
-    expect(screen.queryByLabelText('Страна путешествия 2')).not.toBeInTheDocument();
+    expect(screen.queryByLabelText('Страна 2')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /Удалить страну/ })).not.toBeInTheDocument();
 
-    await user.selectOptions(screen.getByLabelText('Страна путешествия'), 'Австралия');
+    await user.selectOptions(screen.getByLabelText('Страна 1'), 'Австралия');
     expect(add).toHaveAttribute('aria-disabled', 'false');
     await user.click(add);
 
-    const second = screen.getByLabelText('Страна путешествия 2');
+    const second = screen.getByLabelText('Страна 2');
     await waitFor(() => expect(second).toHaveFocus());
     expect(screen.getByRole('button', { name: 'Добавить страну' })).toHaveAttribute(
       'aria-disabled',
@@ -101,7 +101,7 @@ describe('InsuranceFormPage', () => {
 
     await user.selectOptions(second, 'Япония');
     expect(
-      within(screen.getByLabelText('Страна путешествия')).queryByRole('option', {
+      within(screen.getByLabelText('Страна 1')).queryByRole('option', {
         name: 'Япония',
       }),
     ).not.toBeInTheDocument();
@@ -160,9 +160,9 @@ describe('InsuranceFormPage', () => {
     await user.click(screen.getByRole('button', { name: 'Далее' }));
 
     expect(await screen.findByText('Укажите страну путешествия')).toBeInTheDocument();
-    const second = screen.getByLabelText('Страна путешествия 2');
+    const second = screen.getByLabelText('Страна 2');
     expect(second).toHaveAttribute('aria-invalid', 'true');
-    expect(screen.getByLabelText('Страна путешествия')).not.toHaveAttribute('aria-invalid');
+    expect(screen.getByLabelText('Страна 1')).not.toHaveAttribute('aria-invalid');
     await waitFor(() => expect(second).toHaveFocus());
     expect(store.getState().insuranceForm.step).toBe('details');
   });
@@ -190,6 +190,36 @@ describe('InsuranceFormPage', () => {
     expect(store.getState().insuranceForm.step).toBe('details');
   });
 
+  it('describes a field with its hint and, after «Далее», its error', async () => {
+    const { user } = renderWithStore(<InsuranceFormPage />);
+    const phone = screen.getByLabelText('Номер мобильного телефона');
+    expect(phone).toHaveAccessibleDescription('Отправим на этот номер полис и уведомления о нём.');
+
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    expect(phone).toHaveAccessibleDescription(
+      'Отправим на этот номер полис и уведомления о нём. Укажите номер телефона',
+    );
+  });
+
+  it('focuses the trip purpose when it is the only error', async () => {
+    const { user } = renderWithStore(<InsuranceFormPage />, {
+      preloadedState: {
+        insuranceForm: {
+          ...filled,
+          step: 'details',
+          details: { ...filled.details, activityId: null },
+        },
+      },
+    });
+    const tourism = await screen.findByRole('radio', { name: 'Туризм' });
+
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    await waitFor(() => expect(tourism).toHaveFocus());
+    expect(tourism).toHaveAccessibleDescription(/Выберите цель поездки/);
+  });
+
   it('goes through both steps and places an order', async () => {
     const { user, store } = renderWithStore(<InsuranceFormPage />);
     await fillDetails(user, 'Австралия');
@@ -197,19 +227,22 @@ describe('InsuranceFormPage', () => {
 
     await user.click(screen.getByRole('button', { name: 'Далее' }));
 
+    await waitFor(() =>
+      expect(screen.getByRole('heading', { name: 'Выберите программу' })).toHaveFocus(),
+    );
     const programs = within(await screen.findByRole('group', { name: 'Программа страхования' }));
     expect(await programs.findAllByRole('radio')).toHaveLength(2);
-    expect(programs.getByRole('radio', { name: /Platinum/ })).toBeChecked();
+    expect(programs.getByRole('radio', { name: 'Platinum' })).toBeChecked();
     // 10 days × 3.5 EUR.
     expect(
       await screen.findByRole('button', { name: /Выбрать Platinum\s*EUR 35\.00/ }),
     ).toBeEnabled();
 
-    await user.click(programs.getByRole('radio', { name: /Stopvirus I/ }));
+    await user.click(programs.getByRole('radio', { name: 'Stopvirus I (С покрытием COVID)' }));
     const order = await screen.findByRole('button', { name: /Выбрать STOPVIRUS \|\s*EUR 30\.00/ });
     await user.click(order);
 
-    expect(await screen.findByText('Полис оформлен')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Полис оформлен' })).toHaveFocus();
     expect(store.getState().insuranceForm).toMatchObject({ step: 'done', programId: 4 });
 
     await user.click(screen.getByRole('button', { name: 'Оформить заново' }));
@@ -228,7 +261,7 @@ describe('InsuranceFormPage', () => {
     });
     const programs = within(await screen.findByRole('group', { name: 'Программа страхования' }));
     await waitFor(() => expect(programs.getAllByRole('radio')).toHaveLength(1));
-    expect(programs.getByRole('radio', { name: /Platinum/ })).toBeInTheDocument();
+    expect(programs.getByRole('radio', { name: 'Platinum' })).toBeInTheDocument();
 
     const summary = within(screen.getByRole('complementary', { name: 'Ваши данные' }));
     expect(await summary.findByText('Австралия, Япония')).toBeInTheDocument();
@@ -261,7 +294,7 @@ describe('InsuranceFormPage', () => {
 
     await user.click(screen.getByRole('button', { name: 'Назад' }));
     expect(await screen.findByLabelText('Номер мобильного телефона')).toHaveValue('701 123 4567');
-    expect(screen.getByRole('combobox', { name: 'Код страны: +7' })).toHaveValue('KZ');
+    expect(screen.getByRole('combobox', { name: 'Код страны' })).toHaveValue('KZ');
   });
 
   it('asks to recheck details restored after they became invalid', async () => {

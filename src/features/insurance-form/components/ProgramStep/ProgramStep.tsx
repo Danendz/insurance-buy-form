@@ -36,7 +36,9 @@ function StaleDetails() {
   const dispatch = useDispatch();
   return (
     <div className={styles.step}>
-      <h1 className={styles.title}>Выберите программу</h1>
+      <h1 className={styles.title} tabIndex={-1}>
+        Выберите программу
+      </h1>
       <p className={styles.message}>Данные поездки устарели. Проверьте их, чтобы продолжить.</p>
       <Button onClick={() => dispatch(goToDetails())}>Проверить данные</Button>
     </div>
@@ -70,7 +72,9 @@ function ProgramChoice({ details }: { details: ValidTripDetails }) {
 
   return (
     <div className={styles.step}>
-      <h1 className={styles.title}>Выберите программу</h1>
+      <h1 className={styles.title} tabIndex={-1}>
+        Выберите программу
+      </h1>
 
       <fieldset className={styles.programs} aria-busy={programs.isFetching}>
         <legend className={styles.legend}>Программа страхования</legend>

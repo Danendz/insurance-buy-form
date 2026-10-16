@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { Card } from '@/shared/components/ui/Card';
 import { IconButton } from '@/shared/components/ui/IconButton';
 import { ProgressBar } from '@/shared/components/ui/ProgressBar';
@@ -17,12 +18,32 @@ export function InsuranceFormPage() {
   const dispatch = useDispatch();
   const step = useFormSelector(selectStep);
   const today = useClientToday();
+  const cardRef = useRef<HTMLDivElement>(null);
+  // Restoring saved state also changes the step; only a step the user moved to takes focus.
+  const userActed = useRef(false);
+
+  useEffect(() => {
+    const markUserActed = () => {
+      userActed.current = true;
+    };
+    document.addEventListener('pointerdown', markUserActed, { once: true });
+    document.addEventListener('keydown', markUserActed, { once: true });
+    return () => {
+      document.removeEventListener('pointerdown', markUserActed);
+      document.removeEventListener('keydown', markUserActed);
+    };
+  }, []);
+
+  // The control that switched the step unmounts, so focus would fall back to <body>.
+  useEffect(() => {
+    if (userActed.current) cardRef.current?.querySelector('h1')?.focus();
+  }, [step]);
 
   if (!today) {
     return (
       <main className={styles.page}>
         <div className={styles.layout}>
-          <Card className={styles.card} aria-busy aria-label="Покупка страхового полиса">
+          <Card className={styles.card} aria-busy>
             <header className={styles.header}>
               <ProgressBar total={STEPS.length} current={0} label="Шаг оформления" />
             </header>
@@ -38,7 +59,7 @@ export function InsuranceFormPage() {
   return (
     <main className={styles.page}>
       <div className={styles.layout} data-step={step}>
-        <Card className={styles.card} data-step={step} aria-label="Покупка страхового полиса">
+        <Card ref={cardRef} className={styles.card} data-step={step}>
           {step !== 'done' && (
             <header className={styles.header}>
               <ProgressBar total={STEPS.length} current={stepIndex} label="Шаг оформления" />

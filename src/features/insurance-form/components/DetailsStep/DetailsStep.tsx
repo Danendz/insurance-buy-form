@@ -56,7 +56,9 @@ export function DetailsStep({ today }: { today: IsoDate }) {
 
   return (
     <form className={styles.form} noValidate onSubmit={handleSubmit}>
-      <h1 className={styles.title}>Покупка страхового полиса</h1>
+      <h1 className={styles.title} tabIndex={-1}>
+        Покупка страхового полиса
+      </h1>
 
       <CountriesField error={errors.countryIds} />
 
@@ -65,7 +67,7 @@ export function DetailsStep({ today }: { today: IsoDate }) {
         kind="group"
         hint="Однократное — одна поездка. Многократное — любое число поездок в течение срока полиса."
       >
-        {() => (
+        {(control) => (
           <div className={styles.coverageTypes}>
             {COVERAGE_TYPES.map(([value, label]) => (
               <Radio
@@ -75,6 +77,7 @@ export function DetailsStep({ today }: { today: IsoDate }) {
                 label={label}
                 className={styles.coverageType}
                 checked={details.coverageType === value}
+                aria-describedby={control['aria-describedby']}
                 onChange={() => update({ coverageType: value })}
               />
             ))}
@@ -126,7 +129,7 @@ export function DetailsStep({ today }: { today: IsoDate }) {
         hint="Цель поездки. Для занятий спортом действует повышенный тариф."
         error={errors.activityId}
       >
-        {() =>
+        {(control) =>
           activities.isLoading ? (
             <ActivitiesSkeleton />
           ) : activities.isError ? (
@@ -141,6 +144,8 @@ export function DetailsStep({ today }: { today: IsoDate }) {
                   label={activity.name}
                   className={styles.activity}
                   checked={details.activityId === activity.id}
+                  aria-describedby={control['aria-describedby']}
+                  aria-invalid={control['aria-invalid']}
                   onChange={() => update({ activityId: activity.id })}
                 />
               ))}

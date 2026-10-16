@@ -12,8 +12,6 @@ import { countryAdded, countryChanged, countryRemoved, selectDetails } from '../
 import { MAX_COUNTRIES } from '../../model/validation';
 import styles from './CountriesField.module.scss';
 
-const LABEL = 'Страна путешествия';
-
 export function CountriesField({ error }: { error?: string }) {
   const dispatch = useDispatch();
   const { countryIds } = useFormSelector(selectDetails);
@@ -47,7 +45,8 @@ export function CountriesField({ error }: { error?: string }) {
 
   return (
     <Field
-      label={LABEL}
+      label="Страна путешествия"
+      kind="group"
       hint="Страны, в которые вы едете. От них зависят доступные программы страхования."
       error={error}
     >
@@ -65,7 +64,7 @@ export function CountriesField({ error }: { error?: string }) {
                       selects.current[index] = select;
                     }}
                     id={index === 0 ? control.id : undefined}
-                    aria-label={index === 0 ? undefined : `${LABEL} ${index + 1}`}
+                    aria-label={`Страна ${index + 1}`}
                     aria-describedby={control['aria-describedby']}
                     invalid={Boolean(error) && countryId === null}
                     loading={countries.isLoading}
