@@ -56,7 +56,6 @@ function DateSkeleton() {
   );
 }
 
-/** Mirrors `DetailsStep` while it can't render yet. */
 export function DetailsStepSkeleton() {
   return (
     <div className={layout.form}>

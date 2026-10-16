@@ -6,7 +6,7 @@ export type SelectProps = Omit<ComponentProps<'select'>, 'size'> & {
   size?: 'md' | 'sm';
   placeholder?: string;
   invalid?: boolean;
-  /** Shows a spinner instead of the chevron and disables the select. */
+  /** Also disables the select. */
   loading?: boolean;
 };
 
