@@ -1,6 +1,6 @@
 import 'server-only';
 import { connection } from 'next/server';
-import type { CoverageType, TripDetails } from '@/features/insurance-form/server';
+import type { CoverageType, PhoneCountry, TripDetails } from '@/features/insurance-form/server';
 import { addDays, todayIsoDate } from '@/shared/utils/date';
 import { delay } from '@/shared/utils/delay';
 
@@ -44,5 +44,6 @@ export function parseTripDetails(body: unknown): TripDetails | undefined {
     endDate: asString(body.endDate),
     activityId: asNumber(body.activityId),
     phone: asString(body.phone) ?? '',
+    phoneCountry: (asString(body.phoneCountry) ?? '') as PhoneCountry,
   };
 }

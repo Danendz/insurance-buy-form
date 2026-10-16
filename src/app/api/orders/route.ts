@@ -1,5 +1,4 @@
 import { hasErrors, validateDetails } from '@/features/insurance-form/server';
-import { isValidPhone } from '@/shared/utils/phone';
 import { getTripPrograms } from '../_lib/catalog';
 import {
   badRequest,
@@ -15,9 +14,7 @@ export async function POST(request: Request) {
   const details = parseTripDetails(body);
   if (!details) return badRequest({ message: 'Invalid JSON body' });
 
-  const errors = validateDetails(details, earliestClientToday(), {
-    phoneValid: isValidPhone(details.phone),
-  });
+  const errors = validateDetails(details, earliestClientToday());
   if (hasErrors(errors)) return badRequest({ errors });
 
   const programId = (body as { programId?: unknown }).programId;

@@ -19,8 +19,8 @@ export const initialState: InsuranceFormState = {
     endDate: null,
     activityId: null,
     phone: '',
+    phoneCountry: 'UZ',
   },
-  phoneValid: null,
   programId: null,
   orderId: null,
   submitAttempted: false,
@@ -70,14 +70,9 @@ export const insuranceFormSlice = createSlice({
         state.details.startDate = action.payload;
       }
     },
-    phoneValidityChanged(state, action: PayloadAction<boolean>) {
-      state.phoneValid = action.payload;
-    },
     submitDetails(state, action: PayloadAction<IsoDate>) {
       state.submitAttempted = true;
-      const errors = validateDetails(state.details, action.payload, {
-        phoneValid: state.phoneValid,
-      });
+      const errors = validateDetails(state.details, action.payload);
       if (!hasErrors(errors)) {
         state.step = 'program';
       }
@@ -107,12 +102,8 @@ export const insuranceFormSlice = createSlice({
     selectOrderId: (state) => state.orderId,
     selectSubmitAttempted: (state) => state.submitAttempted,
     selectDetailsErrors: createSelector(
-      [
-        (state: InsuranceFormState) => state.details,
-        (state: InsuranceFormState) => state.phoneValid,
-        (_state, today: IsoDate) => today,
-      ],
-      (details, phoneValid, today) => validateDetails(details, today, { phoneValid }),
+      [(state: InsuranceFormState) => state.details, (_state, today: IsoDate) => today],
+      validateDetails,
     ),
   },
 });
@@ -123,7 +114,6 @@ export const {
   countryChanged,
   countryRemoved,
   startDatePrefilled,
-  phoneValidityChanged,
   submitDetails,
   goToDetails,
   selectProgram,

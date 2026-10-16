@@ -23,7 +23,7 @@ Tests are exempt from the layer rules (e.g. a feature test may use `@/store/test
 
 Ask: _would another feature use this unchanged?_
 
-- Yes → `shared`. Make it configurable through props or options instead of hard-coding feature values (`titleCaseUpper(text, { lowercase })`, `PhoneField validate`).
+- Yes → `shared`. Make it configurable through props or options instead of hard-coding feature values (`titleCaseUpper(text, { lowercase })`, `DateField min/max/years`).
 - No → the feature. A thin feature wrapper around a shared helper is fine (`features/insurance-form/model/format`).
 - Wires features together (store, providers) → `store`.
 - A URL, layout or HTTP endpoint → `app`. A route file only renders a feature page (`app/page.tsx` → `<InsuranceFormPage />`).
@@ -41,7 +41,7 @@ shared/
 ├── styles/             # SCSS `_variables`, `_mixins`, `_functions` (load with `@use 'variables' as *;`)
 │   └── globals/        # `_reset`, `_root`; `index.scss` is imported once by `app/layout.tsx`
 ├── types/              # generic types (`IsoDate`)
-└── utils/              # pure functions (`date`, `format`, `phone`, `cn`, `delay`)
+└── utils/              # pure functions (`date`, `format`, `phone` with its per-country table, `cn`, `delay`)
 ```
 
 Shared components take data through props and never read the store.
@@ -99,7 +99,7 @@ features/<name>/
 
 A test guards a behaviour or decision of our code that could break: a rule, a branch, an edge case, a contract another module relies on. Before adding one, ask: _what bug would this catch that no other test catches?_
 
-- Don't test framework, browser or library behaviour (a native `onClick` or `disabled`, `libphonenumber-js` parsing).
+- Don't test framework, browser or library behaviour (a native `onClick` or `disabled`, `Intl.DisplayNames` country names).
 - Don't test one-line pass-throughs or the contents of fixtures and `_data/data.json`.
 - Don't repeat an assertion another level already makes. A rule is tested where it lives (`model/`, `_lib/`); route tests cover HTTP status and request parsing; page tests cover user flows.
 - Name a test after the behaviour (`'keeps at least one country row'`), not the function.

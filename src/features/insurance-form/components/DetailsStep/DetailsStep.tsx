@@ -15,7 +15,6 @@ import { useFormSelector } from '../../model/hooks';
 import { COVERAGE_TYPE_LABELS } from '../../model/labels';
 import { MAX_TRIP_DAYS } from '../../model/validation';
 import {
-  phoneValidityChanged,
   selectDetails,
   selectDetailsErrors,
   selectSubmitAttempted,
@@ -159,10 +158,9 @@ export function DetailsStep({ today }: { today: IsoDate }) {
         {(control) => (
           <PhoneField
             {...control}
-            value={details.phone}
-            onChange={(phone) => update({ phone })}
-            validate
-            onValidityChange={(valid) => dispatch(phoneValidityChanged(valid))}
+            phone={details.phone}
+            country={details.phoneCountry}
+            onChange={({ phone, country }) => update({ phone, phoneCountry: country })}
           />
         )}
       </Field>

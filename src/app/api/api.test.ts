@@ -20,6 +20,7 @@ const order = {
   endDate: '2024-09-14',
   activityId: 0,
   phone: '+998901234567',
+  phoneCountry: 'UZ',
   programId: 3,
 };
 
@@ -79,6 +80,7 @@ describe('/api', () => {
     const invalid = await createOrder(post({ ...order, phone: '123' }));
     expect(invalid.status).toBe(400);
     expect(await invalid.json()).toMatchObject({ errors: { phone: expect.any(String) } });
+    expect((await createOrder(post({ ...order, phoneCountry: undefined }))).status).toBe(400);
 
     expect((await createOrder(post({ ...order, programId: 1 }))).status).toBe(400);
     expect((await createOrder(post({ ...order, countryIds: [1, 238], programId: 4 }))).status).toBe(

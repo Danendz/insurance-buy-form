@@ -17,6 +17,7 @@ const filled: InsuranceFormState = {
     endDate: '2024-09-14',
     activityId: 0,
     phone: '+998901234567',
+    phoneCountry: 'UZ',
   },
 };
 
@@ -248,6 +249,19 @@ describe('InsuranceFormPage', () => {
     await user.click(summary.getByRole('button', { name: 'Изменить: Цель' }));
     expect(await screen.findByText('Покупка страхового полиса')).toBeInTheDocument();
     expect(screen.getByRole('radio', { name: 'Туризм' })).toBeChecked();
+  });
+
+  it('restores a phone with its own country when the dial code is shared', async () => {
+    const details = { ...filled.details, phone: '+77011234567', phoneCountry: 'KZ' as const };
+    const { user } = renderWithStore(<InsuranceFormPage />, {
+      preloadedState: { insuranceForm: { ...filled, details } },
+    });
+    const summary = within(screen.getByRole('complementary', { name: 'Ваши данные' }));
+    expect(summary.getByText('+7 701 123 4567')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Назад' }));
+    expect(await screen.findByLabelText('Номер мобильного телефона')).toHaveValue('701 123 4567');
+    expect(screen.getByRole('combobox', { name: 'Код страны: +7' })).toHaveValue('KZ');
   });
 
   it('asks to recheck details restored after they became invalid', async () => {
