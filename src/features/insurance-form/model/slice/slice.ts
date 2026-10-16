@@ -1,6 +1,6 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { InsuranceFormState, IsoDate, Step, TripDetails } from '../types';
-import { hasErrors, validateDetails } from './validation';
+import type { InsuranceFormState, IsoDate, Step, TripDetails } from '../../types';
+import { hasErrors, validateDetails } from '../validation';
 
 const shallowEqual = <T extends object>(a: T, b: T) =>
   (Object.keys(a) as (keyof T)[]).every((key) => a[key] === b[key]);

@@ -1,7 +1,7 @@
 import { baseApi } from './baseApi';
 import type { Activity, Country, PriceMultipliers, Program } from './types';
 
-export const dictionaryApi = baseApi.injectEndpoints({
+const dictionaryApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getCountries: build.query<Country[], void>({ query: () => 'dictionary/countries' }),
     getActivities: build.query<Activity[], void>({ query: () => 'dictionary/activities' }),

@@ -12,15 +12,27 @@ describe('catalog', () => {
   it('lists countries sorted by name, without their program ids', () => {
     const countries = getCountries();
     expect(countries.length).toBeGreaterThan(200);
-    expect(countries[0]).toEqual({ id: 1, name: 'АВСТРАЛИЯ', isInSchengen: false });
+    expect(countries[0]).toEqual({ id: 1, name: 'Австралия', isInSchengen: false });
     const names = countries.map((country) => country.name);
     expect(names).toEqual([...names].sort((a, b) => a.localeCompare(b, 'ru')));
+  });
+
+  it('serves country names in title case', () => {
+    const names = getCountries().map((country) => country.name);
+    expect(names).toEqual(
+      expect.arrayContaining([
+        'Босния и Герцеговина',
+        'Малые Островные Территории США',
+        'Виргинские Острова(США)',
+        'Весь мир',
+      ]),
+    );
   });
 
   it('lists each country id once; the source has spelling variants of some', () => {
     const ids = getCountries().map((country) => country.id);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(getCountries().find((country) => country.id === 98)?.name).toBe('КЫРГЫЗСТАН');
+    expect(getCountries().find((country) => country.id === 98)?.name).toBe('Кыргызстан');
   });
 
   it('returns the four shown purposes in display order', () => {

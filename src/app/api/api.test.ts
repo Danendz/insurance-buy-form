@@ -38,7 +38,7 @@ describe('/api', () => {
   it('GET /dictionary/countries', async () => {
     const res = await getCountries();
     expect(res.status).toBe(200);
-    expect((await res.json())[0]).toEqual({ id: 1, name: 'АВСТРАЛИЯ', isInSchengen: false });
+    expect((await res.json())[0]).toEqual({ id: 1, name: 'Австралия', isInSchengen: false });
   });
 
   it('GET /dictionary/activities', async () => {

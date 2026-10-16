@@ -1,5 +1,5 @@
 import { diffInDays } from '@/shared/utils/date';
-import type { DetailsErrors, IsoDate, TripDetails } from '../types';
+import type { DetailsErrors, IsoDate, TripDetails } from '../../types';
 
 export const MAX_TRIP_DAYS = 365;
 

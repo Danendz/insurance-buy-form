@@ -6,7 +6,6 @@ import { formatPhone } from '@/shared/components/form-fields/PhoneField';
 import { Skeleton } from '@/shared/components/ui/Skeleton';
 import { formatDate } from '@/shared/utils/format';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { formatCountryName } from '../../model/format';
 import { COVERAGE_TYPE_LABELS } from '../../model/labels';
 import { goToDetails, selectDetails } from '../../model/slice';
 import styles from './SummaryPanel.module.scss';
@@ -23,7 +22,7 @@ export function SummaryPanel() {
   const rows: { label: string; value: string | undefined; loading?: boolean }[] = [
     {
       label: 'Страна путешествия',
-      value: country && formatCountryName(country.name),
+      value: country?.name,
       loading: countries.isLoading,
     },
     { label: 'Тип покрытия', value: COVERAGE_TYPE_LABELS[details.coverageType] },

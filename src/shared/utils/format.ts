@@ -30,7 +30,7 @@ export function titleCaseUpper(
   { lowercase = new Set(), uppercase = new Set() }: TitleCaseOptions = {},
 ): string {
   if (text !== text.toUpperCase()) return text;
-  return text.replace(/[^\s-]+/g, (word) => {
+  return text.replace(/[^\s\-()]+/g, (word) => {
     if (uppercase.has(word)) return word;
     const lower = word.toLowerCase();
     if (lowercase.has(lower)) return lower;

@@ -1,18 +1,6 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
-
 // Percentages keep the user's browser font size; all component sizes are in rem.
 html {
   font-size: 100%;
@@ -34,17 +22,4 @@ body {
   font-weight: 500;
   line-height: normal;
   -webkit-font-smoothing: antialiased;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-h1,
-h2,
-p {
-  margin: 0;
 }

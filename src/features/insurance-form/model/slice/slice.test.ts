@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { InsuranceFormState } from '../types';
+import type { InsuranceFormState } from '../../types';
 import {
   goToDetails,
   hydrate,

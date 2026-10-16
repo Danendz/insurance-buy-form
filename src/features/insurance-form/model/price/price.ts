@@ -1,5 +1,5 @@
 import { diffInDays } from '@/shared/utils/date';
-import type { CoverageType, IsoDate, PriceMultipliers } from '../types';
+import type { CoverageType, IsoDate, PriceMultipliers } from '../../types';
 
 export const SPORT_ACTIVITY_ID = 1;
 

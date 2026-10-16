@@ -12,6 +12,7 @@ describe('titleCaseUpper', () => {
     const options = { lowercase: new Set(['и']), uppercase: new Set(['США']) };
     expect(titleCaseUpper('БОСНИЯ И ГЕРЦЕГОВИНА', options)).toBe('Босния и Герцеговина');
     expect(titleCaseUpper('ТЕРРИТОРИИ США', options)).toBe('Территории США');
+    expect(titleCaseUpper('ОСТРОВА(США)', options)).toBe('Острова(США)');
   });
 
   it('leaves mixed-case text', () => {

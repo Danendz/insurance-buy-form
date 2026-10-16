@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { TripDetails } from '../types';
+import type { TripDetails } from '../../types';
 import { MAX_TRIP_DAYS, validateDetails } from './validation';
 
 const TODAY = '2024-09-05';

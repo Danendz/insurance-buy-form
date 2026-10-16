@@ -14,7 +14,6 @@ import { Skeleton } from '@/shared/components/ui/Skeleton';
 import { addDays, parseIsoDate } from '@/shared/utils/date';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import type { CoverageType, IsoDate, TripDetails } from '../../types';
-import { formatCountryName } from '../../model/format';
 import { COVERAGE_TYPE_LABELS } from '../../model/labels';
 import { MAX_TRIP_DAYS } from '../../model/validation';
 import {
@@ -81,7 +80,7 @@ export function DetailsStep({ today }: { today: IsoDate }) {
               >
                 {countries.data?.map((country) => (
                   <option key={country.id} value={country.id}>
-                    {formatCountryName(country.name)}
+                    {country.name}
                   </option>
                 ))}
               </Select>

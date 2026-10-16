@@ -1,8 +1,8 @@
 import { baseApi } from '@/shared/api/baseApi';
 import type { Program } from '@/shared/api/types';
-import type { Order, OrderRequest, Quote, QuoteRequest } from '../types';
+import type { Order, OrderRequest, Quote, QuoteRequest } from '../../types';
 
-export const insuranceApi = baseApi.injectEndpoints({
+const insuranceApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getCountryPrograms: build.query<Program[], number>({
       query: (countryId) => `countries/${countryId}/programs`,

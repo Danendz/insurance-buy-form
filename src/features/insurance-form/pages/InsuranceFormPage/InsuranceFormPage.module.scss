@@ -2,6 +2,18 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
+.page {
+  min-height: 100vh;
+
+  @include sm-up {
+    padding: $space-6 $space-4;
+  }
+
+  @include md-up {
+    padding: rem(80px) $space-6;
+  }
+}
+
 .layout {
   display: flex;
   flex-direction: column;

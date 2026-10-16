@@ -5,7 +5,7 @@ import { stubApi } from '@/app/api/_lib/testing';
 import { renderWithStore } from '@/store/test-utils';
 import { initialState } from '../../model/slice';
 import type { InsuranceFormState } from '../../types';
-import { InsuranceForm } from './InsuranceForm';
+import { InsuranceFormPage } from './InsuranceFormPage';
 
 const filled: InsuranceFormState = {
   ...initialState,
@@ -48,9 +48,9 @@ async function fillDetails(user: UserEvent, country: string) {
   await user.type(screen.getByLabelText('Номер мобильного телефона'), '901234567');
 }
 
-describe('InsuranceForm', () => {
+describe('InsuranceFormPage', () => {
   it('shows the four trip purposes', async () => {
-    renderWithStore(<InsuranceForm />);
+    renderWithStore(<InsuranceFormPage />);
     const purposes = within(await screen.findByRole('group', { name: 'Цель поездки' }));
     expect(
       (await purposes.findAllByRole('radio')).map((radio) => radio.closest('label')?.textContent),
@@ -58,7 +58,7 @@ describe('InsuranceForm', () => {
   });
 
   it('starts a fresh form today, without a back button', async () => {
-    renderWithStore(<InsuranceForm />);
+    renderWithStore(<InsuranceFormPage />);
     const start = within(screen.getByRole('group', { name: 'Начало страхования' }));
     expect(start.getByLabelText('День')).toHaveValue('5');
     expect(start.getByLabelText('Месяц')).toHaveValue('9');
@@ -67,7 +67,7 @@ describe('InsuranceForm', () => {
   });
 
   it('shows errors only after «Далее» and stays on the first step', async () => {
-    const { user, store } = renderWithStore(<InsuranceForm />);
+    const { user, store } = renderWithStore(<InsuranceFormPage />);
     await screen.findByRole('option', { name: 'Латвия' });
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 
@@ -79,7 +79,7 @@ describe('InsuranceForm', () => {
   });
 
   it('rejects an incomplete phone number', async () => {
-    const { user, store } = renderWithStore(<InsuranceForm />);
+    const { user, store } = renderWithStore(<InsuranceFormPage />);
     await fillDetails(user, 'Латвия');
     await user.type(screen.getByLabelText('Номер мобильного телефона'), '{backspace}');
 
@@ -90,7 +90,7 @@ describe('InsuranceForm', () => {
   });
 
   it('goes through both steps and places an order', async () => {
-    const { user, store } = renderWithStore(<InsuranceForm />);
+    const { user, store } = renderWithStore(<InsuranceFormPage />);
     await fillDetails(user, 'Австралия');
     expect(store.getState().insuranceForm.details.phone).toBe('+998901234567');
 
@@ -120,7 +120,7 @@ describe('InsuranceForm', () => {
   });
 
   it('lists only the programs sold in the chosen country', async () => {
-    renderWithStore(<InsuranceForm />, {
+    renderWithStore(<InsuranceFormPage />, {
       preloadedState: {
         insuranceForm: { ...filled, details: { ...filled.details, countryId: 238 } },
       },
@@ -131,7 +131,7 @@ describe('InsuranceForm', () => {
   });
 
   it('restores the program step with the «Ваши данные» summary', async () => {
-    const { user } = renderWithStore(<InsuranceForm />, {
+    const { user } = renderWithStore(<InsuranceFormPage />, {
       preloadedState: { insuranceForm: filled },
     });
 
@@ -147,7 +147,7 @@ describe('InsuranceForm', () => {
   });
 
   it('asks to recheck details restored after they became invalid', async () => {
-    renderWithStore(<InsuranceForm />, {
+    renderWithStore(<InsuranceFormPage />, {
       preloadedState: {
         insuranceForm: { ...filled, details: { ...filled.details, startDate: '2024-09-01' } },
       },
@@ -159,7 +159,7 @@ describe('InsuranceForm', () => {
     stubApi((request) =>
       request.url.endsWith('/orders') ? new Response(null, { status: 500 }) : undefined,
     );
-    const { user } = renderWithStore(<InsuranceForm />, {
+    const { user } = renderWithStore(<InsuranceFormPage />, {
       preloadedState: { insuranceForm: filled },
     });
 
