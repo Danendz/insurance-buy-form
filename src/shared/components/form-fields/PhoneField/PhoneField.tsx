@@ -1,117 +1,130 @@
 'use client';
 
-import { parsePhoneNumberFromString } from 'libphonenumber-js';
-import { useState } from 'react';
-import {
-  CountrySelector,
-  defaultCountries,
-  parseCountry,
-  usePhoneInput,
-  type CountryIso2,
-} from 'react-international-phone';
-import 'react-international-phone/style.css';
+import { useLayoutEffect, useMemo, useRef, type ChangeEvent, type ClipboardEvent } from 'react';
 import type { FieldControlProps } from '../Field';
-import { isValidPhone } from '@/shared/utils/phone';
+import {
+  PHONE_COUNTRIES,
+  dialCodeOf,
+  formatNational,
+  nationalDigits,
+  onlyDigits,
+  parsePastedPhone,
+  toE164,
+  type PhoneCountry,
+} from '@/shared/utils/phone';
 import styles from './PhoneField.module.scss';
 
-const DEFAULT_COUNTRY: CountryIso2 = 'uz';
-// Self-hosted: the library otherwise loads every flag from a third-party CDN.
-const FLAGS = defaultCountries.map((country) => {
-  const { iso2 } = parseCountry(country);
-  return { iso2, src: `/flags/${iso2}.svg` };
-});
-
-type PhoneFieldProps = FieldControlProps & {
-  /** E.164, or `''` while only the dial code is entered. */
-  value: string;
-  onChange: (value: string) => void;
-  defaultCountry?: CountryIso2;
-  /** Checks the number for its country on every change and reports it to `onValidityChange`. */
-  validate?: boolean;
-  onValidityChange?: (valid: boolean) => void;
+export type PhoneValue = {
+  /** E.164, or `''` while no digits are entered. */
+  phone: string;
+  country: PhoneCountry;
 };
 
-/**
- * The input keeps its own formatting state, so it is remounted when the value changes
- * from outside (restore from storage, reset) rather than from typing.
- */
-export function PhoneField({
-  value,
-  onChange,
-  defaultCountry = DEFAULT_COUNTRY,
-  validate = false,
-  onValidityChange,
-  ...control
-}: PhoneFieldProps) {
-  const [ownValue, setOwnValue] = useState(value);
-  const [generation, setGeneration] = useState(0);
-  if (value !== ownValue) {
-    setOwnValue(value);
-    setGeneration((current) => current + 1);
-  }
+type PhoneFieldProps = FieldControlProps &
+  PhoneValue & {
+    onChange: (value: PhoneValue) => void;
+  };
 
-  return (
-    <PhoneInput
-      key={generation}
-      initialValue={value}
-      defaultCountry={defaultCountry}
-      onChange={(phone) => {
-        setOwnValue(phone);
-        if (phone === value) return;
-        onChange(phone);
-        if (validate) onValidityChange?.(isValidPhone(phone));
-      }}
-      {...control}
-    />
-  );
+/** Caret index after the first `count` digits of `text`, past any separator that follows them. */
+function caretAfterDigits(text: string, count: number) {
+  let seen = 0;
+  for (let index = 0; index < text.length; index++) {
+    if (/\d/.test(text[index]) && seen++ === count) return index;
+  }
+  return text.length;
 }
 
-type PhoneInputProps = FieldControlProps & {
-  initialValue: string;
-  defaultCountry: CountryIso2;
-  onChange: (value: string) => void;
-};
+function useCountryOptions() {
+  return useMemo(() => {
+    const names = new Intl.DisplayNames('ru', { type: 'region' });
+    return PHONE_COUNTRIES.map(({ iso2, dialCode }) => ({
+      iso2,
+      label: `${names.of(iso2) ?? iso2} +${dialCode}`,
+    })).sort((a, b) => a.label.localeCompare(b.label, 'ru'));
+  }, []);
+}
 
-function PhoneInput({ initialValue, defaultCountry, onChange, ...control }: PhoneInputProps) {
-  const [initial] = useState(() => {
-    const parsed = initialValue ? parsePhoneNumberFromString(initialValue) : undefined;
-    return {
-      country: (parsed?.country?.toLowerCase() as CountryIso2 | undefined) ?? defaultCountry,
-      national: parsed?.nationalNumber ?? '',
-    };
+export function PhoneField({ phone, country, onChange, ...control }: PhoneFieldProps) {
+  const options = useCountryOptions();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const caretRef = useRef<number | null>(null);
+  const dialCode = dialCodeOf(country);
+  const digits = nationalDigits(phone, country);
+  const display = formatNational(digits, country);
+
+  useLayoutEffect(() => {
+    const input = inputRef.current;
+    if (caretRef.current === null || !input) return;
+    input.setSelectionRange(caretRef.current, caretRef.current);
+    caretRef.current = null;
   });
 
-  const { inputValue, country, setCountry, handlePhoneValueChange, inputRef } = usePhoneInput({
-    defaultCountry: initial.country,
-    value: initial.national,
-    disableDialCodeAndPrefix: true,
-    onChange: ({ phone, country }) => onChange(phone === `+${country.dialCode}` ? '' : phone),
-  });
+  const emit = (nextDigits: string, nextCountry: PhoneCountry, digitsBeforeCaret: number) => {
+    const nextDisplay = formatNational(nextDigits, nextCountry);
+    caretRef.current = caretAfterDigits(nextDisplay, digitsBeforeCaret);
+    const nextPhone = toE164(onlyDigits(nextDisplay), nextCountry);
+    if (nextPhone === phone && nextCountry === country) {
+      // Nothing to re-render, so restore the formatted text and caret here.
+      const input = inputRef.current!;
+      input.value = nextDisplay;
+      input.setSelectionRange(caretRef.current, caretRef.current);
+      caretRef.current = null;
+      return;
+    }
+    onChange({ phone: nextPhone, country: nextCountry });
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value, selectionStart } = event.target;
+    let nextDigits = onlyDigits(value);
+    let digitsBeforeCaret = onlyDigits(value.slice(0, selectionStart ?? value.length)).length;
+    const deletedSeparator =
+      nextDigits === digits &&
+      value.length < display.length &&
+      (event.nativeEvent as InputEvent).inputType === 'deleteContentBackward';
+    if (deletedSeparator && digitsBeforeCaret > 0) {
+      nextDigits = nextDigits.slice(0, digitsBeforeCaret - 1) + nextDigits.slice(digitsBeforeCaret);
+      digitsBeforeCaret -= 1;
+    }
+    emit(nextDigits, country, digitsBeforeCaret);
+  };
+
+  const handlePaste = (event: ClipboardEvent<HTMLInputElement>) => {
+    const text = event.clipboardData.getData('text');
+    if (!text.trim().startsWith('+')) return;
+    event.preventDefault();
+    const pasted = parsePastedPhone(text, country);
+    emit(pasted.digits, pasted.country, pasted.digits.length);
+  };
+
+  const handleCountryChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    inputRef.current?.focus();
+    emit(digits, event.target.value as PhoneCountry, digits.length);
+  };
 
   return (
     <div className={styles.row} data-invalid={control['aria-invalid']}>
-      <CountrySelector
-        selectedCountry={country.iso2}
-        onSelect={({ iso2 }) => setCountry(iso2, { focusOnInput: true })}
-        flags={FLAGS}
-        className={styles.selector}
-        flagClassName={styles.flag}
-        dropdownArrowClassName={styles.libraryArrow}
-        dropdownStyleProps={{ className: styles.dropdown }}
-        renderButtonWrapper={({ children, rootProps }) => (
-          <button
-            type="button"
-            {...rootProps}
-            aria-label={`Код страны: +${country.dialCode}`}
-            className={styles.countryButton}
-          >
-            {children}
-            <span className={styles.dialCode}>
-              (+{country.dialCode}) {country.iso2.toUpperCase()}
-            </span>
-          </button>
-        )}
-      />
+      <div className={styles.country}>
+        <span className={styles.countryLabel} aria-hidden>
+          <span
+            className={styles.flag}
+            style={{ backgroundImage: `url(/flags/${country.toLowerCase()}.svg)` }}
+          />
+          (+{dialCode}) {country}
+        </span>
+        <select
+          aria-label={`Код страны: +${dialCode}`}
+          className={styles.countrySelect}
+          value={country}
+          onChange={handleCountryChange}
+        >
+          {options.map(({ iso2, label }) => (
+            <option key={iso2} value={iso2}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </div>
       <input
         ref={inputRef}
         type="tel"
@@ -119,8 +132,9 @@ function PhoneInput({ initialValue, defaultCountry, onChange, ...control }: Phon
         autoComplete="tel-national"
         placeholder="90 123 45 67"
         className={styles.input}
-        value={inputValue}
-        onChange={handlePhoneValueChange}
+        value={display}
+        onChange={handleChange}
+        onPaste={handlePaste}
         {...control}
       />
     </div>

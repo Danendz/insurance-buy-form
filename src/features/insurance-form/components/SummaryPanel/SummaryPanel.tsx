@@ -40,7 +40,7 @@ export function SummaryPanel() {
     { label: 'Цель', value: activity?.name, loading: activities.isLoading },
     {
       label: 'Номер телефона',
-      value: formatPhone(details.phone),
+      value: details.phone ? formatPhone(details.phone, details.phoneCountry) : undefined,
     },
   ];
 

@@ -9,7 +9,6 @@ import {
   initialState,
   insuranceFormSlice,
   orderPlaced,
-  phoneValidityChanged,
   reset,
   selectProgram,
   startDatePrefilled,
@@ -29,6 +28,7 @@ const filled: InsuranceFormState = {
     endDate: '2024-09-12',
     activityId: 0,
     phone: '+998901234567',
+    phoneCountry: 'UZ',
   },
 };
 
@@ -97,11 +97,6 @@ describe('insuranceForm slice', () => {
 
   it('moves to the program step when the details are valid', () => {
     expect(reducer(filled, submitDetails(TODAY)).step).toBe('program');
-  });
-
-  it('stays on details when the phone field reported an invalid number', () => {
-    const state = reducer(filled, phoneValidityChanged(false));
-    expect(reducer(state, submitDetails(TODAY)).step).toBe('details');
   });
 
   it('goes back to details, keeping the answers', () => {

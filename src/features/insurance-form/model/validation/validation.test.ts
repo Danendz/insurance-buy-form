@@ -11,6 +11,7 @@ const valid: TripDetails = {
   endDate: '2024-09-12',
   activityId: 0,
   phone: '+998901234567',
+  phoneCountry: 'UZ',
 };
 
 describe('validateDetails', () => {
@@ -65,10 +66,8 @@ describe('validateDetails', () => {
     expect(validateDetails({ ...valid, endDate: '2025-09-06' }, TODAY)).toHaveProperty('endDate');
   });
 
-  it('reports an invalid phone only when told so', () => {
-    const details = { ...valid, phone: '+99890123' };
-    expect(validateDetails(details, TODAY)).toEqual({});
-    expect(validateDetails(details, TODAY, { phoneValid: true })).toEqual({});
-    expect(validateDetails(details, TODAY, { phoneValid: false })).toHaveProperty('phone');
+  it('checks the phone against its country', () => {
+    expect(validateDetails({ ...valid, phone: '+99890123' }, TODAY)).toHaveProperty('phone');
+    expect(validateDetails({ ...valid, phoneCountry: 'RU' }, TODAY)).toHaveProperty('phone');
   });
 });

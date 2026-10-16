@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-az" viewBox="0 0 640 480">
-  <path fill="#3f9c35" d="M.1 0h640v480H.1z"/>
-  <path fill="#ed2939" d="M.1 0h640v320H.1z"/>
-  <path fill="#00b9e4" d="M.1 0h640v160H.1z"/>
-  <circle cx="304" cy="240" r="72" fill="#fff"/>
-  <circle cx="320" cy="240" r="60" fill="#ed2939"/>
-  <path fill="#fff" d="m384 200 7.7 21.5 20.6-9.8-9.8 20.7L424 240l-21.5 7.7 9.8 20.6-20.6-9.8L384 280l-7.7-21.5-20.6 9.8 9.8-20.6L344 240l21.5-7.7-9.8-20.6 20.6 9.8z"/>
-</svg>
+<svg viewBox="0 0 1200 600" xmlns="http://www.w3.org/2000/svg" width="1200" height="600"><path d="M0 0h1200v600H0z" style="fill:#0098c3"/><path d="M0 200h1200v200H0z" style="fill:#e00034"/><path d="M0 400h1200v200H0z" style="fill:#00ae65"/><circle cx="581" cy="300" r="90" fill="#fff"/><circle cx="600" cy="300" r="75" fill="#e00034"/><path d="m716.38 335.33-25.797-12.24-9.548 26.91-9.586-26.896-25.78 12.276 12.24-25.797L631 300.035l26.896-9.586-12.276-25.78 25.797 12.24L680.965 250l9.586 26.896 25.78-12.276-12.24 25.797L731 299.965l-26.896 9.586z" style="fill:#fff"/></svg>

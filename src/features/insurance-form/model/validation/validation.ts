@@ -1,16 +1,15 @@
 import { diffInDays } from '@/shared/utils/date';
+import { isValidPhone } from '@/shared/utils/phone';
 import type { DetailsErrors, IsoDate, TripDetails } from '../../types';
 
 export const MAX_TRIP_DAYS = 365;
 export const MAX_COUNTRIES = 5;
 
-type ValidationOptions = {
-  /** `false` adds a phone format error; `null` checks only that the phone is filled in. */
-  phoneValid?: boolean | null;
-};
-
 /** Everything but the phone, which a quote doesn't need. */
-export function validateTrip(details: Omit<TripDetails, 'phone'>, today: IsoDate): DetailsErrors {
+export function validateTrip(
+  details: Omit<TripDetails, 'phone' | 'phoneCountry'>,
+  today: IsoDate,
+): DetailsErrors {
   const errors: DetailsErrors = {};
   const { countryIds, startDate, endDate, activityId } = details;
 
@@ -47,17 +46,13 @@ export function validateTrip(details: Omit<TripDetails, 'phone'>, today: IsoDate
 }
 
 /** Shared by the form and `/api`, so both reject the same input. */
-export function validateDetails(
-  details: TripDetails,
-  today: IsoDate,
-  { phoneValid = null }: ValidationOptions = {},
-): DetailsErrors {
+export function validateDetails(details: TripDetails, today: IsoDate): DetailsErrors {
   const errors = validateTrip(details, today);
-  const { phone } = details;
+  const { phone, phoneCountry } = details;
 
   if (!phone) {
     errors.phone = 'Укажите номер телефона';
-  } else if (phoneValid === false) {
+  } else if (!isValidPhone(phone, phoneCountry)) {
     errors.phone = 'Неверный номер телефона';
   }
 

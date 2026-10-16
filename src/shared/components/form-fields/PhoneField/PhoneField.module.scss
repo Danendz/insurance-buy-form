@@ -21,55 +21,46 @@
   }
 }
 
-.selector {
+.country {
+  position: relative;
   flex: 0 0 rem(127px);
   min-width: 0;
+
+  &:has(:focus-visible) {
+    @include focus-ring;
+  }
 }
 
-.countryButton {
+.countryLabel {
   @extend %box;
 
   display: flex;
   align-items: center;
   gap: rem(8px);
-  width: 100%;
   padding: 0 rem(28px) 0 rem(6px);
+  white-space: nowrap;
   background: $color-bg url('/icons/chevron.svg') right rem(12px) center / rem(10px) rem(5.85px)
     no-repeat;
-  cursor: pointer;
-
-  &:focus-visible {
-    @include focus-ring;
-  }
-
-  // The library wraps the flag and its own arrow in this element.
-  > div {
-    display: flex;
-    align-items: center;
-  }
 }
 
+// Public-domain flags from google/region-flags.
 .flag {
-  width: rem(24px) !important;
-  height: rem(14px) !important;
-  margin: 0 !important;
-  object-fit: cover;
+  flex: none;
+  width: rem(24px);
+  height: rem(14px);
+  background: center / cover no-repeat;
   border-radius: rem(3px);
 }
 
-.libraryArrow {
-  display: none;
-}
-
-.dialCode {
-  white-space: nowrap;
-}
-
-.dropdown {
-  z-index: 20;
-  max-height: rem(220px);
-  font-size: rem(12px);
-  border-radius: $radius;
+// Invisible but on top: the label shows `(+998) UZ`, the native list does the picking.
+.countrySelect {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  // iOS zooms into focused fields under 16px.
+  font-size: 16px;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .input {
