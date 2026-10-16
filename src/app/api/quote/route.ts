@@ -1,15 +1,19 @@
-import { hasErrors, validateDetails } from '@/features/insurance-form/server';
-import { todayIsoDate } from '@/shared/utils/date';
+import { hasErrors, validateTrip } from '@/features/insurance-form/server';
 import { calculateQuote } from '../_lib/catalog';
-import { badRequest, parseTripDetails, readJson, simulateNetwork } from '../_lib/http';
+import {
+  badRequest,
+  earliestClientToday,
+  parseTripDetails,
+  readJson,
+  simulateNetwork,
+} from '../_lib/http';
 
 export async function POST(request: Request) {
   await simulateNetwork();
   const details = parseTripDetails(await readJson(request));
   if (!details) return badRequest({ message: 'Invalid JSON body' });
 
-  const errors = validateDetails(details, todayIsoDate());
-  delete errors.phone;
+  const errors = validateTrip(details, earliestClientToday());
   if (hasErrors(errors)) return badRequest({ errors });
 
   const quote = calculateQuote({

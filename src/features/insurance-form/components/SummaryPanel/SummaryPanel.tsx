@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useGetActivitiesQuery, useGetCountriesQuery } from '@/shared/api/dictionary';
-import { formatPhone } from '@/shared/components/form-fields/PhoneField';
+import { formatPhone } from '@/shared/utils/phone';
 import { Skeleton } from '@/shared/components/ui/Skeleton';
 import { formatDate } from '@/shared/utils/format';
 import { useDispatch } from 'react-redux';

@@ -1,8 +1,13 @@
 import { hasErrors, validateDetails } from '@/features/insurance-form/server';
-import { isValidPhone } from '@/shared/components/form-fields/PhoneField/phone';
-import { todayIsoDate } from '@/shared/utils/date';
+import { isValidPhone } from '@/shared/utils/phone';
 import { getTripPrograms } from '../_lib/catalog';
-import { badRequest, parseTripDetails, readJson, simulateNetwork } from '../_lib/http';
+import {
+  badRequest,
+  earliestClientToday,
+  parseTripDetails,
+  readJson,
+  simulateNetwork,
+} from '../_lib/http';
 
 export async function POST(request: Request) {
   await simulateNetwork();
@@ -10,7 +15,7 @@ export async function POST(request: Request) {
   const details = parseTripDetails(body);
   if (!details) return badRequest({ message: 'Invalid JSON body' });
 
-  const errors = validateDetails(details, todayIsoDate(), {
+  const errors = validateDetails(details, earliestClientToday(), {
     phoneValid: isValidPhone(details.phone),
   });
   if (hasErrors(errors)) return badRequest({ errors });

@@ -1,6 +1,7 @@
 import 'server-only';
 import { connection } from 'next/server';
 import type { CoverageType, TripDetails } from '@/features/insurance-form/server';
+import { addDays, todayIsoDate } from '@/shared/utils/date';
 import { delay } from '@/shared/utils/delay';
 
 export const API_DELAY_MS = Number(process.env.API_DELAY_MS ?? 800);
@@ -10,6 +11,9 @@ export async function simulateNetwork(): Promise<void> {
   await connection();
   await delay(API_DELAY_MS);
 }
+
+/** A client west of the server may still be on the previous date. */
+export const earliestClientToday = () => addDays(todayIsoDate(), -1);
 
 export async function readJson(request: Request): Promise<unknown> {
   try {

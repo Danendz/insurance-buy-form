@@ -14,6 +14,8 @@ Before adding or moving code, read [docs/architecture.md](docs/architecture.md):
 
 ## Git
 
+Never commit or push to `main`. Before starting work on `main`, pull it and check out a new branch.
+
 Never commit, push or open a pull request on your own. When work is ready, propose the action (commit message, branch, PR title) and wait for an explicit yes; an approval covers only the action it was given for.
 
 ## Comments
