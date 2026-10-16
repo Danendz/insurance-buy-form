@@ -2,5 +2,5 @@
 import 'server-only';
 
 export { calculatePrice, tripDays } from './model/price';
-export { hasErrors, validateDetails } from './model/validation';
+export { hasErrors, validateDetails, validateTrip } from './model/validation';
 export type * from './types';

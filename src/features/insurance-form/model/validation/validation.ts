@@ -9,14 +9,10 @@ type ValidationOptions = {
   phoneValid?: boolean | null;
 };
 
-/** Shared by the form and `/api`, so both reject the same input. */
-export function validateDetails(
-  details: TripDetails,
-  today: IsoDate,
-  { phoneValid = null }: ValidationOptions = {},
-): DetailsErrors {
+/** Everything but the phone, which a quote doesn't need. */
+export function validateTrip(details: Omit<TripDetails, 'phone'>, today: IsoDate): DetailsErrors {
   const errors: DetailsErrors = {};
-  const { countryIds, startDate, endDate, activityId, phone } = details;
+  const { countryIds, startDate, endDate, activityId } = details;
 
   if (countryIds.length === 0 || countryIds.includes(null)) {
     errors.countryIds = 'Укажите страну путешествия';
@@ -46,6 +42,18 @@ export function validateDetails(
   if (activityId === null) {
     errors.activityId = 'Выберите цель поездки';
   }
+
+  return errors;
+}
+
+/** Shared by the form and `/api`, so both reject the same input. */
+export function validateDetails(
+  details: TripDetails,
+  today: IsoDate,
+  { phoneValid = null }: ValidationOptions = {},
+): DetailsErrors {
+  const errors = validateTrip(details, today);
+  const { phone } = details;
 
   if (!phone) {
     errors.phone = 'Укажите номер телефона';

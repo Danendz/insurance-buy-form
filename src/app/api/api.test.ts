@@ -70,6 +70,11 @@ describe('/api', () => {
     expect(await res.json()).toEqual({ orderId: expect.any(String) });
   });
 
+  it('accepts a start date one day behind the server for clients in earlier timezones', async () => {
+    expect((await createOrder(post({ ...order, startDate: '2024-09-04' }))).status).toBe(201);
+    expect((await createOrder(post({ ...order, startDate: '2024-09-03' }))).status).toBe(400);
+  });
+
   it('POST /orders rejects invalid details and programs not sold in every country', async () => {
     const invalid = await createOrder(post({ ...order, phone: '123' }));
     expect(invalid.status).toBe(400);

@@ -41,7 +41,7 @@ shared/
 ├── styles/             # SCSS `_variables`, `_mixins`, `_functions` (load with `@use 'variables' as *;`)
 │   └── globals/        # `_reset`, `_root`; `index.scss` is imported once by `app/layout.tsx`
 ├── types/              # generic types (`IsoDate`)
-└── utils/              # pure functions (`date`, `format`, `cn`, `delay`)
+└── utils/              # pure functions (`date`, `format`, `phone`, `cn`, `delay`)
 ```
 
 Shared components take data through props and never read the store.

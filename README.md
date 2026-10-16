@@ -48,7 +48,7 @@ Every handler waits `API_DELAY_MS` (default 800 ms) to make loading states visib
 | `GET /api/dictionary/activities`   | Trip purposes                                            |
 | `GET /api/dictionary/programs`     | Programs with coverages and daily rates                  |
 | `GET /api/dictionary/multipliers`  | Price multipliers (multi-trip, sport)                    |
-| `GET /api/countries/[id]/programs` | Programs sold for a country                              |
+| `GET /api/programs?countryIds=1,2` | Programs sold in every listed country                    |
 | `POST /api/quote`                  | Price per program for a trip                             |
 | `POST /api/orders`                 | Validates the trip and program, returns a mock `orderId` |
 

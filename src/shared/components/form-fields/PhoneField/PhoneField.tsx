@@ -11,7 +11,7 @@ import {
 } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import type { FieldControlProps } from '../Field';
-import { isValidPhone } from './phone';
+import { isValidPhone } from '@/shared/utils/phone';
 import styles from './PhoneField.module.scss';
 
 const DEFAULT_COUNTRY: CountryIso2 = 'uz';
