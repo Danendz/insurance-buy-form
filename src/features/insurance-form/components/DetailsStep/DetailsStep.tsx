@@ -12,8 +12,9 @@ import { Radio } from '@/shared/components/ui/Radio';
 import { Select } from '@/shared/components/ui/Select';
 import { Skeleton } from '@/shared/components/ui/Skeleton';
 import { addDays, parseIsoDate } from '@/shared/utils/date';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useDispatch } from 'react-redux';
 import type { CoverageType, IsoDate, TripDetails } from '../../types';
+import { useFormSelector } from '../../model/hooks';
 import { COVERAGE_TYPE_LABELS } from '../../model/labels';
 import { MAX_TRIP_DAYS } from '../../model/validation';
 import {
@@ -31,10 +32,10 @@ import styles from './DetailsStep.module.scss';
 const COVERAGE_TYPES = Object.entries(COVERAGE_TYPE_LABELS) as [CoverageType, string][];
 
 export function DetailsStep({ today }: { today: IsoDate }) {
-  const dispatch = useAppDispatch();
-  const details = useAppSelector(selectDetails);
-  const submitAttempted = useAppSelector(selectSubmitAttempted);
-  const allErrors = useAppSelector((state) => selectDetailsErrors(state, today));
+  const dispatch = useDispatch();
+  const details = useFormSelector(selectDetails);
+  const submitAttempted = useFormSelector(selectSubmitAttempted);
+  const allErrors = useFormSelector((state) => selectDetailsErrors(state, today));
   const errors = submitAttempted ? allErrors : {};
 
   useEffect(() => {

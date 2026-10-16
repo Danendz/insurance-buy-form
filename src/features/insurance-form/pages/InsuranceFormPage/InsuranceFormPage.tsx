@@ -5,7 +5,8 @@ import { IconButton } from '@/shared/components/ui/IconButton';
 import { ProgressBar } from '@/shared/components/ui/ProgressBar';
 import { Skeleton } from '@/shared/components/ui/Skeleton';
 import { useClientToday } from '@/shared/hooks/useClientToday';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useDispatch } from 'react-redux';
+import { useFormSelector } from '../../model/hooks';
 import { goToDetails, selectStep, STEPS } from '../../model/slice';
 import { DetailsStep } from '../../components/DetailsStep';
 import { DoneStep } from '../../components/DoneStep';
@@ -14,8 +15,8 @@ import { SummaryPanel } from '../../components/SummaryPanel';
 import styles from './InsuranceFormPage.module.scss';
 
 export function InsuranceFormPage() {
-  const dispatch = useAppDispatch();
-  const step = useAppSelector(selectStep);
+  const dispatch = useDispatch();
+  const step = useFormSelector(selectStep);
   const today = useClientToday();
 
   if (!today) {

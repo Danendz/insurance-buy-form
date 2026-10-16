@@ -17,7 +17,7 @@ const restrictImports = (...patterns) => ({
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
-  { rules: restrictImports() },
+  { rules: { ...restrictImports(), 'import/no-cycle': 'error' } },
   {
     files: ['src/shared/**'],
     rules: restrictImports({
@@ -30,10 +30,7 @@ const eslintConfig = defineConfig([
     ignores: ['**/*.test.*'],
     rules: restrictImports(
       { group: ['@/app/**'], message: 'Features must not depend on the app.' },
-      {
-        group: ['@/store/**', '!@/store/hooks'],
-        message: 'Features may use only the typed hooks from `@/store/hooks`.',
-      },
+      { group: ['@/store/**'], message: 'Features must not depend on the store.' },
     ),
   },
   {

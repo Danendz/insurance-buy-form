@@ -10,12 +10,12 @@ shared  →  features  →  store  →  app
 
 A layer may import only from layers to its left. ESLint (`eslint.config.mjs`) enforces it.
 
-| Layer      | Path                  | Holds                                                                  | May import                                                      |
-| ---------- | --------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------- |
-| `shared`   | `src/shared/`         | Code with no business knowledge of a specific feature                  | `shared` only                                                   |
-| `features` | `src/features/<name>` | One business module: its UI, state, domain logic, types                | `shared`, other features' public API, `@/store/hooks`           |
-| `store`    | `src/store/`          | App store composition: `makeStore`, `RootState`, typed hooks, provider | `shared`, features' public API                                  |
-| `app`      | `src/app/`            | Next.js routing, layouts, metadata, `/api` route handlers              | everything; `/api` only `shared` and `@/features/<name>/server` |
+| Layer      | Path                  | Holds                                                     | May import                                                      |
+| ---------- | --------------------- | --------------------------------------------------------- | --------------------------------------------------------------- |
+| `shared`   | `src/shared/`         | Code with no business knowledge of a specific feature     | `shared` only                                                   |
+| `features` | `src/features/<name>` | One business module: its UI, state, domain logic, types   | `shared`, other features' public API                            |
+| `store`    | `src/store/`          | App store composition: `makeStore`, `RootState`, provider | `shared`, features' public API                                  |
+| `app`      | `src/app/`            | Next.js routing, layouts, metadata, `/api` route handlers | everything; `/api` only `shared` and `@/features/<name>/server` |
 
 Tests are exempt from the layer rules (e.g. a feature test may use `@/store/test-utils`).
 
@@ -53,7 +53,7 @@ features/<name>/
 ├── pages/<Page>/{Page.tsx, Page.module.scss, Page.test.tsx, index.ts}
 ├── components/<Component>/{Component.tsx, Component.module.scss, index.ts}
 ├── model/<module>/{module.ts, module.test.ts, index.ts}
-│                       # slice, api (injected endpoints), validation, price, format, persistence
+│                       # slice, hooks, api (injected endpoints), validation, price, format, persistence
 ├── types/index.ts      # domain types
 ├── index.ts            # client-safe public API
 └── server.ts           # server-only public API ('server-only'): pure logic for `/api`
@@ -69,6 +69,7 @@ features/<name>/
 
 - **One RTK Query API.** `shared/api/baseApi.ts` holds `createApi` with no endpoints. Shared endpoints (`shared/api/dictionary.ts`) and feature endpoints (`features/*/model/api`) are added with `baseApi.injectEndpoints`.
 - **Slices** live in `features/*/model/slice` and are registered in `src/store/store.ts` through `combineSlices`.
+- Only `store` knows the full `RootState`. A feature reads its slice with its own `useSelector.withTypes<WithSlice<typeof slice>>()` hook (`model/hooks`) and dispatches with `useDispatch`.
 - **Persistence.** To keep a slice in sessionStorage, give it a `hydrate` reducer and create `createSessionPersistence({ key, slice })` in the feature (`model/persistence`). Add it to `persistences` in `src/store/store.ts`. Version the key (`name:v3`) and bump it whenever the state shape changes.
 - The store is created per request (`makeStore`) and restored after mount, so server and first client render match.
 - Anything that depends on "today" renders on the client through `useClientToday`.

@@ -2,13 +2,14 @@
 
 import Image from 'next/image';
 import { Button } from '@/shared/components/ui/Button';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useDispatch } from 'react-redux';
+import { useFormSelector } from '../../model/hooks';
 import { reset, selectOrderId } from '../../model/slice';
 import styles from './DoneStep.module.scss';
 
 export function DoneStep() {
-  const dispatch = useAppDispatch();
-  const orderId = useAppSelector(selectOrderId);
+  const dispatch = useDispatch();
+  const orderId = useFormSelector(selectOrderId);
 
   return (
     <div className={styles.step} role="status">

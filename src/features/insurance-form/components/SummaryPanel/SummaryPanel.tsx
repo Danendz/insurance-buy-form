@@ -5,14 +5,15 @@ import { useGetActivitiesQuery, useGetCountriesQuery } from '@/shared/api/dictio
 import { formatPhone } from '@/shared/components/form-fields/PhoneField';
 import { Skeleton } from '@/shared/components/ui/Skeleton';
 import { formatDate } from '@/shared/utils/format';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useDispatch } from 'react-redux';
+import { useFormSelector } from '../../model/hooks';
 import { COVERAGE_TYPE_LABELS } from '../../model/labels';
 import { goToDetails, selectDetails } from '../../model/slice';
 import styles from './SummaryPanel.module.scss';
 
 export function SummaryPanel() {
-  const dispatch = useAppDispatch();
-  const details = useAppSelector(selectDetails);
+  const dispatch = useDispatch();
+  const details = useFormSelector(selectDetails);
   const countries = useGetCountriesQuery();
   const activities = useGetActivitiesQuery();
 

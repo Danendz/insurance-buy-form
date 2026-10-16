@@ -3,13 +3,14 @@
 import { Button } from '@/shared/components/ui/Button';
 import { LoadError } from '@/shared/components/ui/LoadError';
 import { Skeleton } from '@/shared/components/ui/Skeleton';
-import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { useDispatch } from 'react-redux';
 import type { IsoDate, ValidTripDetails } from '../../types';
 import {
   useCreateOrderMutation,
   useGetCountryProgramsQuery,
   useGetQuoteQuery,
 } from '../../model/api';
+import { useFormSelector } from '../../model/hooks';
 import { formatPrice } from '../../model/format';
 import {
   goToDetails,
@@ -25,8 +26,8 @@ import { SaveNote } from '../SaveNote';
 import styles from './ProgramStep.module.scss';
 
 export function ProgramStep({ today }: { today: IsoDate }) {
-  const details = useAppSelector(selectDetails);
-  const errors = useAppSelector((state) => selectDetailsErrors(state, today));
+  const details = useFormSelector(selectDetails);
+  const errors = useFormSelector((state) => selectDetailsErrors(state, today));
 
   // A restored session can be outdated, e.g. the start date is now in the past.
   if (hasErrors(errors) || details.countryId === null) {
@@ -36,7 +37,7 @@ export function ProgramStep({ today }: { today: IsoDate }) {
 }
 
 function StaleDetails() {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   return (
     <div className={styles.step}>
       <h1 className={styles.title}>Выберите программу</h1>
@@ -47,8 +48,8 @@ function StaleDetails() {
 }
 
 function ProgramChoice({ details }: { details: ValidTripDetails }) {
-  const dispatch = useAppDispatch();
-  const chosenId = useAppSelector(selectProgramId);
+  const dispatch = useDispatch();
+  const chosenId = useFormSelector(selectProgramId);
   const { countryId, coverageType, startDate, endDate, activityId } = details;
 
   const programs = useGetCountryProgramsQuery(countryId);
