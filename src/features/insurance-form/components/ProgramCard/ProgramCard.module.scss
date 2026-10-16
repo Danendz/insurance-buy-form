@@ -1,0 +1,67 @@
+@use 'functions' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: rem(12px) 1fr;
+  column-gap: rem(10px);
+  min-height: rem(72px);
+  padding: rem(8px) rem(11px) rem(10px);
+  color: $color-navy;
+  background: $color-field;
+  border: 1px solid $color-card-border;
+  border-radius: $radius;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    box-shadow 0.15s;
+
+  &[data-checked='true'] {
+    color: $color-primary;
+    background: $color-bg;
+    border-color: $color-bg;
+    box-shadow: $shadow-selected;
+  }
+
+  &:has(.input:focus-visible) {
+    @include focus-ring;
+  }
+}
+
+.input {
+  @include visually-hidden;
+}
+
+.mark {
+  grid-row: 1;
+  margin-top: rem(2px);
+  width: rem(12px);
+  height: rem(12px);
+  background: url('/icons/radio-unchecked.svg') center / rem(12px) rem(12px) no-repeat;
+
+  .input:checked ~ & {
+    background-image: url('/icons/radio-checked.svg');
+  }
+}
+
+.title {
+  grid-column: 2;
+  font-size: rem(13px);
+  font-weight: 400;
+}
+
+.liability {
+  grid-column: 2;
+  margin-top: rem(5px);
+  font-size: rem(13px);
+  font-weight: 600;
+}
+
+.description {
+  grid-column: 2;
+  margin-top: rem(4px);
+  color: $color-text;
+  font-size: rem(9px);
+}

@@ -1,0 +1,64 @@
+@use 'functions' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.step {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  flex: 1;
+}
+
+.title {
+  margin-bottom: rem(21px);
+  color: $color-navy;
+  font-size: rem(20px);
+  font-weight: 600;
+}
+
+.programs {
+  display: flex;
+  flex-direction: column;
+  gap: rem(14px);
+  margin: 0;
+  padding: 0 0 $space-6;
+  border: 0;
+  min-width: 0;
+}
+
+.legend {
+  @include visually-hidden;
+}
+
+.programSkeleton {
+  height: rem(72px);
+}
+
+.message {
+  color: $color-text;
+  font-size: rem(12px);
+  line-height: 1.5;
+  margin-bottom: $space-4;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: rem(18px);
+  margin-top: auto;
+}
+
+.compare {
+  align-self: center;
+  cursor: default;
+
+  &:hover:not(:disabled) {
+    text-decoration: none;
+  }
+}
+
+.priceSkeleton {
+  width: rem(90px);
+  height: rem(14px);
+  opacity: 0.5;
+}

@@ -1,0 +1,30 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Percentages keep the user's browser font size; all component sizes are in rem.
+html {
+  // Phones get a larger step: the design's 8–12px text is too small to read there.
+  font-size: 125%;
+
+  @include sm-up {
+    font-size: 100%;
+  }
+
+  @include xl-up {
+    font-size: 112.5%;
+  }
+
+  @include xxl-up {
+    font-size: 125%;
+  }
+}
+
+body {
+  min-height: 100vh;
+  color: $color-text;
+  background: $color-page;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 500;
+  line-height: normal;
+  -webkit-font-smoothing: antialiased;
+}

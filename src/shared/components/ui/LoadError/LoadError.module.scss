@@ -1,0 +1,15 @@
+@use 'functions' as *;
+@use 'variables' as *;
+
+.error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+  color: $color-error;
+  font-size: rem(11px);
+
+  button {
+    font-size: rem(11px);
+  }
+}

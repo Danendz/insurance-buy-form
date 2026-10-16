@@ -1,0 +1,108 @@
+@use 'functions' as *;
+
+// Sizes follow the real controls: `Field`, `Select`, `Radio`, `DateField`, `PhoneField`, `Button`.
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: rem(10px);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: rem(15px);
+  padding-right: rem(33px);
+}
+
+.label {
+  height: rem(10px);
+}
+
+.hint {
+  width: rem(14px);
+  height: rem(14px);
+  margin-left: auto;
+  border-radius: 50%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: rem(6px);
+}
+
+.countryRow {
+  gap: rem(10px);
+}
+
+.select {
+  flex: 1;
+  height: rem(32px);
+}
+
+.addCountry {
+  flex: none;
+  width: rem(32px);
+  height: rem(32px);
+}
+
+.radio {
+  display: inline-flex;
+  align-items: center;
+  gap: rem(6px);
+  height: rem(12px);
+}
+
+.mark {
+  width: rem(12px);
+  height: rem(12px);
+  border-radius: 50%;
+}
+
+.radioText {
+  height: rem(8px);
+}
+
+.dateSelect {
+  flex: 0 1 auto;
+  height: rem(25px);
+}
+
+.calendar {
+  width: rem(25px);
+  height: rem(25px);
+  border-radius: 50%;
+}
+
+.phone {
+  gap: rem(7px);
+  max-width: rem(265px);
+}
+
+.phoneCountry {
+  flex: 0 0 rem(127px);
+  height: rem(27px);
+}
+
+.phoneInput {
+  flex: 1 1 rem(131px);
+  height: rem(27px);
+}
+
+.button {
+  width: rem(123px);
+  height: rem(31px);
+}
+
+.note {
+  display: flex;
+  flex-direction: column;
+  gap: rem(5px);
+  padding-left: rem(14px);
+}
+
+.noteLine {
+  height: rem(8px);
+}

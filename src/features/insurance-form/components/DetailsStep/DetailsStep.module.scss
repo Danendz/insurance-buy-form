@@ -1,0 +1,61 @@
+@use 'functions' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: rem(15px);
+
+  @include sm-up {
+    max-width: rem(312px);
+  }
+}
+
+.title {
+  margin-bottom: 1px;
+  color: $color-navy;
+  font-size: rem(20px);
+  font-weight: 600;
+}
+
+.coverageTypes {
+  display: flex;
+  flex-direction: column;
+  gap: rem(11px);
+  margin-top: -1px;
+}
+
+.coverageType {
+  font-size: rem(9px);
+}
+
+.indented {
+  margin-top: rem(8px);
+  padding-left: rem(4px);
+}
+
+.activities {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: rem(8px) rem(8px);
+  margin-top: rem(-2px);
+
+  @include sm-up {
+    justify-content: flex-start;
+    column-gap: rem(26px);
+  }
+}
+
+.activity {
+  font-size: rem(10px);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: rem(12px);
+  margin-top: rem(8px);
+  align-items: flex-start;
+}

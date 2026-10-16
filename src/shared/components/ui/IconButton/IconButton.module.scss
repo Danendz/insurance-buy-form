@@ -1,0 +1,19 @@
+@use 'mixins' as *;
+
+.button {
+  @include reset-button;
+
+  display: inline-flex;
+  flex: none;
+  border-radius: 50%;
+  line-height: 0;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled,
+  &[aria-disabled='true'] {
+    cursor: not-allowed;
+  }
+}

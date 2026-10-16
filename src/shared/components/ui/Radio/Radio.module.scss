@@ -1,0 +1,32 @@
+@use 'functions' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.radio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: rem(6px);
+  color: $color-text;
+  cursor: pointer;
+}
+
+.input {
+  @include visually-hidden;
+}
+
+.mark {
+  flex: none;
+  width: rem(12px);
+  height: rem(12px);
+  background: url('/icons/radio-unchecked.svg') center / rem(12px) rem(12px) no-repeat;
+  border-radius: 50%;
+
+  .input:checked + & {
+    background-image: url('/icons/radio-checked.svg');
+  }
+
+  .input:focus-visible + & {
+    @include focus-ring;
+  }
+}

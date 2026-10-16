@@ -1,0 +1,60 @@
+@use 'functions' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  border: 0;
+  cursor: pointer;
+  font-weight: 500;
+  transition:
+    background-color 0.15s,
+    opacity 0.15s;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.primary {
+  min-width: rem(123px);
+  height: rem(31px);
+  padding: 0 $space-6;
+  color: #fff;
+  font-size: rem(13px);
+  background: $color-primary;
+  border-radius: $radius;
+
+  &:hover:not(:disabled) {
+    background: $color-primary-hover;
+  }
+}
+
+.wide {
+  justify-content: space-between;
+  width: 100%;
+  height: rem(32px);
+  padding: 0 rem(15px);
+  font-size: rem(14px);
+  border-radius: rem(8px);
+}
+
+.link {
+  padding: 0;
+  color: $color-navy;
+  font-size: rem(14px);
+  font-weight: 600;
+  background: none;
+
+  &:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+}

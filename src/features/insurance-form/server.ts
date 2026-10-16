@@ -1,4 +1,6 @@
-// Server-only public API: re-export server actions (`./actions`) and RSC queries (`./queries`) here.
+// Server-only public API: pure domain logic shared with `/api`, without client components.
 import 'server-only';
 
-export {};
+export { calculatePrice, tripDays } from './model/price';
+export { hasErrors, validateDetails } from './model/validation';
+export type * from './types';

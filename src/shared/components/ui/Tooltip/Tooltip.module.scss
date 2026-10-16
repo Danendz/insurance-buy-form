@@ -1,0 +1,59 @@
+@use 'functions' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+.trigger {
+  @include reset-button;
+
+  width: rem(14px);
+  height: rem(14px);
+  color: $color-navy;
+  font-size: rem(11px);
+  line-height: rem(12px);
+  text-align: center;
+  background: url('/icons/help-circle.svg') center / rem(14px) rem(14px) no-repeat;
+  border-radius: 50%;
+  cursor: help;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.bubble {
+  position: absolute;
+  z-index: 10;
+  right: rem(-6px);
+  bottom: calc(100% + rem(8px));
+  width: max-content;
+  max-width: rem(220px);
+  padding: $space-2 $space-3;
+  color: #fff;
+  font-size: rem(11px);
+  line-height: 1.4;
+  background: $color-navy;
+  border-radius: rem(8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s;
+
+  &[data-open='true'] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: rem(9px);
+    border: 5px solid transparent;
+    border-top-color: $color-navy;
+  }
+}

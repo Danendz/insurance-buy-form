@@ -1,0 +1,72 @@
+@use 'functions' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.panel {
+  width: 100%;
+  padding: rem(24px) rem(30px) rem(28px);
+  background: $color-bg;
+
+  @include sm-up {
+    border-radius: rem(30px);
+    box-shadow: $shadow-card;
+  }
+}
+
+.title {
+  margin-bottom: rem(16px);
+  color: $color-navy;
+  font-size: rem(14px);
+  font-weight: 600;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: rem(8px);
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: $space-4;
+  color: $color-muted;
+  font-size: rem(12px);
+  font-weight: 400;
+
+  &:hover,
+  &:focus-within {
+    color: $color-navy;
+  }
+}
+
+.label {
+  min-width: 0;
+}
+
+.value {
+  display: flex;
+  align-items: center;
+  gap: rem(8px);
+  margin: 0;
+  text-align: right;
+}
+
+.edit {
+  @include reset-button;
+
+  display: inline-flex;
+  flex: none;
+  padding: rem(2px);
+  border-radius: rem(4px);
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}
+
+.skeleton {
+  width: rem(70px);
+  height: rem(12px);
+}

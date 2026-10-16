@@ -1,0 +1,78 @@
+@use 'functions' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.page {
+  min-height: 100vh;
+
+  @include sm-up {
+    padding: $space-6 $space-4;
+  }
+
+  @include md-up {
+    padding: rem(80px) $space-6;
+  }
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $space-6;
+  margin: 0 auto;
+
+  @include sm-up {
+    max-width: $card-width;
+  }
+
+  > aside {
+    order: -1;
+  }
+
+  @include lg-up {
+    &[data-step='program'] {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      gap: rem(70px);
+      max-width: none;
+
+      > aside {
+        order: 0;
+        width: rem(530px);
+      }
+    }
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: rem(20px) rem(20px) rem(30px);
+
+  @include sm-up {
+    flex: none;
+    width: $card-width;
+    min-height: rem(614px);
+    padding: rem(20px) rem(62px) rem(31px) rem(38px);
+
+    &[data-step='program'] {
+      min-height: rem(665px);
+      padding: rem(20px) rem(35px) rem(20px) rem(30px);
+    }
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: rem(18px);
+}
+
+.back {
+  position: absolute;
+  top: rem(14px);
+  right: rem(12px);
+}

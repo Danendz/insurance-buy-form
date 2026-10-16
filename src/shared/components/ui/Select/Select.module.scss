@@ -1,0 +1,59 @@
+@use 'functions' as *;
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.select {
+  width: 100%;
+  min-width: 0;
+  color: $color-text;
+  background-color: $color-field;
+  background-repeat: no-repeat;
+  border: 1px solid transparent;
+  border-radius: $radius;
+  appearance: none;
+  cursor: pointer;
+  text-overflow: ellipsis;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  &:disabled {
+    cursor: progress;
+  }
+
+  &[aria-invalid] {
+    border-color: $color-error;
+  }
+}
+
+.empty {
+  color: $color-placeholder;
+}
+
+.md {
+  height: rem(32px);
+  padding: 0 rem(32px) 0 rem(13px);
+  font-size: rem(11px);
+  background-image: url('/icons/chevron.svg');
+  background-position: right rem(13px) center;
+  background-size: rem(10px) rem(5.85px);
+}
+
+.sm {
+  height: rem(25px);
+  padding: 0 rem(24px) 0 rem(9px);
+  font-size: rem(10px);
+  background-image: url('/icons/chevron-small.svg');
+  background-position: right rem(9px) center;
+  background-size: rem(8.5px) rem(4.14px);
+}
+
+.loading {
+  background-image: url('/icons/spinner.svg');
+  background-size: rem(14px) rem(14px);
+
+  @media (prefers-reduced-motion: reduce) {
+    background-image: none;
+  }
+}

@@ -7,6 +7,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
+    // No artificial latency for `/api` route handlers in tests.
+    env: { API_DELAY_MS: '0' },
     include: ['src/**/*.test.{ts,tsx}'],
     coverage: {
       provider: 'v8',

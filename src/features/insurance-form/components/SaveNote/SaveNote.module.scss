@@ -1,0 +1,23 @@
+@use 'functions' as *;
+@use 'variables' as *;
+
+.note {
+  position: relative;
+  max-width: rem(317px);
+  padding-left: rem(14px);
+  color: $color-text;
+  font-size: rem(10px);
+}
+
+.icon {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  width: rem(10px);
+  height: rem(10px);
+  color: #fff;
+  font-size: rem(8px);
+  line-height: rem(10px);
+  text-align: center;
+  background: url('/icons/info.svg') center / rem(10px) rem(10px) no-repeat;
+}

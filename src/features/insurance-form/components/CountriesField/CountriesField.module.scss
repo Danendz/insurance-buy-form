@@ -1,0 +1,30 @@
+@use 'functions' as *;
+@use 'variables' as *;
+
+$row-height: rem(32px);
+$row-gap: rem(6px);
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: $row-gap;
+}
+
+.row {
+  display: flex;
+  flex: none;
+  gap: rem(10px);
+}
+
+.action {
+  border-radius: $radius;
+
+  &[aria-disabled='true'] {
+    opacity: 0.8;
+  }
+}
+
+.actionSlot {
+  flex: none;
+  width: $row-height;
+}
