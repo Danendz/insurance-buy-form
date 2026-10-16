@@ -25,7 +25,7 @@ export function ProgramStep({ today }: { today: IsoDate }) {
   const details = useFormSelector(selectDetails);
   const errors = useFormSelector((state) => selectDetailsErrors(state, today));
 
-  // A restored session can be outdated, e.g. the start date is now in the past.
+  // Restored data can be outdated, e.g. the start date is now in the past.
   if (hasErrors(errors)) {
     return <StaleDetails />;
   }

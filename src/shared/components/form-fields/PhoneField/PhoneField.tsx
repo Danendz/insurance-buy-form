@@ -33,7 +33,7 @@ type PhoneFieldProps = FieldControlProps & {
 
 /**
  * The input keeps its own formatting state, so it is remounted when the value changes
- * from outside (restore from the session, reset) rather than from typing.
+ * from outside (restore from storage, reset) rather than from typing.
  */
 export function PhoneField({
   value,
