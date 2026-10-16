@@ -1,26 +1,22 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
-import { StoreProvider } from '@/lib/store/StoreProvider';
+import { Inter } from 'next/font/google';
+import { StoreProvider } from '@/store/StoreProvider';
 import './globals.scss';
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600'],
 });
 
 export const metadata: Metadata = {
-  title: 'Buy insurance',
-  description: 'Multi-step insurance purchase form',
+  title: 'Покупка страхового полиса',
+  description: 'Оформление полиса страхования путешественников',
 };
 
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="ru" className={inter.variable}>
       <body>
         <StoreProvider>{children}</StoreProvider>
       </body>

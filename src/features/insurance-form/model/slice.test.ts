@@ -1,23 +1,81 @@
 import { describe, expect, it } from 'vitest';
-import { hydrate, insuranceFormSlice, nextStep, prevStep, STEP_COUNT } from './slice';
+import type { InsuranceFormState } from '../types';
+import {
+  goToDetails,
+  hydrate,
+  initialState,
+  insuranceFormSlice,
+  orderPlaced,
+  phoneValidityChanged,
+  reset,
+  selectProgram,
+  submitDetails,
+  updateDetails,
+} from './slice';
 
 const reducer = insuranceFormSlice.reducer;
+const TODAY = '2024-09-05';
+
+const filled: InsuranceFormState = {
+  ...initialState,
+  details: {
+    countryId: 1,
+    coverageType: 'single',
+    startDate: '2024-09-05',
+    endDate: '2024-09-12',
+    activityId: 0,
+    phone: '+998901234567',
+  },
+};
 
 describe('insuranceForm slice', () => {
-  it('starts on the first step', () => {
-    expect(reducer(undefined, { type: 'unknown' })).toEqual({ currentStep: 0 });
+  it('starts on the details step with an empty form', () => {
+    expect(reducer(undefined, { type: 'unknown' })).toEqual(initialState);
+    expect(initialState.step).toBe('details');
   });
 
-  it('moves between steps within bounds', () => {
-    expect(reducer({ currentStep: 0 }, nextStep())).toEqual({ currentStep: 1 });
-    expect(reducer({ currentStep: STEP_COUNT - 1 }, nextStep())).toEqual({
-      currentStep: STEP_COUNT - 1,
-    });
-    expect(reducer({ currentStep: 1 }, prevStep())).toEqual({ currentStep: 0 });
-    expect(reducer({ currentStep: 0 }, prevStep())).toEqual({ currentStep: 0 });
+  it('merges detail updates', () => {
+    const state = reducer(initialState, updateDetails({ coverageType: 'multi', activityId: 2 }));
+    expect(state.details).toMatchObject({ coverageType: 'multi', activityId: 2, countryId: null });
+  });
+
+  it('forgets the chosen program when the country changes', () => {
+    const withProgram = { ...filled, programId: 3 };
+    expect(reducer(withProgram, updateDetails({ countryId: 1 })).programId).toBe(3);
+    expect(reducer(withProgram, updateDetails({ countryId: 2 })).programId).toBeNull();
+  });
+
+  it('stays on details and flags errors when submitting an invalid form', () => {
+    const state = reducer(initialState, submitDetails(TODAY));
+    expect(state).toMatchObject({ step: 'details', submitAttempted: true });
+  });
+
+  it('moves to the program step when the details are valid', () => {
+    expect(reducer(filled, submitDetails(TODAY)).step).toBe('program');
+  });
+
+  it('stays on details when the phone field reported an invalid number', () => {
+    const state = reducer(filled, phoneValidityChanged(false));
+    expect(reducer(state, submitDetails(TODAY)).step).toBe('details');
+  });
+
+  it('goes back to details, keeping the answers', () => {
+    const state = reducer({ ...filled, step: 'program' }, goToDetails());
+    expect(state).toEqual({ ...filled, step: 'details' });
+  });
+
+  it('selects a program and completes the order', () => {
+    let state = reducer({ ...filled, step: 'program' }, selectProgram(3));
+    expect(state.programId).toBe(3);
+    state = reducer(state, orderPlaced('order-1'));
+    expect(state).toMatchObject({ step: 'done', orderId: 'order-1' });
+  });
+
+  it('resets to the initial state', () => {
+    expect(reducer({ ...filled, step: 'done', orderId: 'x' }, reset())).toEqual(initialState);
   });
 
   it('replaces state on hydrate', () => {
-    expect(reducer({ currentStep: 0 }, hydrate({ currentStep: 2 }))).toEqual({ currentStep: 2 });
+    expect(reducer(initialState, hydrate(filled))).toEqual(filled);
   });
 });

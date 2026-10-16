@@ -28,26 +28,28 @@ Multi-step insurance purchase form.
 
 ```
 src/
-├── app/            # routing, layouts, metadata, page composition only
-├── features/       # isolated business modules
-│   └── insurance-form/
-│       ├── actions/     # server actions ('use server')
-│       ├── queries/     # server data fetching (RSC)
-│       ├── components/  # feature UI
-│       ├── hooks/       # client hooks
-│       ├── model/       # Redux slice + selectors
-│       ├── types/       # domain types
-│       ├── index.ts     # client-safe public API
-│       └── server.ts    # server-only public API ('server-only')
-├── components/     # UI kit without business logic
-├── lib/            # external tool setup (Redux store, ...)
-└── shared/         # general utils, SCSS variables/mixins, test utils
+├── app/                 # routing, layouts, page composition
+│   └── api/             # mock backend: route handlers, `_data/data.json`, `_lib/`
+├── features/
+│   └── insurance-form/  # components/, model/, types/, index.ts, server.ts
+├── store/               # store composition, typed hooks, StoreProvider, test utils
+└── shared/              # api/, components/{ui,form-fields}/, hooks/, lib/, styles/, types/, utils/
 ```
 
-### Rules
+Layers, import rules and conventions: [docs/architecture.md](docs/architecture.md).
 
-- Import a feature only via `@/features/<name>` or `@/features/<name>/server`; ESLint rejects deep imports. Inside a feature, use relative imports.
-- Never re-export server code from `index.ts`: client bundles import it.
-- The Redux store is created per request (`makeStore`) in `StoreProvider`. Feature slices live in `features/*/model` and are registered in `src/lib/store/store.ts`.
-- SCSS partials in `src/shared/styles` load by name: `@use 'variables' as *;`.
-- Tests sit next to the code as `*.test.ts(x)`. Use `renderWithStore` from `@/shared/test-utils` for components connected to Redux.
+## API
+
+Every handler waits `API_DELAY_MS` (default 800 ms) to make loading states visible. The client calls it through RTK Query (`shared/api/baseApi.ts` + injected endpoints).
+
+| Endpoint                           | Description                                              |
+| ---------------------------------- | -------------------------------------------------------- |
+| `GET /api/dictionary/countries`    | Countries                                                |
+| `GET /api/dictionary/activities`   | Trip purposes                                            |
+| `GET /api/dictionary/programs`     | Programs with coverages and daily rates                  |
+| `GET /api/dictionary/multipliers`  | Price multipliers (multi-trip, sport)                    |
+| `GET /api/countries/[id]/programs` | Programs sold for a country                              |
+| `POST /api/quote`                  | Price per program for a trip                             |
+| `POST /api/orders`                 | Validates the trip and program, returns a mock `orderId` |
+
+Filtering, pricing and order validation run on the server.

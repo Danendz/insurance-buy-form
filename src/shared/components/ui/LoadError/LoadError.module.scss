@@ -1,0 +1,14 @@
+@use 'variables' as *;
+
+.error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+  color: $color-error;
+  font-size: 11px;
+
+  button {
+    font-size: 11px;
+  }
+}

@@ -15,8 +15,10 @@ body {
 body {
   min-height: 100vh;
   color: $color-text;
-  background: $color-bg;
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background: $color-page;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 500;
+  line-height: normal;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -25,4 +27,10 @@ input,
 select,
 textarea {
   font: inherit;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
 }

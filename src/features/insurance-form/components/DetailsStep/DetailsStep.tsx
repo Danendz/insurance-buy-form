@@ -1,0 +1,205 @@
+'use client';
+
+import type { FormEvent } from 'react';
+import { useGetActivitiesQuery, useGetCountriesQuery } from '@/shared/api/dictionary';
+import { DateField } from '@/shared/components/form-fields/DateField';
+import { Field } from '@/shared/components/form-fields/Field';
+import { PhoneField } from '@/shared/components/form-fields/PhoneField';
+import { Button } from '@/shared/components/ui/Button';
+import { IconButton } from '@/shared/components/ui/IconButton';
+import { LoadError } from '@/shared/components/ui/LoadError';
+import { Radio } from '@/shared/components/ui/Radio';
+import { Select } from '@/shared/components/ui/Select';
+import { Skeleton } from '@/shared/components/ui/Skeleton';
+import { parseIsoDate } from '@/shared/utils/date';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import type { CoverageType, IsoDate, TripDetails } from '../../types';
+import { formatCountryName } from '../../model/format';
+import { COVERAGE_TYPE_LABELS } from '../../model/labels';
+import {
+  phoneValidityChanged,
+  selectDetails,
+  selectDetailsErrors,
+  selectSubmitAttempted,
+  submitDetails,
+  updateDetails,
+} from '../../model/slice';
+import { SaveNote } from '../SaveNote';
+import styles from './DetailsStep.module.scss';
+
+const COVERAGE_TYPES = Object.entries(COVERAGE_TYPE_LABELS) as [CoverageType, string][];
+
+export function DetailsStep({ today }: { today: IsoDate }) {
+  const dispatch = useAppDispatch();
+  const details = useAppSelector(selectDetails);
+  const submitAttempted = useAppSelector(selectSubmitAttempted);
+  const allErrors = useAppSelector((state) => selectDetailsErrors(state, today));
+  const errors = submitAttempted ? allErrors : {};
+
+  const countries = useGetCountriesQuery();
+  const activities = useGetActivitiesQuery();
+
+  const update = (patch: Partial<TripDetails>) => dispatch(updateDetails(patch));
+  const currentYear = parseIsoDate(today).year;
+  const years = [currentYear, currentYear + 1, currentYear + 2];
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(submitDetails(today));
+    const form = event.currentTarget;
+    // Errors render on the next frame.
+    requestAnimationFrame(() => form.querySelector<HTMLElement>('[aria-invalid]')?.focus());
+  };
+
+  return (
+    <form className={styles.form} noValidate onSubmit={handleSubmit}>
+      <h1 className={styles.title}>Покупка страхового полиса</h1>
+
+      <Field
+        label="Страна путешествия"
+        hint="Страна, в которую вы едете. От неё зависят доступные программы страхования."
+        error={errors.countryId}
+      >
+        {(control) => (
+          <div className={styles.countryRow}>
+            {countries.isLoading ? (
+              <Skeleton className={styles.countrySkeleton} />
+            ) : countries.isError ? (
+              <LoadError message="Не удалось загрузить страны" onRetry={countries.refetch} />
+            ) : (
+              <Select
+                {...control}
+                placeholder="Выберите страну"
+                value={details.countryId ?? ''}
+                onChange={(event) => update({ countryId: Number(event.target.value) })}
+              >
+                {countries.data?.map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {formatCountryName(country.name)}
+                  </option>
+                ))}
+              </Select>
+            )}
+            <IconButton
+              icon="/icons/plus.svg"
+              size={32}
+              label="Добавить ещё одну страну — скоро"
+              aria-disabled
+              className={styles.addCountry}
+            />
+          </div>
+        )}
+      </Field>
+
+      <Field
+        label="Тип покрытия"
+        kind="group"
+        hint="Однократное — одна поездка. Многократное — любое число поездок в течение срока полиса."
+      >
+        {() => (
+          <div className={styles.coverageTypes}>
+            {COVERAGE_TYPES.map(([value, label]) => (
+              <Radio
+                key={value}
+                name="coverageType"
+                value={value}
+                label={label}
+                className={styles.coverageType}
+                checked={details.coverageType === value}
+                onChange={() => update({ coverageType: value })}
+              />
+            ))}
+          </div>
+        )}
+      </Field>
+
+      <Field
+        label="Начало страхования"
+        kind="group"
+        className={styles.indented}
+        hint="Первый день действия полиса — не раньше сегодняшнего."
+        error={errors.startDate}
+      >
+        {(control) => (
+          <DateField
+            {...control}
+            value={details.startDate}
+            onChange={(startDate) => update({ startDate })}
+            min={today}
+            years={years}
+          />
+        )}
+      </Field>
+
+      <Field
+        label="Конец страхования"
+        kind="group"
+        className={styles.indented}
+        hint="Последний день действия полиса. Срок — до 365 дней."
+        error={errors.endDate}
+      >
+        {(control) => (
+          <DateField
+            {...control}
+            value={details.endDate}
+            onChange={(endDate) => update({ endDate })}
+            min={details.startDate ?? today}
+            years={years}
+          />
+        )}
+      </Field>
+
+      <Field
+        label="Цель поездки"
+        kind="group"
+        hideLabel
+        hint="Цель поездки. Для занятий спортом действует повышенный тариф."
+        error={errors.activityId}
+      >
+        {() =>
+          activities.isLoading ? (
+            <Skeleton className={styles.activitiesSkeleton} />
+          ) : activities.isError ? (
+            <LoadError message="Не удалось загрузить цели поездки" onRetry={activities.refetch} />
+          ) : (
+            <div className={styles.activities}>
+              {activities.data?.map((activity) => (
+                <Radio
+                  key={activity.id}
+                  name="activityId"
+                  value={activity.id}
+                  label={activity.name}
+                  className={styles.activity}
+                  checked={details.activityId === activity.id}
+                  onChange={() => update({ activityId: activity.id })}
+                />
+              ))}
+            </div>
+          )
+        }
+      </Field>
+
+      <Field
+        label="Номер мобильного телефона"
+        className={styles.indented}
+        hint="Отправим на этот номер полис и уведомления о нём."
+        error={errors.phone}
+      >
+        {(control) => (
+          <PhoneField
+            {...control}
+            value={details.phone}
+            onChange={(phone) => update({ phone })}
+            validate
+            onValidityChange={(valid) => dispatch(phoneValidityChanged(valid))}
+          />
+        )}
+      </Field>
+
+      <div className={styles.footer}>
+        <Button type="submit">Далее</Button>
+        <SaveNote />
+      </div>
+    </form>
+  );
+}

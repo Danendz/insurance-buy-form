@@ -1,0 +1,66 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  column-gap: 10px;
+  min-height: 72px;
+  padding: 8px 11px 10px;
+  color: $color-navy;
+  background: $color-field;
+  border: 1px solid $color-card-border;
+  border-radius: $radius;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    box-shadow 0.15s;
+
+  &[data-checked='true'] {
+    color: $color-primary;
+    background: $color-bg;
+    border-color: $color-bg;
+    box-shadow: $shadow-selected;
+  }
+
+  &:has(.input:focus-visible) {
+    @include focus-ring;
+  }
+}
+
+.input {
+  @include visually-hidden;
+}
+
+.mark {
+  grid-row: 1;
+  margin-top: 2px;
+  width: 12px;
+  height: 12px;
+  background: url('/icons/radio-unchecked.svg') center / 12px 12px no-repeat;
+
+  .input:checked ~ & {
+    background-image: url('/icons/radio-checked.svg');
+  }
+}
+
+.title {
+  grid-column: 2;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.liability {
+  grid-column: 2;
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.description {
+  grid-column: 2;
+  margin-top: 4px;
+  color: $color-text;
+  font-size: 9px;
+}

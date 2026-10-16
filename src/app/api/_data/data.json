@@ -1,0 +1,1462 @@
+{
+  "activities": [
+    {
+      "id": 0,
+      "name": "Туризм"
+    },
+    {
+      "id": 1,
+      "name": "Спорт"
+    },
+    {
+      "id": 2,
+      "name": "Работа"
+    },
+    {
+      "id": 3,
+      "name": "SPORT/WORK"
+    },
+    {
+      "id": 4,
+      "name": "Учёба"
+    }
+  ],
+  "programs": [
+    {
+      "id": 1,
+      "name": "Silver",
+      "title": "Silver",
+      "description": "Медицинское лечение, репатриация и другое",
+      "liability": 20000,
+      "coverages": {
+        "medicine": 10000,
+        "accident": 5500,
+        "covid": 0,
+        "evacuation": 4000,
+        "transportation": 0,
+        "compensation": 500
+      },
+      "dailyRate": 1.5
+    },
+    {
+      "id": 2,
+      "name": "Gold",
+      "title": "Gold",
+      "description": "Всё вышеперечисленное + спасательная операция",
+      "liability": 60000,
+      "coverages": {
+        "medicine": 30000,
+        "accident": 11500,
+        "covid": 0,
+        "evacuation": 8000,
+        "transportation": 9000,
+        "compensation": 1500
+      },
+      "dailyRate": 2.5
+    },
+    {
+      "id": 3,
+      "name": "Platinum",
+      "title": "Platinum",
+      "description": "Всё вышеперечисленное во всех странах мира",
+      "liability": 90000,
+      "coverages": {
+        "medicine": 40000,
+        "accident": 17000,
+        "covid": 0,
+        "evacuation": 12000,
+        "transportation": 18000,
+        "compensation": 3000
+      },
+      "dailyRate": 3.5
+    },
+    {
+      "id": 4,
+      "name": "STOPVIRUS |",
+      "title": "Stopvirus I (С покрытием COVID)",
+      "description": "Всё вышеперечисленное + COVID",
+      "liability": 60000,
+      "coverages": {
+        "medicine": 27000,
+        "accident": 11500,
+        "covid": 3000,
+        "evacuation": 8000,
+        "transportation": 9000,
+        "compensation": 1500
+      },
+      "dailyRate": 3
+    },
+    {
+      "id": 5,
+      "name": "STOPVIRUS ||",
+      "title": "Stopvirus II (С покрытием COVID)",
+      "description": "Всё вышеперечисленное + COVID, во всех странах",
+      "liability": 90000,
+      "coverages": {
+        "medicine": 35000,
+        "accident": 17000,
+        "covid": 5000,
+        "evacuation": 12000,
+        "transportation": 18000,
+        "compensation": 3000
+      },
+      "dailyRate": 4.2
+    }
+  ],
+  "countries": [
+    {
+      "id": 1,
+      "name": "АВСТРАЛИЯ",
+      "isInSchengen": false,
+      "programIds": [3, 4]
+    },
+    {
+      "id": 3,
+      "name": "АВСТРИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 4,
+      "name": "АЗЕРБАЙДЖАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 6,
+      "name": "АЛБАНИЯ",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 7,
+      "name": "АЛЖИР",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 11,
+      "name": "АНДОРРА",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 12,
+      "name": "АНТАРКТИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 13,
+      "name": "АНТИГУА И БАРБУДА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 16,
+      "name": "АРГЕНТИНА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 17,
+      "name": "АРМЕНИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 18,
+      "name": "АРУБА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 19,
+      "name": "АФГАНИСТАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 20,
+      "name": "БАГАМСКИЕ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 21,
+      "name": "БАНГЛАДЕШ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 22,
+      "name": "БАРБАДОС",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 23,
+      "name": "БАХРЕЙН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 239,
+      "name": "Без страны",
+      "isInSchengen": false,
+      "programIds": []
+    },
+    {
+      "id": 25,
+      "name": "БЕЛАРУСЬ",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 24,
+      "name": "БЕЛИЗ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 26,
+      "name": "БЕЛЬГИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 27,
+      "name": "БЕНИН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 28,
+      "name": "БЕРМУДСКИЕ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 29,
+      "name": "БОЛГАРИЯ",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 30,
+      "name": "БОЛИВИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 31,
+      "name": "БОСНИЯ И ГЕРЦЕГОВИНА",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 32,
+      "name": "БОТСВАНА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 33,
+      "name": "БРАЗИЛИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 34,
+      "name": "БРИТАНСКАЯ ТЕРРИТОРИЯ В ИНДИЙСКОМ ОКЕАНЕ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 35,
+      "name": "БРУНЕЙ-ДАРУССАЛАМ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 37,
+      "name": "БУРКИНА-ФАСО",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 38,
+      "name": "БУРУНДИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 39,
+      "name": "БУТАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 40,
+      "name": "ВАНУАТУ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 41,
+      "name": "ВАТИКАН, ГОСУДАРСТВО-ГОРОД",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 43,
+      "name": "ВЕНГРИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 44,
+      "name": "ВЕНЕСУЭЛА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 9999,
+      "name": "Весь мир",
+      "isInSchengen": false,
+      "programIds": [3]
+    },
+    {
+      "id": 46,
+      "name": "ВИРГИНСКИЕ ОСТРОВА(БРИТАНСКИЕ)",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 45,
+      "name": "ВИРГИНСКИЕ ОСТРОВА(США)",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 49,
+      "name": "ВЬЕТНАМ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 50,
+      "name": "ГАБОН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 51,
+      "name": "ГАИТИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 52,
+      "name": "ГАЙАНА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 53,
+      "name": "ГАМБИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 54,
+      "name": "ГАНА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 55,
+      "name": "ГВАДЕЛУПА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 56,
+      "name": "ГВАТЕМАЛА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 58,
+      "name": "ГВИНЕЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 59,
+      "name": "ГВИНЕЯ-БИСАУ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 60,
+      "name": "ГЕРМАНИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 61,
+      "name": "ГИБРАЛТАР",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 62,
+      "name": "ГОНДУРАС",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 195,
+      "name": "ГОНКОНГ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 63,
+      "name": "ГРЕНАДА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 64,
+      "name": "ГРЕНЛАНДИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 65,
+      "name": "ГРЕЦИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 66,
+      "name": "ГРУЗИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 67,
+      "name": "ГУАМ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 68,
+      "name": "ДАНИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 69,
+      "name": "ДЖИБУТИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 70,
+      "name": "ДОМИНИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 71,
+      "name": "ДОМИНИКАНСКАЯ РЕСПУБЛИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 72,
+      "name": "ЕГИПЕТ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 74,
+      "name": "ЗАМБИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 75,
+      "name": "ЗАПАДНАЯ САХАРА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 77,
+      "name": "ЗИМБАБВЕ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 78,
+      "name": "ИЗРАИЛЬ",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 79,
+      "name": "ИНДИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 80,
+      "name": "ИНДОНЕЗИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 81,
+      "name": "ИОРДАНИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 82,
+      "name": "ИРАК",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 84,
+      "name": "ИРЛАНДИЯ",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 83,
+      "name": "ИСЛАМСКАЯ РЕСПУБЛИКА ИРАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 85,
+      "name": "ИСЛАНДИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 86,
+      "name": "ИСПАНИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 87,
+      "name": "ИТАЛИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 88,
+      "name": "ЙЕМЕН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 89,
+      "name": "КАБО-ВЕРДЕ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 90,
+      "name": "КАЗАХСТАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 91,
+      "name": "КАЙМАНОВЫ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 92,
+      "name": "КАМБОДЖА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 93,
+      "name": "КАМЕРУН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 94,
+      "name": "КАНАДА",
+      "isInSchengen": false,
+      "programIds": [3]
+    },
+    {
+      "id": 95,
+      "name": "КАТАР",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 96,
+      "name": "КЕНИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 97,
+      "name": "КИПР",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 99,
+      "name": "КИРИБАТИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 100,
+      "name": "КИТАЙ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 101,
+      "name": "КОКОСОВЫЕ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 102,
+      "name": "КОЛУМБИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 103,
+      "name": "КОМОРСКИЕ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 73,
+      "name": "КОНГО",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 104,
+      "name": "КОРЕЙСКАЯ НАРОДНО-ДЕМОКРАТИЧЕСКАЯ РЕСПУБЛИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 105,
+      "name": "КОСТА-РИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 106,
+      "name": "КОТ-Д`ИВУАР",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 107,
+      "name": "КУБА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 108,
+      "name": "КУВЕЙТ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 98,
+      "name": "КЫРГЫЗСТАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 110,
+      "name": "ЛАТВИЯ",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 111,
+      "name": "ЛЕСОТО",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 112,
+      "name": "ЛИБЕРИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 113,
+      "name": "ЛИВАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 114,
+      "name": "ЛИВИЙСКАЯ АРАБСКАЯ ДЖАМАХИРИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 115,
+      "name": "ЛИТВА",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 116,
+      "name": "ЛИХТЕНШТЕЙН",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 117,
+      "name": "ЛЮКСЕМБУРГ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 118,
+      "name": "МАВРИКИЙ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 119,
+      "name": "МАВРИТАНИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 120,
+      "name": "МАДАГАСКАР",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 240,
+      "name": "МАЙОТТА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 15,
+      "name": "МАКАО",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 121,
+      "name": "МАКЕДОНИЯ",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 122,
+      "name": "МАЛАВИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 123,
+      "name": "МАЛАЙЗИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 124,
+      "name": "МАЛИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 125,
+      "name": "МАЛЫЕ ОСТРОВНЫЕ ТЕРРИТОРИИ США",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 126,
+      "name": "МАЛЬДИВЫ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 127,
+      "name": "МАЛЬТА",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 129,
+      "name": "МАРОККО",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 130,
+      "name": "МАРТИНИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 131,
+      "name": "МАРШАЛЛОВЫ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 132,
+      "name": "МЕКСИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 133,
+      "name": "МИКРОНЕЗИЯ, ФЕДЕРАТИВНЫЕ ШТАТЫ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 134,
+      "name": "МОЗАМБИК",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 136,
+      "name": "МОНАКО",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 137,
+      "name": "МОНГОЛИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 138,
+      "name": "МОНТСЕРРАТ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 139,
+      "name": "МЬЯНМА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 140,
+      "name": "НАМИБИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 10,
+      "name": "НАРОДНАЯ РЕСПУБЛИКА АНГОЛА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 141,
+      "name": "НАУРУ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 142,
+      "name": "НЕПАЛ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 143,
+      "name": "НИГЕР",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 144,
+      "name": "НИГЕРИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 14,
+      "name": "НИДЕРЛАНДСКИЕ АНТИЛЬСКИЕ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 145,
+      "name": "НИДЕРЛАНДЫ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 146,
+      "name": "НИКАРАГУА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 147,
+      "name": "НИУЭ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 148,
+      "name": "НОВАЯ ЗЕЛАНДИЯ",
+      "isInSchengen": false,
+      "programIds": [3]
+    },
+    {
+      "id": 149,
+      "name": "НОВАЯ КАЛЕДОНИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 150,
+      "name": "НОРВЕГИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 199,
+      "name": "ОБЪЕДИНЕННАЯ РЕСПУБЛИКА ТАНЗАНИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 152,
+      "name": "ОБЪЕДИНЕННЫЕ АРАБСКИЕ ЭМИРАТЫ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 153,
+      "name": "ОМАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 36,
+      "name": "ОСТРОВ БУВЕ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 151,
+      "name": "ОСТРОВ НОРФОЛК",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 156,
+      "name": "ОСТРОВ СВЯТОЙ ЕЛЕНЫ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 157,
+      "name": "ОСТРОВА КУКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 200,
+      "name": "ОСТРОВА ТЕРКС И КАЙКОС",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 212,
+      "name": "ОСТРОВА УОЛЛИС И ФУТУНА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 158,
+      "name": "ПАКИСТАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 159,
+      "name": "ПАЛАУ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 160,
+      "name": "ПАНАМА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 161,
+      "name": "ПАПУА НОВАЯ ГВИНЕЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 161,
+      "name": "ПАПУА-НОВАЯ ГВИНЕЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 162,
+      "name": "ПАРАГВАЙ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 163,
+      "name": "ПЕРУ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 165,
+      "name": "ПОЛЬША",
+      "isInSchengen": true,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 166,
+      "name": "ПОРТУГАЛИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 167,
+      "name": "ПУЭРТО-РИКО",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 168,
+      "name": "РЕСПУБЛИКА КОРЕЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 98,
+      "name": "РЕСПУБЛИКА КЫРГЫЗСТАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 135,
+      "name": "РЕСПУБЛИКА МОЛДОВА",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 169,
+      "name": "РЕСПУБЛИКА ЭКВАТОРИАЛЬНАЯ ГВИНЕЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 170,
+      "name": "РЕЮНЬОН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 171,
+      "name": "РОССИЙСКАЯ ФЕДЕРАЦИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 172,
+      "name": "РУАНДА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 173,
+      "name": "РУМЫНИЯ",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 76,
+      "name": "САМОА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 175,
+      "name": "САН-МАРИНО",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 176,
+      "name": "САН-ТОМЕ И ПРИНСИПИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 177,
+      "name": "САУДОВСКАЯ АРАВИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 178,
+      "name": "СВАЗИЛЕНД",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 128,
+      "name": "СЕВЕРНЫЕ МАРИАНСКИЕ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 179,
+      "name": "СЕЙШЕЛЬСКИЕ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 181,
+      "name": "СЕНЕГАЛ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 182,
+      "name": "СЕНТ-ВИНСЕНТ И ГРЕНАДИНЫ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 183,
+      "name": "СЕНТ-КИТС И НЕВИС",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 184,
+      "name": "СЕНТ-ЛЮСИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 180,
+      "name": "СЕНТ-ПЬЕР И МИКЕЛОН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 245,
+      "name": "СЕРБИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 185,
+      "name": "СИНГАПУР",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 186,
+      "name": "СИРИЙСКАЯ АРАБСКАЯ РЕСПУБЛИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 187,
+      "name": "СЛОВАКИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 188,
+      "name": "СЛОВЕНИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 42,
+      "name": "СОЕДИНЕННОЕ КОРОЛЕВСТВО ВЕЛИКОБРИТАНИЯ И СЕВЕРНАЯ ИРЛАНДИЯ",
+      "isInSchengen": false,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 193,
+      "name": "СОЕДИНЁННЫЕ ШТАТЫ АМЕРИКИ",
+      "isInSchengen": false,
+      "programIds": [3]
+    },
+    {
+      "id": 189,
+      "name": "СОЛОМОНОВЫ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 190,
+      "name": "СОМАЛИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 191,
+      "name": "СУДАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 192,
+      "name": "СУРИНАМ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 194,
+      "name": "СЬЕРРА-ЛЕОНЕ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 196,
+      "name": "ТАДЖИКИСТАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 197,
+      "name": "ТАИЛАНД",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 198,
+      "name": "ТАЙВАНЬ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 201,
+      "name": "ТОГО",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 202,
+      "name": "ТОКЕЛАУ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 203,
+      "name": "ТОНГА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 204,
+      "name": "ТРИНИДАД И ТОБАГО",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 205,
+      "name": "ТУВАЛУ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 206,
+      "name": "ТУНИС",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 207,
+      "name": "ТУРКМЕНИСТАН",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 208,
+      "name": "ТУРЦИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 209,
+      "name": "УГАНДА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 211,
+      "name": "УКРАИНА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 213,
+      "name": "УРУГВАЙ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 214,
+      "name": "ФАРЕРСКИЕ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 215,
+      "name": "ФИДЖИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 216,
+      "name": "ФИЛИППИНЫ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 217,
+      "name": "ФИНЛЯНДИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 218,
+      "name": "ФОЛКЛЕНДСКИЕ ОСТРОВА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 242,
+      "name": "ФРАНЦИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 224,
+      "name": "ЦЕНТРАЛЬНО АФРИКАНСКАЯ РЕСПУБЛИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 226,
+      "name": "ЧЕШСКАЯ РЕСПУБЛИКА",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 227,
+      "name": "ЧИЛИ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 228,
+      "name": "ШВЕЙЦАРИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 229,
+      "name": "ШВЕЦИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 249,
+      "name": "ШЕНГЕН",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 231,
+      "name": "ШРИ-ЛАНКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 232,
+      "name": "ЭКВАДОР",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 234,
+      "name": "ЭСТОНИЯ",
+      "isInSchengen": true,
+      "programIds": [2, 3, 4]
+    },
+    {
+      "id": 235,
+      "name": "ЭФИОПИЯ",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 236,
+      "name": "ЮЖНО-АФРИКАНСКАЯ РЕСПУБЛИКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 237,
+      "name": "ЯМАЙКА",
+      "isInSchengen": false,
+      "programIds": [1, 2, 3, 4]
+    },
+    {
+      "id": 238,
+      "name": "ЯПОНИЯ",
+      "isInSchengen": false,
+      "programIds": [3]
+    }
+  ],
+  "multipliers": {
+    "multiTrip": 1.5,
+    "sport": 1.3
+  }
+}

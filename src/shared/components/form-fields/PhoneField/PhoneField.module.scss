@@ -1,0 +1,90 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.row {
+  display: flex;
+  gap: 7px;
+
+  @include sm-up {
+    max-width: 265px;
+  }
+}
+
+%box {
+  height: 27px;
+  color: $color-text;
+  font-size: 10px;
+  background: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+
+  .row[data-invalid] & {
+    border-color: $color-error;
+  }
+}
+
+.selector {
+  flex: 0 0 127px;
+  min-width: 0;
+}
+
+.countryButton {
+  @extend %box;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0 28px 0 6px;
+  background: $color-bg url('/icons/chevron.svg') right 12px center / 10px 5.85px no-repeat;
+  cursor: pointer;
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+
+  // The library wraps the flag and its own arrow in this element.
+  > div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.flag {
+  width: 24px !important;
+  height: 14px !important;
+  margin: 0 !important;
+  object-fit: cover;
+  border-radius: 3px;
+}
+
+.libraryArrow {
+  display: none;
+}
+
+.dialCode {
+  white-space: nowrap;
+}
+
+.dropdown {
+  z-index: 20;
+  max-height: 220px;
+  font-size: 12px;
+  border-radius: $radius;
+}
+
+.input {
+  @extend %box;
+
+  flex: 1 1 131px;
+  min-width: 0;
+  padding: 0 12px;
+
+  &::placeholder {
+    color: $color-placeholder;
+  }
+
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

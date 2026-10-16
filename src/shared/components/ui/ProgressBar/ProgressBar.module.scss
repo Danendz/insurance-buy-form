@@ -1,0 +1,18 @@
+@use 'variables' as *;
+
+.bar {
+  display: flex;
+  gap: 6px;
+}
+
+.segment {
+  width: 56px;
+  height: 7px;
+  background: $color-track;
+  border-radius: $radius-pill;
+  transition: background-color 0.3s;
+
+  &[data-active='true'] {
+    background: $color-primary;
+  }
+}

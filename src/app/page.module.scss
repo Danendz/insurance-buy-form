@@ -2,15 +2,13 @@
 @use 'mixins' as *;
 
 .page {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: $space-6 $space-4;
+  min-height: 100vh;
+
+  @include sm-up {
+    padding: $space-6 $space-4;
+  }
 
   @include md-up {
-    padding-top: $space-6 * 2;
+    padding: 80px $space-6;
   }
-}
-
-.title {
-  margin: 0 0 $space-6;
 }

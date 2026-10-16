@@ -1,18 +1,68 @@
 @use 'variables' as *;
+@use 'mixins' as *;
 
-.form {
+.layout {
   display: flex;
   flex-direction: column;
-  gap: $space-4;
+  align-items: center;
+  gap: $space-6;
+  margin: 0 auto;
+
+  @include sm-up {
+    max-width: $card-width;
+  }
+
+  @include lg-up {
+    &[data-step='program'] {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 70px;
+      max-width: none;
+
+      > aside {
+        width: 530px;
+      }
+    }
+  }
 }
 
-.progress {
-  margin: 0;
-  color: $color-muted;
-}
-
-.actions {
+.card {
   display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 20px 20px 30px;
+
+  @include sm-up {
+    flex: none;
+    width: $card-width;
+    min-height: 614px;
+    padding: 20px 62px 31px 38px;
+
+    &[data-step='program'] {
+      min-height: 665px;
+      padding: 20px 35px 20px 30px;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  gap: $space-2;
+  margin-bottom: 18px;
+}
+
+.back {
+  position: absolute;
+  top: 14px;
+  right: 12px;
+
+  &[aria-disabled='true'] {
+    cursor: default;
+  }
+}
+
+.loading {
+  flex: 1;
 }
