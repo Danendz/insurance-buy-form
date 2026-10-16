@@ -1,3 +1,4 @@
+@use 'functions' as *;
 @use 'variables' as *;
 @use 'mixins' as *;
 
@@ -12,16 +13,21 @@
     max-width: $card-width;
   }
 
+  > aside {
+    order: -1;
+  }
+
   @include lg-up {
     &[data-step='program'] {
       flex-direction: row;
       align-items: flex-start;
       justify-content: center;
-      gap: 70px;
+      gap: rem(70px);
       max-width: none;
 
       > aside {
-        width: 530px;
+        order: 0;
+        width: rem(530px);
       }
     }
   }
@@ -31,17 +37,17 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 20px 20px 30px;
+  padding: rem(20px) rem(20px) rem(30px);
 
   @include sm-up {
     flex: none;
     width: $card-width;
-    min-height: 614px;
-    padding: 20px 62px 31px 38px;
+    min-height: rem(614px);
+    padding: rem(20px) rem(62px) rem(31px) rem(38px);
 
     &[data-step='program'] {
-      min-height: 665px;
-      padding: 20px 35px 20px 30px;
+      min-height: rem(665px);
+      padding: rem(20px) rem(35px) rem(20px) rem(30px);
     }
   }
 }
@@ -50,17 +56,13 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 18px;
+  margin-bottom: rem(18px);
 }
 
 .back {
   position: absolute;
-  top: 14px;
-  right: 12px;
-
-  &[aria-disabled='true'] {
-    cursor: default;
-  }
+  top: rem(14px);
+  right: rem(12px);
 }
 
 .loading {

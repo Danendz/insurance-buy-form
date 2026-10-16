@@ -18,16 +18,49 @@ const toParts = (value: IsoDate | null): Parts => {
   return { day: String(day), month: String(month), year: String(year) };
 };
 
+type Range = { min: IsoDate; max?: IsoDate };
+
+// ISO dates compare correctly as strings.
+const overlaps = (from: IsoDate, to: IsoDate, { min, max }: Range) =>
+  to >= min && (!max || from <= max);
+
+const yearAllowed = (year: number, range: Range) =>
+  overlaps(`${year}-01-01`, `${year}-12-31`, range);
+
+const monthAllowed = (year: number, month: number, range: Range) =>
+  overlaps(toIsoDate(year, month, 1), toIsoDate(year, month, 31), range);
+
+const dateAllowed = (date: IsoDate, range: Range) => overlaps(date, date, range);
+
+/** Drops the smallest parts that no longer fit the range. */
+function fitRange(parts: Parts, range: Range): Parts {
+  const year = Number(parts.year);
+  const month = Number(parts.month);
+  if (year && month && !monthAllowed(year, month, range)) {
+    return { year: parts.year, month: '', day: '' };
+  }
+  if (
+    year &&
+    month &&
+    parts.day &&
+    !dateAllowed(toIsoDate(year, month, Number(parts.day)), range)
+  ) {
+    return { ...parts, day: '' };
+  }
+  return parts;
+}
+
 type DateFieldProps = FieldControlProps & {
   value: IsoDate | null;
   onChange: (value: IsoDate | null) => void;
-  /** Earliest date in the calendar picker. */
   min: IsoDate;
+  max?: IsoDate;
   years: number[];
 };
 
 /** Day/month/year selects plus a calendar button that opens the native date picker. */
-export function DateField({ value, onChange, min, years, id, ...aria }: DateFieldProps) {
+export function DateField({ value, onChange, min, max, years, id, ...aria }: DateFieldProps) {
+  const range = { min, max };
   // Partially filled selects have no ISO value yet, so they live here until complete.
   const [parts, setParts] = useState(() => toParts(value));
   const [syncedValue, setSyncedValue] = useState(value);
@@ -43,7 +76,7 @@ export function DateField({ value, onChange, min, years, id, ...aria }: DateFiel
   };
 
   const change = (key: keyof Parts, partValue: string) => {
-    const next = { ...parts, [key]: partValue };
+    const next = fitRange({ ...parts, [key]: partValue }, range);
     const { day, month, year } = next;
     if (day && month && year) {
       const iso = toIsoDate(Number(year), Number(month), Number(day));
@@ -63,8 +96,9 @@ export function DateField({ value, onChange, min, years, id, ...aria }: DateFiel
     }
   };
 
-  const dayCount =
-    parts.month && parts.year ? daysInMonth(Number(parts.year), Number(parts.month)) : 31;
+  const year = Number(parts.year);
+  const month = Number(parts.month);
+  const dayCount = year && month ? daysInMonth(year, month) : 31;
 
   return (
     <div className={styles.row}>
@@ -79,7 +113,13 @@ export function DateField({ value, onChange, min, years, id, ...aria }: DateFiel
         {...aria}
       >
         {Array.from({ length: dayCount }, (_, index) => (
-          <option key={index} value={index + 1}>
+          <option
+            key={index}
+            value={index + 1}
+            disabled={
+              Boolean(year && month) && !dateAllowed(toIsoDate(year, month, index + 1), range)
+            }
+          >
             {String(index + 1).padStart(2, '0')}
           </option>
         ))}
@@ -94,7 +134,11 @@ export function DateField({ value, onChange, min, years, id, ...aria }: DateFiel
         {...aria}
       >
         {MONTHS.map((name, index) => (
-          <option key={name} value={index + 1}>
+          <option
+            key={name}
+            value={index + 1}
+            disabled={Boolean(year) && !monthAllowed(year, index + 1, range)}
+          >
             {name}
           </option>
         ))}
@@ -108,9 +152,9 @@ export function DateField({ value, onChange, min, years, id, ...aria }: DateFiel
         onChange={(event) => change('year', event.target.value)}
         {...aria}
       >
-        {years.map((year) => (
-          <option key={year} value={year}>
-            {year}
+        {years.map((option) => (
+          <option key={option} value={option} disabled={!yearAllowed(option, range)}>
+            {option}
           </option>
         ))}
       </Select>
@@ -128,6 +172,7 @@ export function DateField({ value, onChange, min, years, id, ...aria }: DateFiel
           tabIndex={-1}
           aria-hidden
           min={min}
+          max={max}
           value={value ?? ''}
           onChange={(event) => {
             const picked = event.target.value || null;

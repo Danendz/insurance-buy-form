@@ -1,3 +1,5 @@
+@use 'functions' as *;
+
 $color-page: #eef2fb;
 $color-bg: #ffffff;
 $color-text: #444444;
@@ -16,18 +18,20 @@ $color-error: #e5484d;
 $shadow-selected: 0 0 5px 3px rgba(0, 0, 0, 0.1);
 $shadow-card: 0 10px 40px rgba(0, 30, 128, 0.08);
 
-$radius: 10px;
-$radius-card: 20px;
-$radius-pill: 20px;
+$radius: rem(10px);
+$radius-card: rem(20px);
+$radius-pill: rem(20px);
 
-$space-1: 4px;
-$space-2: 8px;
-$space-3: 12px;
-$space-4: 16px;
-$space-6: 24px;
+$space-1: rem(4px);
+$space-2: rem(8px);
+$space-3: rem(12px);
+$space-4: rem(16px);
+$space-6: rem(24px);
 
-$card-width: 412px;
+$card-width: rem(412px);
 
 $breakpoint-sm: 440px;
 $breakpoint-md: 768px;
 $breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-xxl: 1600px;

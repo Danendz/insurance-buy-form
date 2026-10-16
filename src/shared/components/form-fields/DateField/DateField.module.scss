@@ -1,21 +1,23 @@
+@use 'functions' as *;
+
 .row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: rem(6px);
 }
 
 .day {
-  flex: 56 1 0;
-  min-width: 52px;
+  flex: 0 1 rem(56px);
+  min-width: rem(52px);
 }
 
 .month {
-  flex: 107 1 0;
+  flex: 0 1 rem(107px);
 }
 
 .year {
-  flex: 72 1 0;
-  min-width: 64px;
+  flex: 0 1 rem(72px);
+  min-width: rem(64px);
 }
 
 .calendar {

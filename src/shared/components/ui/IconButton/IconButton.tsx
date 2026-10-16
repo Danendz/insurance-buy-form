@@ -26,7 +26,14 @@ export function IconButton({
       className={cn(styles.button, className)}
       {...props}
     >
-      <Image src={icon} alt="" width={size} height={size} unoptimized />
+      <Image
+        src={icon}
+        alt=""
+        width={size}
+        height={size}
+        style={{ width: `${size / 16}rem`, height: 'auto' }}
+        unoptimized
+      />
     </button>
   );
 }

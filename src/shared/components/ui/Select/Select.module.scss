@@ -1,3 +1,4 @@
+@use 'functions' as *;
 @use 'variables' as *;
 @use 'mixins' as *;
 
@@ -31,19 +32,19 @@
 }
 
 .md {
-  height: 32px;
-  padding: 0 32px 0 13px;
-  font-size: 11px;
+  height: rem(32px);
+  padding: 0 rem(32px) 0 rem(13px);
+  font-size: rem(11px);
   background-image: url('/icons/chevron.svg');
-  background-position: right 13px center;
-  background-size: 10px 5.85px;
+  background-position: right rem(13px) center;
+  background-size: rem(10px) rem(5.85px);
 }
 
 .sm {
-  height: 25px;
-  padding: 0 24px 0 9px;
-  font-size: 10px;
+  height: rem(25px);
+  padding: 0 rem(24px) 0 rem(9px);
+  font-size: rem(10px);
   background-image: url('/icons/chevron-small.svg');
-  background-position: right 9px center;
-  background-size: 8.5px 4.14px;
+  background-position: right rem(9px) center;
+  background-size: rem(8.5px) rem(4.14px);
 }

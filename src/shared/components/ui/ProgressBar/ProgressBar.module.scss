@@ -1,13 +1,14 @@
+@use 'functions' as *;
 @use 'variables' as *;
 
 .bar {
   display: flex;
-  gap: 6px;
+  gap: rem(6px);
 }
 
 .segment {
-  width: 56px;
-  height: 7px;
+  width: rem(56px);
+  height: rem(7px);
   background: $color-track;
   border-radius: $radius-pill;
   transition: background-color 0.3s;

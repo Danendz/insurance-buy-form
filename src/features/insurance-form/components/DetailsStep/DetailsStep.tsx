@@ -1,6 +1,6 @@
 'use client';
 
-import type { FormEvent } from 'react';
+import { useEffect, type FormEvent } from 'react';
 import { useGetActivitiesQuery, useGetCountriesQuery } from '@/shared/api/dictionary';
 import { DateField } from '@/shared/components/form-fields/DateField';
 import { Field } from '@/shared/components/form-fields/Field';
@@ -11,16 +11,18 @@ import { LoadError } from '@/shared/components/ui/LoadError';
 import { Radio } from '@/shared/components/ui/Radio';
 import { Select } from '@/shared/components/ui/Select';
 import { Skeleton } from '@/shared/components/ui/Skeleton';
-import { parseIsoDate } from '@/shared/utils/date';
+import { addDays, parseIsoDate } from '@/shared/utils/date';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import type { CoverageType, IsoDate, TripDetails } from '../../types';
 import { formatCountryName } from '../../model/format';
 import { COVERAGE_TYPE_LABELS } from '../../model/labels';
+import { MAX_TRIP_DAYS } from '../../model/validation';
 import {
   phoneValidityChanged,
   selectDetails,
   selectDetailsErrors,
   selectSubmitAttempted,
+  startDatePrefilled,
   submitDetails,
   updateDetails,
 } from '../../model/slice';
@@ -35,6 +37,10 @@ export function DetailsStep({ today }: { today: IsoDate }) {
   const submitAttempted = useAppSelector(selectSubmitAttempted);
   const allErrors = useAppSelector((state) => selectDetailsErrors(state, today));
   const errors = submitAttempted ? allErrors : {};
+
+  useEffect(() => {
+    dispatch(startDatePrefilled(today));
+  }, [dispatch, today]);
 
   const countries = useGetCountriesQuery();
   const activities = useGetActivitiesQuery();
@@ -143,7 +149,8 @@ export function DetailsStep({ today }: { today: IsoDate }) {
             {...control}
             value={details.endDate}
             onChange={(endDate) => update({ endDate })}
-            min={details.startDate ?? today}
+            min={addDays(details.startDate ?? today, 1)}
+            max={details.startDate ? addDays(details.startDate, MAX_TRIP_DAYS) : undefined}
             years={years}
           />
         )}

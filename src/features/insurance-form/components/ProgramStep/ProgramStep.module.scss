@@ -1,3 +1,4 @@
+@use 'functions' as *;
 @use 'variables' as *;
 @use 'mixins' as *;
 
@@ -9,16 +10,16 @@
 }
 
 .title {
-  margin-bottom: 21px;
+  margin-bottom: rem(21px);
   color: $color-navy;
-  font-size: 20px;
+  font-size: rem(20px);
   font-weight: 600;
 }
 
 .programs {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: rem(14px);
   margin: 0;
   padding: 0 0 $space-6;
   border: 0;
@@ -30,12 +31,12 @@
 }
 
 .programSkeleton {
-  height: 72px;
+  height: rem(72px);
 }
 
 .message {
   color: $color-text;
-  font-size: 12px;
+  font-size: rem(12px);
   line-height: 1.5;
   margin-bottom: $space-4;
 }
@@ -43,7 +44,7 @@
 .footer {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: rem(18px);
   margin-top: auto;
 }
 
@@ -57,7 +58,7 @@
 }
 
 .priceSkeleton {
-  width: 90px;
-  height: 14px;
+  width: rem(90px);
+  height: rem(14px);
   opacity: 0.5;
 }

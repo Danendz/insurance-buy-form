@@ -1,3 +1,4 @@
+@use 'functions' as *;
 @use 'variables' as *;
 @use 'mixins' as *;
 
@@ -10,13 +11,13 @@
 .trigger {
   @include reset-button;
 
-  width: 14px;
-  height: 14px;
+  width: rem(14px);
+  height: rem(14px);
   color: $color-navy;
-  font-size: 11px;
-  line-height: 12px;
+  font-size: rem(11px);
+  line-height: rem(12px);
   text-align: center;
-  background: url('/icons/help-circle.svg') center / 14px 14px no-repeat;
+  background: url('/icons/help-circle.svg') center / rem(14px) rem(14px) no-repeat;
   border-radius: 50%;
   cursor: help;
 
@@ -28,16 +29,16 @@
 .bubble {
   position: absolute;
   z-index: 10;
-  right: -6px;
-  bottom: calc(100% + 8px);
+  right: rem(-6px);
+  bottom: calc(100% + rem(8px));
   width: max-content;
-  max-width: 220px;
+  max-width: rem(220px);
   padding: $space-2 $space-3;
   color: #fff;
-  font-size: 11px;
+  font-size: rem(11px);
   line-height: 1.4;
   background: $color-navy;
-  border-radius: 8px;
+  border-radius: rem(8px);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.15s;
@@ -51,7 +52,7 @@
     content: '';
     position: absolute;
     top: 100%;
-    right: 9px;
+    right: rem(9px);
     border: 5px solid transparent;
     border-top-color: $color-navy;
   }

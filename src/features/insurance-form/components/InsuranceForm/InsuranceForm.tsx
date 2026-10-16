@@ -36,14 +36,15 @@ export function InsuranceForm() {
         {step !== 'done' && (
           <header className={styles.header}>
             <ProgressBar total={STEPS.length} current={stepIndex} label="Шаг оформления" />
-            <IconButton
-              icon="/icons/back.svg"
-              size={30}
-              label="Назад"
-              className={styles.back}
-              aria-disabled={stepIndex === 0}
-              onClick={() => stepIndex > 0 && dispatch(goToDetails())}
-            />
+            {stepIndex > 0 && (
+              <IconButton
+                icon="/icons/back.svg"
+                size={30}
+                label="Назад"
+                className={styles.back}
+                onClick={() => dispatch(goToDetails())}
+              />
+            )}
           </header>
         )}
         {step === 'details' && <DetailsStep today={today} />}

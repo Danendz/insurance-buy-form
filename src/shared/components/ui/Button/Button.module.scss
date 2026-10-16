@@ -1,3 +1,4 @@
+@use 'functions' as *;
 @use 'variables' as *;
 @use 'mixins' as *;
 
@@ -24,11 +25,11 @@
 }
 
 .primary {
-  min-width: 123px;
-  height: 31px;
+  min-width: rem(123px);
+  height: rem(31px);
   padding: 0 $space-6;
   color: #fff;
-  font-size: 13px;
+  font-size: rem(13px);
   background: $color-primary;
   border-radius: $radius;
 
@@ -40,16 +41,16 @@
 .wide {
   justify-content: space-between;
   width: 100%;
-  height: 32px;
-  padding: 0 15px;
-  font-size: 14px;
-  border-radius: 8px;
+  height: rem(32px);
+  padding: 0 rem(15px);
+  font-size: rem(14px);
+  border-radius: rem(8px);
 }
 
 .link {
   padding: 0;
   color: $color-navy;
-  font-size: 14px;
+  font-size: rem(14px);
   font-weight: 600;
   background: none;
 

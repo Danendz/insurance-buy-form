@@ -78,7 +78,8 @@ features/<name>/
 
 ## Styling
 
-- SCSS modules next to the component. Use tokens from `_variables.scss` and mixins from `_mixins.scss` (`sm-up`, `md-up`, `lg-up`, `focus-ring`, `visually-hidden`).
+- SCSS modules next to the component. Use tokens from `_variables.scss` and mixins from `_mixins.scss` (`sm-up` … `xxl-up`, `focus-ring`, `visually-hidden`).
+- Sizes go through `rem(px)` from `_functions.scss` (`font-size: rem(12px)`), so the form follows the user's font size and scales with the root steps in `app/globals.scss`. 1px borders, shadows and breakpoints stay in px.
 - Class names in camelCase; combine them with `cn`.
 
 ## Tests

@@ -1,10 +1,11 @@
+@use 'functions' as *;
 @use 'variables' as *;
 @use 'mixins' as *;
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: rem(10px);
   min-width: 0;
 }
 
@@ -13,8 +14,8 @@
   align-items: center;
   justify-content: space-between;
   gap: $space-2;
-  min-height: 15px;
-  padding-right: 33px;
+  min-height: rem(15px);
+  padding-right: rem(33px);
 
   // Keeps the «?» on the right when the label is visually hidden.
   > :last-child {
@@ -24,7 +25,7 @@
 
 .label {
   color: $color-text;
-  font-size: 12px;
+  font-size: rem(12px);
 }
 
 .hidden {
@@ -32,7 +33,7 @@
 }
 
 .error {
-  margin-top: -4px;
+  margin-top: rem(-4px);
   color: $color-error;
-  font-size: 10px;
+  font-size: rem(10px);
 }

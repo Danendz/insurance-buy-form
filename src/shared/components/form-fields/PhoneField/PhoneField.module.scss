@@ -1,19 +1,17 @@
+@use 'functions' as *;
 @use 'variables' as *;
 @use 'mixins' as *;
 
 .row {
   display: flex;
-  gap: 7px;
-
-  @include sm-up {
-    max-width: 265px;
-  }
+  gap: rem(7px);
+  max-width: rem(265px);
 }
 
 %box {
-  height: 27px;
+  height: rem(27px);
   color: $color-text;
-  font-size: 10px;
+  font-size: rem(10px);
   background: $color-bg;
   border: 1px solid $color-border;
   border-radius: $radius;
@@ -24,7 +22,7 @@
 }
 
 .selector {
-  flex: 0 0 127px;
+  flex: 0 0 rem(127px);
   min-width: 0;
 }
 
@@ -33,10 +31,11 @@
 
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: rem(8px);
   width: 100%;
-  padding: 0 28px 0 6px;
-  background: $color-bg url('/icons/chevron.svg') right 12px center / 10px 5.85px no-repeat;
+  padding: 0 rem(28px) 0 rem(6px);
+  background: $color-bg url('/icons/chevron.svg') right rem(12px) center / rem(10px) rem(5.85px)
+    no-repeat;
   cursor: pointer;
 
   &:focus-visible {
@@ -51,11 +50,11 @@
 }
 
 .flag {
-  width: 24px !important;
-  height: 14px !important;
+  width: rem(24px) !important;
+  height: rem(14px) !important;
   margin: 0 !important;
   object-fit: cover;
-  border-radius: 3px;
+  border-radius: rem(3px);
 }
 
 .libraryArrow {
@@ -68,17 +67,17 @@
 
 .dropdown {
   z-index: 20;
-  max-height: 220px;
-  font-size: 12px;
+  max-height: rem(220px);
+  font-size: rem(12px);
   border-radius: $radius;
 }
 
 .input {
   @extend %box;
 
-  flex: 1 1 131px;
+  flex: 1 1 rem(131px);
   min-width: 0;
-  padding: 0 12px;
+  padding: 0 rem(12px);
 
   &::placeholder {
     color: $color-placeholder;

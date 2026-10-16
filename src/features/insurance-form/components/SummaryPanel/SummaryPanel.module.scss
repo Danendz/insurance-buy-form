@@ -1,28 +1,29 @@
+@use 'functions' as *;
 @use 'variables' as *;
 @use 'mixins' as *;
 
 .panel {
   width: 100%;
-  padding: 24px 30px 28px;
+  padding: rem(24px) rem(30px) rem(28px);
   background: $color-bg;
 
   @include sm-up {
-    border-radius: 30px;
+    border-radius: rem(30px);
     box-shadow: $shadow-card;
   }
 }
 
 .title {
-  margin-bottom: 16px;
+  margin-bottom: rem(16px);
   color: $color-navy;
-  font-size: 14px;
+  font-size: rem(14px);
   font-weight: 600;
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: rem(8px);
   margin: 0;
 }
 
@@ -31,7 +32,7 @@
   justify-content: space-between;
   gap: $space-4;
   color: $color-muted;
-  font-size: 12px;
+  font-size: rem(12px);
   font-weight: 400;
 
   &:hover,
@@ -47,7 +48,7 @@
 .value {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: rem(8px);
   margin: 0;
   text-align: right;
 }
@@ -57,8 +58,8 @@
 
   display: inline-flex;
   flex: none;
-  padding: 2px;
-  border-radius: 4px;
+  padding: rem(2px);
+  border-radius: rem(4px);
 
   &:focus-visible {
     @include focus-ring;
@@ -66,6 +67,6 @@
 }
 
 .skeleton {
-  width: 70px;
-  height: 12px;
+  width: rem(70px);
+  height: rem(12px);
 }

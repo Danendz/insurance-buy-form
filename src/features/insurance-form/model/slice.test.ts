@@ -9,6 +9,7 @@ import {
   phoneValidityChanged,
   reset,
   selectProgram,
+  startDatePrefilled,
   submitDetails,
   updateDetails,
 } from './slice';
@@ -32,6 +33,16 @@ describe('insuranceForm slice', () => {
   it('starts on the details step with an empty form', () => {
     expect(reducer(undefined, { type: 'unknown' })).toEqual(initialState);
     expect(initialState.step).toBe('details');
+  });
+
+  it('prefills the start date only on a pristine form', () => {
+    expect(reducer(initialState, startDatePrefilled(TODAY)).details.startDate).toBe(TODAY);
+
+    const touched = reducer(initialState, updateDetails({ activityId: 1 }));
+    expect(reducer(touched, startDatePrefilled(TODAY)).details.startDate).toBeNull();
+
+    const submitted = reducer(initialState, submitDetails(TODAY));
+    expect(reducer(submitted, startDatePrefilled(TODAY)).details.startDate).toBeNull();
   });
 
   it('merges detail updates', () => {

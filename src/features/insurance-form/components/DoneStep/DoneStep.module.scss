@@ -1,3 +1,4 @@
+@use 'functions' as *;
 @use 'variables' as *;
 
 .step {
@@ -11,13 +12,13 @@
 
 .title {
   color: $color-navy;
-  font-size: 20px;
+  font-size: rem(20px);
   font-weight: 600;
 }
 
 .text {
-  max-width: 280px;
-  font-size: 12px;
+  max-width: rem(280px);
+  font-size: rem(12px);
   line-height: 1.5;
 
   strong {

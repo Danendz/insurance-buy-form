@@ -33,6 +33,11 @@ export function diffInDays(from: IsoDate, to: IsoDate): number {
   return Math.round((toUtc(to) - toUtc(from)) / DAY_MS);
 }
 
+export function addDays(date: IsoDate, days: number): IsoDate {
+  const shifted = new Date(toUtc(date) + days * DAY_MS);
+  return toIsoDate(shifted.getUTCFullYear(), shifted.getUTCMonth() + 1, shifted.getUTCDate());
+}
+
 export const MONTHS = [
   'Январь',
   'Февраль',

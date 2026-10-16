@@ -18,6 +18,18 @@
   }
 }
 
+@mixin xl-up {
+  @media (min-width: $breakpoint-xl) {
+    @content;
+  }
+}
+
+@mixin xxl-up {
+  @media (min-width: $breakpoint-xxl) {
+    @content;
+  }
+}
+
 @mixin focus-ring {
   outline: 2px solid $color-navy;
   outline-offset: 2px;

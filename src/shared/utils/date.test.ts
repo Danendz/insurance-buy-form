@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { daysInMonth, diffInDays, parseIsoDate, toIsoDate } from './date';
+import { addDays, daysInMonth, diffInDays, parseIsoDate, toIsoDate } from './date';
 
 describe('date helpers', () => {
   it('formats and parses ISO dates', () => {
@@ -21,5 +21,12 @@ describe('date helpers', () => {
   it('counts days between dates, ignoring DST', () => {
     expect(diffInDays('2024-03-30', '2024-04-02')).toBe(3);
     expect(diffInDays('2024-09-05', '2024-09-05')).toBe(0);
+  });
+
+  it('adds days across months, years and DST', () => {
+    expect(addDays('2024-09-05', 1)).toBe('2024-09-06');
+    expect(addDays('2024-12-31', 1)).toBe('2025-01-01');
+    expect(addDays('2024-03-30', 3)).toBe('2024-04-02');
+    expect(addDays('2024-09-05', 365)).toBe('2025-09-05');
   });
 });

@@ -2,6 +2,9 @@ import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolki
 import type { InsuranceFormState, IsoDate, Step, TripDetails } from '../types';
 import { hasErrors, validateDetails } from './validation';
 
+const shallowEqual = <T extends object>(a: T, b: T) =>
+  (Object.keys(a) as (keyof T)[]).every((key) => a[key] === b[key]);
+
 export const STEPS: Step[] = ['details', 'program'];
 
 export const initialState: InsuranceFormState = {
@@ -31,6 +34,15 @@ export const insuranceFormSlice = createSlice({
         state.programId = null;
       }
       Object.assign(state.details, action.payload);
+    },
+    startDatePrefilled(state, action: PayloadAction<IsoDate>) {
+      const pristine =
+        state.step === 'details' &&
+        !state.submitAttempted &&
+        shallowEqual(state.details, initialState.details);
+      if (pristine) {
+        state.details.startDate = action.payload;
+      }
     },
     phoneValidityChanged(state, action: PayloadAction<boolean>) {
       state.phoneValid = action.payload;
@@ -80,6 +92,7 @@ export const insuranceFormSlice = createSlice({
 
 export const {
   updateDetails,
+  startDatePrefilled,
   phoneValidityChanged,
   submitDetails,
   goToDetails,

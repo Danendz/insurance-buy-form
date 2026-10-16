@@ -57,6 +57,15 @@ describe('InsuranceForm', () => {
     ).toEqual(['Туризм', 'Работа', 'Учёба', 'Спорт']);
   });
 
+  it('starts a fresh form today, without a back button', async () => {
+    renderWithStore(<InsuranceForm />);
+    const start = within(screen.getByRole('group', { name: 'Начало страхования' }));
+    expect(start.getByLabelText('День')).toHaveValue('5');
+    expect(start.getByLabelText('Месяц')).toHaveValue('9');
+    expect(start.getByLabelText('Год')).toHaveValue('2024');
+    expect(screen.queryByRole('button', { name: 'Назад' })).not.toBeInTheDocument();
+  });
+
   it('shows errors only after «Далее» and stays on the first step', async () => {
     const { user, store } = renderWithStore(<InsuranceForm />);
     await screen.findByRole('option', { name: 'Латвия' });
@@ -104,7 +113,10 @@ describe('InsuranceForm', () => {
 
     await user.click(screen.getByRole('button', { name: 'Оформить заново' }));
     expect(await screen.findByText('Покупка страхового полиса')).toBeInTheDocument();
-    expect(store.getState().insuranceForm).toEqual(initialState);
+    expect(store.getState().insuranceForm).toEqual({
+      ...initialState,
+      details: { ...initialState.details, startDate: '2024-09-05' },
+    });
   });
 
   it('lists only the programs sold in the chosen country', async () => {
@@ -123,6 +135,7 @@ describe('InsuranceForm', () => {
       preloadedState: { insuranceForm: filled },
     });
 
+    expect(screen.getByRole('button', { name: 'Назад' })).toBeInTheDocument();
     const summary = within(screen.getByRole('complementary', { name: 'Ваши данные' }));
     expect(await summary.findByText('Австралия')).toBeInTheDocument();
     expect(summary.getByText('05/09/2024')).toBeInTheDocument();
