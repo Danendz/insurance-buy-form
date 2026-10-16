@@ -2,14 +2,24 @@
 
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import { useState } from 'react';
-import { CountrySelector, usePhoneInput, type CountryIso2 } from 'react-international-phone';
+import {
+  CountrySelector,
+  defaultCountries,
+  parseCountry,
+  usePhoneInput,
+  type CountryIso2,
+} from 'react-international-phone';
 import 'react-international-phone/style.css';
 import type { FieldControlProps } from '../Field';
 import { isValidPhone } from './phone';
 import styles from './PhoneField.module.scss';
 
 const DEFAULT_COUNTRY: CountryIso2 = 'uz';
-const FLAGS = [{ iso2: 'uz' as CountryIso2, src: '/icons/flag-uz.png' }];
+// Self-hosted: the library otherwise loads every flag from a third-party CDN.
+const FLAGS = defaultCountries.map((country) => {
+  const { iso2 } = parseCountry(country);
+  return { iso2, src: `/flags/${iso2}.svg` };
+});
 
 type PhoneFieldProps = FieldControlProps & {
   /** E.164, or `''` while only the dial code is entered. */
